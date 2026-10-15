@@ -1,0 +1,15 @@
+# Archivos del sistema
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# Editor
+.vscode/
+
+# Archivos de trabajo que no deben subirse
+*.zip
+*.bak
+~$*
+
+# Datos de apoyo que el sitio ya no usa (el Repositorio lee del Apps Script)
+data/modulo5/

@@ -1,0 +1,1202 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Piloto interno: que los buscadores (Google, etc.) no lo indexen -->
+  <meta name="robots" content="noindex, nofollow">
+  <title>PROMOVILIDAD – Observatorio Nacional de Transporte y Movilidad Urbana Sostenible</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Overpass:wght@600;700;800&display=swap" rel="stylesheet">
+  <!-- CSS -->
+  <link rel="stylesheet" href="./css/base.css">
+  <!-- Font Awesome Free 6.7.2 (autoalojado; licencia en assets/vendor/fontawesome/LICENSE.txt) -->
+  <link rel="stylesheet" href="./assets/vendor/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="./css/observatorio.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <!-- Librerías -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <!-- Tu app -->
+  <script type="module" src="./js/app.js"></script>
+  <!-- Animación de scroll (independiente, no toca app.js ni mod*.js) -->
+  <script defer src="./js/scroll-reveal.js"></script>
+  <!-- Barra lateral, topbar, scroll del hero y zoom de mapas (independiente de app.js) -->
+  <!-- Adaptador de gráficos: ApexCharts (carga perezosa) con respaldo a Chart.js -->
+  <script defer src="./js/charts.js"></script>
+  <script defer src="./js/shell.js"></script>
+  <script defer src="./js/cooperacion.js"></script>
+</head>
+
+<body>
+
+<div class="obs-shell">
+
+  <!-- ================= BARRA LATERAL ================= -->
+  <aside class="obs-sidebar" id="obsSidebar" aria-label="Menú del observatorio">
+    <a class="obs-brand" href="#home" aria-label="PROMOVILIDAD – Ir al inicio">
+      <img class="obs-logo" src="./assets/logo1.png" alt="PROMOVILIDAD – Programa Nacional de Transporte Urbano Sostenible"
+           onerror="this.onerror=null;this.src='./assets/obs/logopmv.png'">
+    </a>
+
+    <nav class="obs-nav" aria-label="Módulos">
+      <a class="obs-link" data-nav="home" href="#home"><i class="fa-solid fa-house fa-fw" aria-hidden="true"></i>Inicio</a>
+      <a class="obs-link" data-nav="sit" href="#mod-sit"><i class="fa-solid fa-route fa-fw" aria-hidden="true"></i>Concepto SIT</a>
+
+      <div class="obs-group" data-group="indicadores">
+        <button type="button" class="obs-link obs-group-btn" aria-expanded="false"><i class="fa-solid fa-chart-column fa-fw" aria-hidden="true"></i>Indicadores<i class="fa-solid fa-chevron-down obs-chev" aria-hidden="true"></i></button>
+        <div class="obs-sub">
+          <a class="obs-sublink" data-nav="mod-info" href="#mod-info">Información territorial</a>
+          <a class="obs-sublink" data-nav="mod-operacion" href="#mod-operacion">Operación y servicios</a>
+        </div>
+      </div>
+
+      <a class="obs-link" data-nav="infra" href="https://visor-promovilidad.netlify.app/" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-road fa-fw" aria-hidden="true"></i>Infraestructura<i class="fa-solid fa-arrow-up-right-from-square obs-ext" aria-hidden="true"></i></a>
+      <a class="obs-link" data-nav="herramientas" href="#mod-herramientas"><i class="fa-solid fa-screwdriver-wrench fa-fw" aria-hidden="true"></i>Herramientas</a>
+      <a class="obs-link" data-nav="proyectos" href="#mod-proyectos"><i class="fa-solid fa-hand-holding-dollar fa-fw" aria-hidden="true"></i>Proyectos de Inversión</a>
+      <a class="obs-link" data-nav="repositorio" href="#mod-datos"><i class="fa-solid fa-folder-open fa-fw" aria-hidden="true"></i>Repositorio</a>
+      <a class="obs-link" data-nav="asistencia" href="#mod-gobernanza"><i class="fa-solid fa-handshake-angle fa-fw" aria-hidden="true"></i>Asistencia Técnica</a>
+      <a class="obs-link" data-nav="cooperacion" href="#mod-cooperacion"><i class="fa-solid fa-earth-americas fa-fw" aria-hidden="true"></i>Cooperación técnica</a>
+      <a class="obs-link" data-nav="noticias" href="#mod-noticias"><i class="fa-solid fa-newspaper fa-fw" aria-hidden="true"></i>Noticias</a>
+    </nav>
+
+    <div class="obs-side-foot">
+      <img class="obs-logo-mtc" src="./assets/logo2.png" alt="Ministerio de Transportes y Comunicaciones"
+           onerror="this.onerror=null;this.src='./assets/obs/logomtc.png'">
+      <div class="obs-social">
+        <a class="obs-soc obs-soc--fb" href="https://www.facebook.com/promovilidadperu" target="_blank" rel="noopener" aria-label="Facebook"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i></a>
+        <a class="obs-soc obs-soc--ig" href="https://www.instagram.com/promovilidad/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
+      </div>
+    </div>
+  </aside>
+  <div class="obs-scrim" id="obsScrim"></div>
+
+  <!-- ================= CONTENIDO ================= -->
+  <div class="obs-content">
+
+    <!-- Topbar: título del módulo + controles (el router mueve aquí los selects y el botón Atrás) -->
+    <header class="obs-topbar">
+      <button type="button" class="obs-burger" id="obsBurger" aria-controls="obsSidebar" aria-expanded="false" aria-label="Abrir menú"><i class="fa-solid fa-bars" aria-hidden="true"></i></button>
+      <div class="obs-topbar-title" id="obsTopTitle">Inicio</div>
+      <div id="moduleControls" class="module-controls obs-topbar-controls"></div>
+    </header>
+
+    <!-- ============ INICIO ============ -->
+    <main id="home" class="view active">
+
+      <section class="h-hero">
+        <div class="h-hero-bg" aria-hidden="true">
+          <div class="h-slide h-slide--1"></div>
+          <div class="h-slide h-slide--2"></div>
+          <div class="h-slide h-slide--3"></div>
+        </div>
+        <div class="h-hero-inner">
+          <span class="h-eyebrow">Ministerio de Transportes y Comunicaciones</span>
+          <h1>Observatorio Nacional de Transporte y Movilidad Urbana Sostenible</h1>
+          <p>Orientado para la construcción de Sistemas Integrados de Transporte en las Ciudades.</p>
+          <div class="h-rule"></div>
+          <a class="h-btn" href="#concepto-promovilidad">Conoce más sobre PROMOVILIDAD</a>
+        </div>
+        <button type="button" class="h-cue" id="heroScrollBtn" aria-label="Bajar a objetivos y cifras">
+          <span class="h-cue-text">Desliza hacia abajo</span>
+          <span class="h-cue-icon"><i class="fa-solid fa-arrow-down" aria-hidden="true"></i></span>
+        </button>
+      </section>
+
+      <!-- OBJETIVOS -->
+      <section class="h-section" id="objetivos">
+        <div class="h-head">
+          <span class="h-eyebrow">Decreto Supremo N° 027-2019-MTC</span>
+          <h2>Objetivos de PROMOVILIDAD</h2>
+        </div>
+        <div class="h-obj-grid">
+          <div class="h-obj-card">
+            <span class="h-obj-icon"><i class="fa-solid fa-clock" aria-hidden="true"></i></span>
+            <h3>Reducir tiempos de viaje</h3>
+            <p>Optimizar los desplazamientos diarios de la población en las ciudades del ámbito de intervención.</p>
+          </div>
+          <div class="h-obj-card">
+            <span class="h-obj-icon"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></span>
+            <h3>Incrementar la seguridad vial</h3>
+            <p>Fortalecer las condiciones de seguridad para todos los usuarios del sistema de transporte.</p>
+          </div>
+          <div class="h-obj-card">
+            <span class="h-obj-icon"><i class="fa-solid fa-briefcase" aria-hidden="true"></i></span>
+            <h3>Mejorar el acceso a empleo y servicios</h3>
+            <p>Con especial atención a las personas usuarias de menores ingresos.</p>
+          </div>
+          <div class="h-obj-card">
+            <span class="h-obj-icon"><i class="fa-solid fa-leaf" aria-hidden="true"></i></span>
+            <h3>Reducir emisiones contaminantes</h3>
+            <p>Disminuir gases de efecto invernadero y contaminantes del aire local del sector transporte.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- CIFRAS + INTERVENCIONES -->
+      <section class="h-section" id="cifras">
+        <div class="h-cifra">
+          <div class="h-cifra-num">31</div>
+          <div class="h-cifra-label">ciudades dentro del ámbito de intervención de PROMOVILIDAD</div>
+        </div>
+
+        <div class="h-interv" id="intervenciones">
+          <div class="h-head">
+            <span class="h-eyebrow">Trabajo en territorio</span>
+            <h2>Nuestras intervenciones</h2>
+            <p class="h-desc">PROMOVILIDAD brinda asistencia técnica y desarrolla Planes de Movilidad Urbana Sostenible en ciudades del Perú, fortaleciendo sus capacidades para un transporte eficiente, accesible y sostenible.</p>
+          </div>
+
+          <!-- BLOQUE 1 -->
+          <div class="h-bloque">
+            <div class="h-bloque-head">
+              <div>
+                <span class="h-tag-light">Planes de Movilidad</span>
+                <h3 class="h-bloque-title">Planes de Movilidad Urbana Sostenible</h3>
+              </div>
+              <div class="h-stats">
+                <div class="h-stat"><span class="h-stat-num">4</span><span class="h-stat-label">Ciudades</span></div>
+                <div class="h-stat"><span class="h-stat-num">8M</span><span class="h-stat-label">Usuarios</span></div>
+                <div class="h-stat"><span class="h-stat-num">2'025,750</span><span class="h-stat-label">Habitantes</span></div>
+              </div>
+            </div>
+            <div class="h-bloque-body">
+              <div class="h-map"><img src="./assets/mapas/mapa1.png" alt="Mapa de Planes de Movilidad Urbana Sostenible" data-lightbox></div>
+              <div class="h-cards">
+                <div class="h-icard"><div class="h-icard-ciudad">Chiclayo</div><div class="h-icard-region">Lambayeque</div><div class="h-tag green">Elaboración PMUS</div><div class="h-icard-dato"><i class="fa-solid fa-coins" aria-hidden="true"></i> Inversión: <strong>Euros 651 Mil</strong></div><div class="h-icard-dato"><i class="fa-solid fa-users" aria-hidden="true"></i> Beneficiarios: <strong>+635 mil usuarios</strong></div></div>
+                <div class="h-icard"><div class="h-icard-ciudad">Cusco</div><div class="h-icard-region">Cusco</div><div class="h-tag green">Elaboración PMUS</div><div class="h-icard-dato"><i class="fa-solid fa-list-check" aria-hidden="true"></i> Etapa: <strong>Formulación</strong></div><div class="h-icard-dato"><i class="fa-solid fa-users" aria-hidden="true"></i> Beneficiarios: <strong>+504 mil usuarios</strong></div></div>
+                <div class="h-icard"><div class="h-icard-ciudad">Huancayo</div><div class="h-icard-region">Junín</div><div class="h-tag green">Elaboración PMUS</div><div class="h-icard-dato"><i class="fa-solid fa-coins" aria-hidden="true"></i> Inversión: <strong>Euros 698 Mil</strong></div><div class="h-icard-dato"><i class="fa-solid fa-users" aria-hidden="true"></i> Beneficiarios: <strong>+560 mil usuarios</strong></div></div>
+                <div class="h-icard"><div class="h-icard-ciudad">Juliaca</div><div class="h-icard-region">Puno</div><div class="h-tag green">Elaboración PMUS</div><div class="h-icard-dato"><i class="fa-solid fa-coins" aria-hidden="true"></i> Inversión: <strong>Euros 637 Mil</strong></div><div class="h-icard-dato"><i class="fa-solid fa-users" aria-hidden="true"></i> Beneficiarios: <strong>+268 mil usuarios</strong></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- BLOQUE 2 -->
+          <div class="h-bloque">
+            <div class="h-bloque-head">
+              <div>
+                <span class="h-tag-light">Asistencias Técnicas</span>
+                <h3 class="h-bloque-title">Intervenciones en Ciudades</h3>
+              </div>
+              <div class="h-stats">
+                <div class="h-stat"><span class="h-stat-num">13</span><span class="h-stat-label">Ciudades</span></div>
+                <div class="h-stat"><span class="h-stat-num">3.7M</span><span class="h-stat-label">Usuarios</span></div>
+                <div class="h-stat"><span class="h-stat-num">3'273,827</span><span class="h-stat-label">Habitantes</span></div>
+              </div>
+            </div>
+            <div class="h-bloque-body">
+              <div class="h-map"><img src="./assets/mapas/mapa2.png" alt="Mapa de intervenciones en ciudades" data-lightbox></div>
+              <div class="h-cards">
+                <div class="h-icard"><div class="h-icard-ciudad">Tumbes</div><div class="h-icard-region">Tumbes</div><div class="h-tag blue">Plan Regulador de Rutas</div></div>
+                <div class="h-icard"><div class="h-icard-ciudad">Piura</div><div class="h-icard-region">Piura</div><div class="h-tag orange">EUROCLIMA: Est. Vehíc. men.</div></div>
+                <div class="h-icard"><div class="h-icard-ciudad">Cajamarca</div><div class="h-icard-region">Cajamarca</div><div class="h-tag orange">Piloto Tráfico Calmado</div><div class="h-tag blue">BID: Información - Cartera</div></div>
+                <div class="h-icard"><div class="h-icard-ciudad">Chiclayo</div><div class="h-icard-region">Lambayeque</div><div class="h-tag blue">Plan Regulador de Rutas</div></div>
+                <div class="h-icard"><div class="h-icard-ciudad">Huánuco</div><div class="h-icard-region">Huánuco</div><div class="h-tag blue">Plan Regulador de Rutas</div></div>
+                <div class="h-icard"><div class="h-icard-ciudad">Trujillo</div><div class="h-icard-region">La Libertad</div><div class="h-tag orange">Piloto Carril Bus</div></div>
+                <div class="h-icard"><div class="h-icard-ciudad">Abancay</div><div class="h-icard-region">Apurímac</div><div class="h-tag blue">Plan Regulador de Rutas</div></div>
+                <div class="h-icard"><div class="h-icard-ciudad">Huancavelica</div><div class="h-icard-region">Huancavelica</div><div class="h-tag blue">Plan Regulador de Rutas</div></div>
+                <div class="h-icard"><div class="h-icard-ciudad">Huancayo</div><div class="h-icard-region">Junín</div><div class="h-tag blue">Plan Regulador de Rutas</div><div class="h-tag orange">BID: Gestión de buses</div></div>
+                <div class="h-icard"><div class="h-icard-ciudad">Ica</div><div class="h-icard-region">Ica</div><div class="h-tag blue">Plan Regulador de Rutas</div><div class="h-tag orange">Piloto Tráfico Calmado</div><div class="h-tag green">BID: Información - Cartera</div></div>
+                <div class="h-icard"><div class="h-icard-ciudad">Cusco</div><div class="h-icard-region">Cusco</div><div class="h-tag blue">Plan Regulador de Rutas</div><div class="h-tag orange">Piloto Carril Bus</div></div>
+                <div class="h-icard"><div class="h-icard-ciudad">Tacna</div><div class="h-icard-region">Tacna</div><div class="h-tag blue">Plan Regulador de Rutas</div><div class="h-tag green">BID: Información - Cartera</div></div>
+                <div class="h-icard"><div class="h-icard-ciudad">Puno</div><div class="h-icard-region">Puno</div><div class="h-tag blue">Plan Regulador de Rutas</div><div class="h-tag orange">Piloto Carril Bus</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ALIADOS -->
+      <section class="h-section" id="aliados">
+        <div class="h-head">
+          <span class="h-eyebrow">Cooperación y articulación</span>
+          <h2>Entidades aliadas</h2>
+        </div>
+        <div class="h-aliados">
+          <img class="h-aliado" src="./assets/aliados/giz.png" alt="Cooperación alemana – GIZ">
+          <img class="h-aliado" src="./assets/aliados/suiza-seco.png" alt="Embajada de Suiza en el Perú – SECO">
+          <img class="h-aliado" src="./assets/aliados/bid.png" alt="Banco Interamericano de Desarrollo">
+          <img class="h-aliado" src="./assets/aliados/bm.png" alt="World Bank Group">
+          <img class="h-aliado" src="./assets/aliados/caf.png" alt="CAF – Banco de Desarrollo de América Latina y el Caribe">
+          <img class="h-aliado" src="./assets/aliados/afd.jpg" alt="Agence Française de Développement">
+          <img class="h-aliado" src="./assets/aliados/jica.png" alt="JICA – Japan International Cooperation Agency">
+          <img class="h-aliado" src="./assets/aliados/kfw.png" alt="KfW">
+          <img class="h-aliado" src="./assets/aliados/koica.png" alt="KOICA – Korea International Cooperation Agency">
+          <img class="h-aliado" src="./assets/aliados/onu.png" alt="Naciones Unidas">
+          <img class="h-aliado" src="./assets/aliados/ue.png" alt="Unión Europea">
+        </div>
+      </section>
+
+    </main>
+
+    <!-- NUEVA VISTA: CONCEPTO PROMOVILIDAD -->
+<!-- VISTA: CONOCE MÁS SOBRE PROMOVILIDAD -->
+<main id="concepto-promovilidad" class="view">
+  <div class="wrap">
+
+    <div class="concept-topbar">
+      <a class="btn concept-back" href="#home">◀ Atrás</a>
+    </div>
+
+    <section class="card concept-page">
+      <div class="concept-head">
+        <h2>Programa Nacional de Transporte Urbano Sostenible – PROMOVILIDAD</h2>
+        <p class="muted">Información general del programa, objetivos y cobertura a nivel nacional.</p>
+      </div>
+
+      <div class="concept-grid">
+
+        <div class="concept-left">
+          <div class="subcard">
+            <h3>Objetivo general</h3>
+            <p>
+              Promover Sistemas Integrados de Transporte en las ciudades del ámbito de intervención,
+              con un <b>enfoque de movilidad urbana sostenible</b> y de género, bajo estándares de calidad,
+              eficiencia y confiabilidad.
+            </p>
+          </div>
+
+          <div class="subcard">
+            <h3>Finalidad</h3>
+            <p>
+              <b>Reducir tiempos de viaje</b>, incrementar la <b>seguridad vial</b> y mejorar el acceso a oportunidades;
+              así como disminuir las emisiones de GEI, elevando la calidad de vida y la competitividad de las ciudades.
+            </p>
+          </div>
+
+          <div class="subcard">
+            <h3>Objetivos específicos</h3>
+            <ul>
+              <li>Fortalecer <b>capacidades institucionales y técnicas</b> para la gestión del transporte urbano.</li>
+              <li>Apoyar el <b>planeamiento y la formulación</b> de estudios e inversiones bajo estándares PROMOVILIDAD.</li>
+              <li>Impulsar la <b>ejecución de acciones e inversiones</b> priorizadas con gobiernos locales.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="subcard card-tight concept-right">
+          <h3>Cobertura de PROMOVILIDAD en el Perú</h3>
+          <img
+            src="./assets/mapa.png"
+            alt="Cobertura de PROMOVILIDAD en el Perú"
+            class="concept-map"
+          />
+          <p class="muted" style="margin:10px 0 0">
+            Fuente y elaboración: PROMOVILIDAD.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+</main>
+
+
+  <!-- MÓDULO1: INFORMACIÓN TERRITORIAL -->
+  <main id="mod-info" class="view">
+    <div class="wrap">
+      <div class="toolbar">
+        <div style="display:flex;gap:8px;align-items:center">
+          <a class="btn" href="#home">◀ Atrás</a>
+          <select id="citySel" class="select"></select>
+        </div>
+      </div>
+
+      <div class="grid2">
+        <section class="card">
+          <h2 id="title" style="margin:0">Ciudad</h2>
+          <div id="meta" class="muted">—</div>
+          <div class="kpis" style="margin:12px 0 8px">
+            <div class="kpi kpi--icon">
+              <img src="./assets/mod1/icono1.PNG" class="kpi-icon" alt="distritos">
+              <div><small>N.º de distritos</small><div class="stat-big" id="kDis">—</div></div>
+            </div>
+            <div class="kpi kpi--icon">
+              <img src="./assets/mod1/icono2.PNG" class="kpi-icon" alt="población">
+              <div><small>Población</small><div class="stat-big" id="kPob">—</div></div>
+            </div>
+          </div>
+          <!-- Indicadores demográficos -->
+          <div class="panel" id="demografia" style="margin-top:8px">
+            <div class="kpi kpi--icon">
+              <img src="./assets/mod1/icono3.PNG" class="kpi-icon" alt="PEA femenina">
+              <div><small>PEA urbana Femenina</small><div class="stat-big" id="peaFem">—</div></div>
+            </div>
+            <div class="kpi kpi--icon">
+              <img src="./assets/mod1/icono4.PNG" class="kpi-icon" alt="PEA masculina">
+              <div><small>PEA urbana Masculina</small><div class="stat-big" id="peaMas">—</div></div>
+            </div>
+            <div class="kpi kpi--icon">
+              <img src="./assets/mod1/icono5.PNG" class="kpi-icon" alt="discapacidad">
+              <div><small>Personas con discapacidad</small><div class="stat-big" id="disc">—</div></div>
+            </div>
+            <div class="kpi kpi--icon">
+              <img src="./assets/mod1/icono6.PNG" class="kpi-icon" alt="adulto mayor">
+              <div><small>Personas Adulto Mayor</small><div class="stat-big" id="adultos">—</div></div>
+            </div>
+            <div class="kpi kpi--icon">
+              <img src="./assets/mod1/icono7.PNG" class="kpi-icon" alt="niños">
+              <div><small>Niños y niñas &lt; 5 años</small><div class="stat-big" id="menores">—</div></div>
+            </div>
+          </div>
+
+          <!-- Gráficos -->
+          <div class="panel">
+            <div class="card" style="padding:12px; min-height:270px"><canvas id="gaugeTotal"></canvas></div>
+            <div class="card" style="padding:12px; min-height:270px"><canvas id="gaugeMov"></canvas></div>
+          </div>
+
+          <!-- Gestión -->
+          <div class="panel" id="gestion" style="margin-bottom:0">
+          <div class="kpi">
+            <div class="kpi-head">
+              <small>Convenios suscritos</small>
+              <a class="pill mini" href="#mod-convenios" id="goConvenios">Abrir</a>
+            </div>
+            <div class="stat-big" id="convenios">—</div>
+          </div>
+
+          <div class="kpi">
+            <div class="kpi-head">
+              <small>Planes</small>
+              <a class="pill mini" href="#mod-planes" id="goPlanes">Abrir</a>
+            </div>
+            <div class="stat-big" id="planes">—</div>
+          </div>
+          </div>
+
+        </section>
+        <aside class="card">
+          <h3 style="margin-top:0">Mapa</h3>
+          <div id="map"></div>
+          <div class="autoridades">
+            <h3 style="margin-top:12px;margin-bottom:8px">Autoridades</h3>
+            <div id="autoridades"></div>
+          </div>
+        </aside>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- MÓDULO: PLANES -->
+  <main id="mod-planes" class="view">
+    <div class="wrap">
+      <div class="toolbar">
+        <div style="display:flex;gap:8px;align-items:center">
+          <a class="btn" href="#mod-info">◀ Atrás</a>
+          <a class="btn" href="#planes-global">Ver todos los planes</a>
+        </div>
+      </div>
+
+      <section class="card">
+        <h2 style="margin-top:0">Planes – <span id="titlePlanes">Ciudad</span></h2>
+        <p class="muted" style="margin-top:4px">Listado de planes por ciudad.</p>
+        <div id="listPlanes" class="autoridades"></div>
+      </section>
+    </div>
+  </main>
+
+  <!-- MÓDULO: PLANES (GLOBAL) -->
+  <main id="planes-global" class="view">
+    <div class="wrap">
+      <div class="toolbar">
+        <div style="display:flex;gap:8px;align-items:center">
+          <a class="btn" href="#mod-planes">◀ Volver a la ciudad</a>
+        </div>
+      </div>
+
+      <section class="card">
+        <h2 style="margin-top:0">Planes – Todas las ciudades</h2>
+        <p class="muted" style="margin-top:4px">
+          Listado consolidado de planes para todas las ciudades.
+        </p>
+        <div id="listPlanesGlobal"></div>
+      </section>
+    </div>
+  </main>
+
+  <!-- MÓDULO: CONVENIOS -->
+  <main id="mod-convenios" class="view">
+    <div class="wrap">
+      <div class="toolbar">
+        <div style="display:flex;gap:8px;align-items:center">
+          <a class="btn" href="#mod-info">◀ Atrás</a>
+          <a class="btn" href="#convenios-global">Ver todos los convenios</a>
+        </div>
+      </div>
+
+      <section class="card">
+        <h2 style="margin-top:0">Convenios – <span id="titleConvenios">Ciudad</span></h2>
+        <p class="muted" style="margin-top:4px">Listado de convenos marcos y específicos por ciudad.</p>
+        <div id="listConvenios" class="autoridades"></div>
+      </section>
+    </div>
+  </main>
+
+  <!-- MÓDULO: CONVENIOS (GLOBAL) -->
+  <main id="convenios-global" class="view">
+    <div class="wrap">
+      <div class="toolbar">
+        <div style="display:flex;gap:8px;align-items:center">
+          <a class="btn" href="#mod-convenios">◀ Volver a la ciudad</a>
+        </div>
+      </div>
+
+      <section class="card">
+        <h2 style="margin-top:0">Convenios – Todas las ciudades</h2>
+        <p class="muted" style="margin-top:4px">
+          Listado consolidado de convenios marco y específicos para todas las ciudades.
+        </p>
+        <div id="listConveniosGlobal"></div>
+      </section>
+    </div>
+  </main>
+
+
+  <!-- MÓDULO3: PROYECTOS DE INVERSIÓN -->
+  <main id="mod-proyectos" class="view">
+    <div class="wrap">
+      <div class="toolbar">
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+            <a class="btn" href="#home">◀ Atrás</a>
+            <select id="proyFiltroCiudad" class="select" style="min-width:180px"></select>
+            <select id="proyFiltroEstado" class="select" style="min-width:180px"></select>
+          </div>
+        </div>
+
+        <!-- KPIs resumen -->
+        <div class="kpis" style="margin-bottom:14px;grid-template-columns:repeat(4,1fr)">
+          <div class="kpi">
+            <small>Total proyectos</small>
+            <div class="stat-big" id="kPrTotal">—</div>
+          </div>
+          <div class="kpi">
+            <small>Monto total (S/)</small>
+            <div class="stat-big" id="kPrMonto" style="font-size:18px">—</div>
+          </div>
+          <div class="kpi">
+            <small>En ejecución</small>
+            <div class="stat-big" id="kPrEjec">—</div>
+          </div>
+          <div class="kpi">
+            <small>Avance físico prom.</small>
+            <div class="stat-big" id="kPrAvance">—</div>
+          </div>
+        </div>
+
+        <!-- Tabla de proyectos -->
+        <section class="card">
+          <h2 style="margin:0 0 4px">Proyectos de Inversión</h2>
+          <p class="muted" style="margin:0 0 14px;font-size:14px">
+            Fuente: Dirección de Inversiones – PROMOVILIDAD. CUI vinculado al portal Invierte.pe del MEF.
+          </p>
+          <div id="proyCards"></div>
+        </section>
+
+      </div>
+  </main>
+
+  <!-- MÓDULO 4: OPERACIÓN Y SERVICIOS DE MOVILIDAD -->
+  <main id="mod-operacion" class="view">
+    <div class="wrap">
+      <div class="toolbar">
+        <div style="display:flex;gap:8px;align-items:center">
+          <a class="btn" href="#home">◀ Atrás</a>
+          <select id="citySelOperacion" class="select"></select>
+          <select id="routeSelOperacion" class="select" style="min-width:220px">
+            <option value="">Todas las rutas</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- SUBTABS: Rutas / Siniestros -->
+      <div class="subtabs" id="subtabsOperacion">
+        <button class="subtab active" data-tab="rutas">KPI</button>
+        <button class="subtab" data-tab="siniestros">Siniestros</button>
+        <button class="subtab" data-tab="acoso">Acoso (GIZ)</button>
+        <button class="subtab" data-tab="gei">GEI</button>
+        <button class="subtab" data-tab="semaforos">Semáforos</button>
+        <div class="subtab-right">
+          <!-- Año (solo visible en la pestaña Siniestros) -->
+          <select id="yearSelSiniestros" class="select" style="display:none"></select>
+        </div>
+      </div>
+
+      <!-- PANE: Rutas (tu contenido actual envuelto) -->
+      <div id="paneRutas" class="tab-pane active">
+        <div class="grid2">
+          <!-- IZQUIERDA: KPIs -->
+          <section class="card">
+            <h2 id="titleOperacion" style="margin:0">Operación y Servicios de Movilidad</h2>
+            <div class="kpis" style="margin:12px 0 8px">
+            <div class="kpi">
+              <div><small>Densidad poblacional (hab/km²)</small><div class="stat-big" id="kDensidadPob">—</div></div>
+            </div>
+
+            <div class="kpi">
+              <div><small>% viajes en transporte público urbano</small><div class="stat-big" id="kPctViajesTP">—</div></div>
+            </div>
+
+            <div class="kpi">
+              <div><small>Empresas TP / 10k hab autorizadas</small><div class="stat-big" id="kEmpresasTP10k">—</div></div>
+            </div>
+
+            <div class="kpi">
+              <div><small>N° empresas TP autorizadas</small><div class="stat-big" id="kEmpresasTPAut">—</div></div>
+            </div>
+
+            <div class="kpi">
+              <div><small>Velocidad promedio TP hora punta (km/h)</small><div class="stat-big" id="kVelocidadTP">—</div></div>
+            </div>
+
+            <div class="kpi">
+              <div><small>Antigüedad promedio flota TP (años)</small><div class="stat-big" id="kAntiguedadFlota">—</div></div>
+            </div>
+
+            <div class="kpi">
+              <div><small>Siniestros viales (/10,000 hab)</small><div class="stat-big" id="kSiniestrosViales">—</div></div>
+            </div>
+
+            <div class="kpi">
+              <div><small>Densidad semafórica (intersec./km²)</small><div class="stat-big" id="kDensidadSem">—</div></div>
+            </div>
+
+            <div class="kpi">
+              <div><small>Tasa de motorización autos (/10,000 hab)</small><div class="stat-big" id="kTasaMotorizacion">—</div></div>
+            </div>
+
+            <div class="kpi">
+              <div><small>Total de la flota habilitada</small><div class="stat-big" id="kFlotaHabilitada">—</div></div>
+            </div>
+
+            <div class="kpi">
+              <div><small>Km de infraestructura ciclista</small><div class="stat-big" id="kKmCiclovias">—</div></div>
+            </div>
+            </div>
+          </section>
+
+          <!-- DERECHA: MAPA -->
+          <aside class="card">
+            <h3 style="margin-top:0">Mapa (rutas)</h3>
+            <div id="mapOperacion" style="height:360px;border:1px solid var(--ring);border-radius:12px"></div>
+          </aside>
+        </div>
+      </div><!-- /paneRutas -->
+
+      <!-- PANE: Siniestros (nuevo) -->
+      <div id="paneSiniestros" class="tab-pane" style="display:none">
+        <div class="grid2">
+          <!-- IZQUIERDA: KPIs -->
+          <section class="card">
+            <h2 style="margin:0">Siniestros</h2>
+            <div class="kpis" style="margin:12px 0 8px">
+              <div class="kpi kpi--icon">
+                <img src="./assets/mod4-siniestros/icono1.PNG" class="kpi-icon" alt="total siniestros">
+                <div><small>Total siniestros</small><div class="stat-big" id="kSin">—</div></div>
+              </div>
+              <div class="kpi kpi--icon">
+                <img src="./assets/mod4-siniestros/icono2.PNG" class="kpi-icon" alt="fallecidos">
+                <div><small>Fallecidos</small><div class="stat-big" id="kFal">—</div></div>
+              </div>
+
+              <div class="kpi kpi--icon">
+                <img src="./assets/mod4-siniestros/icono3.PNG" class="kpi-icon" alt="lesionados">
+                <div><small>Lesionados</small><div class="stat-big" id="kLes">—</div></div>
+              </div>
+              <div class="kpi kpi--icon">
+                <img src="./assets/mod4-siniestros/icono3.PNG" class="kpi-icon" alt="vehiculos danados">
+                <div><small>Vehículos dañados</small><div class="stat-big" id="kVeh">—</div></div>
+              </div>
+            </div>
+            <!-- Gráficas de siniestros -->
+            <div class="panel" style="margin-top:8px">
+              <div class="card" style="padding:12px">
+                <h4 style="margin:0 0 6px">Distribución por zona</h4>
+                <canvas id="sinTipoChart" height="180"></canvas>
+              </div>
+              <div class="card" style="padding:12px">
+                <h4 style="margin:0 0 6px">Clase de siniestro</h4>
+                <canvas id="sinClaseChart" height="180"></canvas>
+              </div>
+              <div class="card" style="padding:12px">
+                <h4 style="margin:0 0 6px">Evolución por fecha</h4>
+                <canvas id="sinEvoChart" height="180"></canvas>
+              </div>
+            </div>
+          </section>
+
+          <!-- DERECHA: MAPA -->
+          <aside class="card">
+            <h3 style="margin-top:0">Mapa (siniestros)</h3>
+            <div id="mapSiniestros" style="height:360px;border:1px solid var(--ring);border-radius:12px"></div>
+          </aside>
+        </div>
+      </div><!-- /paneSiniestros -->
+
+      <!-- PANE: Acoso (GIZ) -->
+      <div id="paneAcoso" class="tab-pane" style="display:none">
+        <section class="card">
+          <h2 style="margin:0 0 12px">Acoso en el transporte público (GIZ)</h2>
+            <div id="acoMsgNoData" class="card" style="display:none;margin-bottom:12px">
+              <div class="muted">
+                Esta ciudad no cuenta con información de Acoso GIZ.<br>
+                <b>Selecciona: Trujillo, Arequipa o Piura.</b>
+              </div>
+            </div>
+
+          <!-- 4 columnas: KPI + donut cada una -->
+          <div class="aco-grid">
+
+            <div class="aco-col">
+              <!-- Total encuestas -->
+              <div class="kpi kpi--icon">
+                <img src="./assets/mod4-acoso/icono1.PNG" class="kpi-icon" alt="encuestas">
+                <div><small>Total encuestas</small><div class="stat-big" id="kAcoN">—</div></div>
+              </div>
+              <div class="card aco-chart-card">
+                <h4>¿Ha sufrido acoso?</h4>
+                <canvas id="acoVictimaChart" height="90"></canvas>
+              </div>
+            </div>
+
+            <div class="aco-col">
+              <!-- Silencio -->
+              <div class="kpi kpi--icon">
+                <img src="./assets/mod4-acoso/icono2.PNG" class="kpi-icon" alt="silencio">
+                <div><small>Silencio ante el acoso</small><div class="stat-big" id="kAcoSilencio">—</div></div>
+              </div>
+              <div class="card aco-chart-card">
+                <h4>¿Denunció el hecho? (solo entre víctimas)</h4>
+                <canvas id="acoDenuncioChart" height="90"></canvas>
+              </div>
+            </div>
+
+            <div class="aco-col">
+              <!-- Denunció -->
+              <div class="kpi kpi--icon">
+                <img src="./assets/mod4-acoso/icono3.PNG" class="kpi-icon" alt="denuncia">
+                <div><small>% denunció (entre víctimas)</small><div class="stat-big" id="kAcoDenuncio">—</div></div>
+              </div>
+              <div class="card aco-chart-card">
+                <h4>¿Vio información sobre prevención/atención?</h4>
+                <canvas id="acoInfoChart" height="90"></canvas>
+              </div>
+            </div>
+
+            <div class="aco-col">
+            <!-- Riesgo -->
+            <div class="kpi kpi--icon">
+              <img src="./assets/mod4-acoso/icono4.PNG" class="kpi-icon" alt="riesgo">
+              <div><small>Riesgo promedio</small><div class="stat-big" id="kAcoRiesgo">—</div></div>
+            </div>
+              <div class="card aco-chart-card">
+                <h4>¿Participó en campañas o acciones?</h4>
+                <canvas id="acoCampaniaChart" height="90"></canvas>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Tipos de acoso sufrido (P19) -->
+          <div class="card aco-chart-card" style="margin-top:12px">
+            <h4>Tipos de acoso sufrido (entre víctimas)</h4>
+            <div class="chartBox">
+              <canvas id="acoTiposChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Motivos por los que no denunció (P27) -->
+          <div class="card aco-chart-card" style="margin-top:12px">
+            <h4>Motivos por los que no denunció</h4>
+            <div class="chartBox">
+              <canvas id="acoMotivosChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Percepción del sistema (P28/P29) -->
+          <div class="aco-grid-2" style="margin-top:12px">
+            <div class="card aco-chart-card" style="text-align:center">
+              <h4>Medidas de seguridad brindadas</h4>
+              <div class="stat-big" id="kAcoSeguridad">—</div>
+              <small class="muted">Escala 1–5</small>
+            </div>
+            <div class="card aco-chart-card" style="text-align:center">
+              <h4>Atención a víctimas</h4>
+              <div class="stat-big" id="kAcoAtencion">—</div>
+              <small class="muted">Escala 1–5</small>
+            </div>
+          </div>
+
+          <!-- Resumen abajo -->
+          <div class="card" style="padding:12px;margin-top:12px">
+            <h4 style="margin:0 0 6px">Resumen rápido</h4>
+            <div id="acoResumen" class="muted">—</div>
+          </div>
+
+        </section>
+      </div>
+
+      <!-- PANE: GEI -->
+      <div id="paneGEI" class="tab-pane" style="display:none">
+        <section class="card">
+          <h2 style="margin:0">Emisiones GEI del Transporte Urbano</h2>
+
+          <div id="geiMsgNoData" class="card" style="display:none;margin-bottom:12px">
+            <div class="muted">
+              Esta ciudad no cuenta con información GEI.<br>
+              <b>Selecciona: Trujillo, Arequipa o Piura.</b>
+            </div>
+          </div>
+
+          <div class="kpis" style="margin:12px 0;grid-template-columns:repeat(4,1fr)">
+            <div class="kpi kpi--icon">
+              <img src="./assets/mod4-gei/icono1.PNG" class="kpi-icon" alt="GEI CO2">
+              <div><small>GEI (tCO₂eq/año)</small><div class="stat-big" id="kGeiCO2">—</div></div>
+            </div>
+            <div class="kpi kpi--icon">
+              <img src="./assets/mod4-gei/icono2.PNG" class="kpi-icon" alt="PM2.5">
+              <div><small>PM₂.5 (t/año)</small><div class="stat-big" id="kGeiPM">—</div></div>
+            </div>
+            <div class="kpi kpi--icon">
+              <img src="./assets/mod4-gei/icono3.PNG" class="kpi-icon" alt="árboles">
+              <div><small>Árboles equivalentes</small><div class="stat-big" id="kGeiTrees">—</div></div>
+            </div>
+            <div class="kpi kpi--icon">
+              <img src="./assets/mod4-gei/icono4.PNG" class="kpi-icon" alt="empresas">
+              <div><small>Empresas de transporte</small><div class="stat-big" id="kGeiEmpresas">—</div></div>
+            </div>
+            <div class="kpi kpi--icon">
+              <img src="./assets/mod4-gei/icono5.PNG" class="kpi-icon" alt="vehículos">
+              <div><small>Total de vehículos</small><div class="stat-big" id="kGeiVehiculos">—</div></div>
+            </div>
+            <div class="kpi kpi--icon">
+              <img src="./assets/mod4-gei/icono6.PNG" class="kpi-icon" alt="distancia">
+              <div><small>Distancia promedio anual (km)</small><div class="stat-big" id="kGeiDistancia">—</div></div>
+            </div>
+            <div class="kpi kpi--icon" style="grid-column:span 2">
+              <img src="./assets/mod4-gei/icono7.PNG" class="kpi-icon" alt="combustibles">
+              <div><small>Combustibles utilizados</small><div class="stat-big" id="kGeiCombustibles" style="font-size:18px">—</div></div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="card" style="padding:12px">
+              <h4>Emisiones GEI por ciudad</h4>
+              <canvas id="geiBarChart" height="160"></canvas>
+            </div>
+
+            <div class="card" style="padding:12px">
+              <h4>Composición de flota</h4>
+              <canvas id="geiFleetChart" height="160"></canvas>
+            </div>
+          </div>
+        </section>
+      </div><!-- /paneGEI -->
+
+    <!-- PANE: Semáforos -->
+    <div id="paneSemaforos" class="tab-pane" style="display:none">
+      <div class="grid2">
+        <section class="card">
+          <h2 style="margin:0">Semáforos</h2>
+
+          <div class="kpis" style="margin:12px 0 8px">
+            <div class="kpi kpi--icon">
+              <img src="./assets/mod4-semaforos/icono1.PNG" class="kpi-icon" alt="semáforos">
+              <div><small>Total semáforos</small><div class="stat-big" id="kSemTotal">—</div></div>
+            </div>
+          </div>
+
+          <div class="muted" id="semMsg">Selecciona una ciudad para cargar los semáforos.</div>
+        </section>
+
+        <aside class="card">
+          <h3 style="margin-top:0">Mapa (semáforos)</h3>
+          <div id="mapSemaforos" style="height:360px;border:1px solid var(--ring);border-radius:12px"></div>
+        </aside>
+      </div>
+    </div>
+
+
+    </div><!-- /wrap -->
+  </main>
+
+  <!-- CONCEPTO SIT (borrador para revisión: se completa con el equipo de PROMOVILIDAD) -->
+  <main id="mod-sit" class="view">
+    <div class="wrap">
+
+      <section class="card sit-hero">
+        <span class="sit-draft"><i class="fa-solid fa-pen-ruler" aria-hidden="true"></i>Borrador para revisión</span>
+        <span class="h-eyebrow">Marco conceptual del observatorio</span>
+        <h2>Concepto SIT: Sistema Integrado de Transporte</h2>
+        <p class="sit-lead">Un SIT no es un modo de transporte nuevo: es la forma de lograr que los servicios de transporte público de una ciudad funcionen <strong>como un solo sistema</strong>. La Ley General de Transporte y Tránsito Terrestre (Ley N° 27181), modificada por el Decreto Legislativo N° 1707, lo define como un sistema de transporte público de personas que articula las distintas modalidades del servicio mediante integración física, operacional y tarifaria, y medios de pago integrados.</p>
+        <p class="sit-lead">Todo lo que presenta este observatorio busca contribuir a ese objetivo: medir la movilidad de las ciudades, asistirlas técnicamente y acompañar el camino hacia un transporte público más ordenado.</p>
+      </section>
+
+      <section class="card">
+        <h3 class="sit-h">Las cuatro integraciones de un SIT</h3>
+        <div class="h-obj-grid">
+          <div class="h-obj-card">
+            <span class="h-obj-icon"><i class="fa-solid fa-road" aria-hidden="true"></i></span>
+            <h3>Integración física</h3>
+            <p>Infraestructura con prioridad para el transporte público: paraderos, carriles o vías exclusivas, terminales e intercambios.</p>
+          </div>
+          <div class="h-obj-card">
+            <span class="h-obj-icon"><i class="fa-solid fa-bus" aria-hidden="true"></i></span>
+            <h3>Integración operacional</h3>
+            <p>Rutas ordenadas y complementarias, operadores formalizados, frecuencias coordinadas y un control común del servicio.</p>
+          </div>
+          <div class="h-obj-card">
+            <span class="h-obj-icon"><i class="fa-solid fa-ticket" aria-hidden="true"></i></span>
+            <h3>Integración tarifaria</h3>
+            <p>Una política tarifaria común: trasbordos sin pagar de nuevo o con descuento, y tarifas accesibles para todos.</p>
+          </div>
+          <div class="h-obj-card">
+            <span class="h-obj-icon"><i class="fa-solid fa-credit-card" aria-hidden="true"></i></span>
+            <h3>Medios de pago integrados</h3>
+            <p>Un sistema de recaudo único e interoperable, con pago electrónico para toda la red.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h3 class="sit-h">Camino hacia un SIT</h3>
+        <p class="muted sit-intro">Una ruta de referencia en etapas, que cada ciudad adapta a su realidad. No hay un único orden: Lima empezó por sus corredores, Cusco por la renovación de la flota, y Trujillo y Arequipa por reestructurar la red de buses (experiencias documentadas por la cooperación técnica AFD–CODATU–Cerema–MTC, 2018).</p>
+        <ol class="sit-path">
+          <li class="sit-step" style="--i:0">
+            <span class="sit-num" aria-hidden="true">1</span>
+            <h4>Voluntad política y un equipo permanente</h4>
+            <p>El SIT nace de una decisión del gobierno local y se sostiene con un equipo técnico estable (un ente gestor) que dé continuidad más allá de los cambios de gestión, en coordinación con el MTC.</p>
+            <div class="sit-chips"><span class="sit-chips-label">En el observatorio</span><a class="sit-chip" href="#convenios-global"><i class="fa-solid fa-handshake" aria-hidden="true"></i>Convenios</a></div>
+          </li>
+          <li class="sit-step" style="--i:1">
+            <span class="sit-num" aria-hidden="true">2</span>
+            <h4>Diagnóstico de la movilidad</h4>
+            <p>Conocer la oferta y la demanda: conteos, encuestas origen–destino, rutas existentes y una línea base de indicadores por ciudad.</p>
+            <div class="sit-chips"><span class="sit-chips-label">En el observatorio</span><a class="sit-chip" href="#mod-info"><i class="fa-solid fa-chart-column" aria-hidden="true"></i>Información territorial</a><a class="sit-chip" href="#mod-operacion"><i class="fa-solid fa-gauge-high" aria-hidden="true"></i>Operación y servicios</a></div>
+          </li>
+          <li class="sit-step" style="--i:2">
+            <span class="sit-num" aria-hidden="true">3</span>
+            <h4>Plan de Movilidad Urbana Sostenible</h4>
+            <p>Definir la visión de ciudad y los objetivos de corto, mediano y largo plazo que orientarán el SIT y que trascienden los periodos de gobierno.</p>
+            <div class="sit-chips"><span class="sit-chips-label">En el observatorio</span><a class="sit-chip" href="#planes-global"><i class="fa-solid fa-clipboard-list" aria-hidden="true"></i>Planes</a></div>
+          </li>
+          <li class="sit-step" style="--i:3">
+            <span class="sit-num" aria-hidden="true">4</span>
+            <h4>Primeras medidas, visibles y de bajo costo</h4>
+            <p>Empezar por lo más simple y rápido para generar confianza: paraderos oficiales, carriles o vías exclusivas para el transporte público, zonas de tráfico calmado y mapas de rutas.</p>
+            <div class="sit-chips"><span class="sit-chips-label">En el observatorio</span><a class="sit-chip" href="#mod-gobernanza"><i class="fa-solid fa-handshake-angle" aria-hidden="true"></i>Asistencia técnica</a></div>
+          </li>
+          <li class="sit-step" style="--i:4">
+            <span class="sit-num" aria-hidden="true">5</span>
+            <h4>Diseño de la red y reordenamiento de rutas</h4>
+            <p>Racionalizar y reorganizar las rutas (Plan Regulador de Rutas), definir paraderos y tipo de flota, y prever un eje troncal de mayor capacidad para los corredores más cargados.</p>
+            <div class="sit-chips"><span class="sit-chips-label">En el observatorio</span><a class="sit-chip" href="#mod-gobernanza"><i class="fa-solid fa-handshake-angle" aria-hidden="true"></i>Asistencia técnica</a><a class="sit-chip" href="#mod-proyectos"><i class="fa-solid fa-hand-holding-dollar" aria-hidden="true"></i>Proyectos de inversión</a></div>
+          </li>
+          <li class="sit-step" style="--i:5">
+            <span class="sit-num" aria-hidden="true">6</span>
+            <h4>Modelo tarifario, financiero y de operación</h4>
+            <p>Definir la tarifa y su integración, verificar el equilibrio financiero y establecer contratos de operación que condicionen parte de la remuneración a la calidad del servicio.</p>
+            <div class="sit-chips"><span class="sit-chips-label">En el observatorio</span><a class="sit-chip" href="#mod-proyectos"><i class="fa-solid fa-hand-holding-dollar" aria-hidden="true"></i>Proyectos de inversión</a></div>
+          </li>
+          <li class="sit-step" style="--i:6">
+            <span class="sit-num" aria-hidden="true">7</span>
+            <h4>Tecnología: recaudo, control e información</h4>
+            <p>Recaudo único e interoperable, centro de control de tránsito y semáforos, e información en tiempo real para quienes usan el transporte público.</p>
+            <div class="sit-chips"><span class="sit-chips-label">En el observatorio</span><a class="sit-chip" href="#mod-operacion"><i class="fa-solid fa-gauge-high" aria-hidden="true"></i>Operación y servicios</a><a class="sit-chip" href="#mod-herramientas"><i class="fa-solid fa-screwdriver-wrench" aria-hidden="true"></i>Herramientas</a></div>
+          </li>
+          <li class="sit-step" style="--i:7">
+            <span class="sit-num" aria-hidden="true">8</span>
+            <h4>Comunicar, acompañar la transición y evaluar</h4>
+            <p>Dialogar con transportistas, taxistas, comerciantes y usuarios; acompañar la reconversión de quienes se ven afectados; y dar seguimiento con indicadores para mejorar de forma continua.</p>
+            <div class="sit-chips"><span class="sit-chips-label">En el observatorio</span><a class="sit-chip" href="#mod-info"><i class="fa-solid fa-chart-column" aria-hidden="true"></i>Indicadores</a><a class="sit-chip" href="#mod-noticias"><i class="fa-solid fa-newspaper" aria-hidden="true"></i>Noticias</a></div>
+          </li>
+        </ol>
+      </section>
+
+      <section class="card">
+        <h3 class="sit-h">Una idea que orienta el camino</h3>
+        <p class="sit-lead">El SIT no es un fin en sí mismo: es una herramienta al servicio de una ciudad más habitable, segura y atractiva para las personas. Por eso su diseño considera cinco capas de la ciudad:</p>
+        <div class="sit-layers">
+          <div class="sit-layer"><i class="fa-solid fa-leaf" aria-hidden="true"></i><div><strong>Entorno natural</strong><span>Acercar a las personas a los espacios verdes y azules y reducir las emisiones.</span></div></div>
+          <div class="sit-layer"><i class="fa-solid fa-heart-pulse" aria-hidden="true"></i><div><strong>Salud y seguridad</strong><span>Viajes más seguros, menos accidentes y mejor calidad del aire.</span></div></div>
+          <div class="sit-layer"><i class="fa-solid fa-city" aria-hidden="true"></i><div><strong>Visión urbana</strong><span>Una ciudad de cortas distancias, con calles y espacios públicos recuperados.</span></div></div>
+          <div class="sit-layer"><i class="fa-solid fa-coins" aria-hidden="true"></i><div><strong>Economía</strong><span>Acceso eficiente al empleo, al comercio y a los servicios.</span></div></div>
+          <div class="sit-layer"><i class="fa-solid fa-landmark" aria-hidden="true"></i><div><strong>Cultura</strong><span>Respeto por el patrimonio y la identidad de cada ciudad.</span></div></div>
+        </div>
+      </section>
+
+      <p class="sit-sources"><strong>Fuentes:</strong> Decreto Legislativo N° 1707 (modifica la Ley N° 27181); Decreto Supremo N° 027-2019-MTC (creación de PROMOVILIDAD); cooperación técnica AFD–CODATU–Cerema–MTC (2018), «¿Cómo implementar un Sistema Integrado de Transporte en las ciudades peruanas?». Contenido preliminar, en revisión.</p>
+    </div>
+  </main>
+
+  <!-- HERRAMIENTAS: aplicaciones web de PROMOVILIDAD (Emisiones, UrbanCore, …) -->
+  <main id="mod-herramientas" class="view">
+    <div class="wrap">
+      <section class="card">
+        <h2 style="margin:0">Herramientas</h2>
+        <p class="muted" style="margin-top:6px">Aplicaciones desarrolladas por PROMOVILIDAD para el análisis y la planificación de la movilidad urbana.</p>
+        <div class="obs-tools">
+
+          <!-- Para agregar una herramienta: copia un bloque <a class="obs-tool"> y cambia href, ícono, título y texto -->
+          <a class="obs-tool" href="https://promovilidad-pages.github.io/emisiones/" target="_blank" rel="noopener">
+            <div class="obs-tool-head"><span class="obs-doc-ico"><i class="fa-solid fa-smog" aria-hidden="true"></i></span><span class="obs-tool-tag">Aplicación web</span></div>
+            <h3>Emisiones del transporte público</h3>
+            <p>Estima las emisiones del transporte público por ciudad con la metodología oficial del MTC, a partir de la flota reportada por los gobiernos locales.</p>
+            <span class="obs-go">Abrir herramienta <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></span>
+          </a>
+
+          <a class="obs-tool" href="https://promovilidad-pages.github.io/UrbanCore/index.html" target="_blank" rel="noopener">
+            <div class="obs-tool-head"><span class="obs-doc-ico"><i class="fa-solid fa-city" aria-hidden="true"></i></span><span class="obs-tool-tag">Suite de aplicaciones</span></div>
+            <h3>UrbanCore</h3>
+            <p>Herramientas de análisis de movilidad urbana para ciudades intermedias: aforo vehicular y peatonal (AforoCore), análisis de corredores de transporte (BusCore) y visor de red vial y rutas.</p>
+            <span class="obs-go">Abrir herramienta <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></span>
+          </a>
+
+          <div class="obs-tool is-add">
+            <span class="obs-doc-ico"><i class="fa-solid fa-plus" aria-hidden="true"></i></span>
+            <strong>Más herramientas en camino</strong>
+            <span>Aquí se irán sumando las nuevas aplicaciones.</span>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- COOPERACIÓN TÉCNICA: CIMO (infografía y videos de GIZ/PROMOVILIDAD) -->
+  <main id="mod-cooperacion" class="view">
+    <div class="wrap">
+
+      <section class="card coop-hero">
+        <span class="h-eyebrow">Cooperación técnica</span>
+        <h2><span class="coop-brand">CIMO</span> · Ciudades en movimiento</h2>
+        <p class="coop-sub">Transformando el transporte urbano y la movilidad en las ciudades del Perú</p>
+        <p class="sit-lead">CIMO apoya la implementación de la Política Nacional de Transporte Urbano (PNTU) en PROMOVILIDAD y en tres ciudades —Arequipa, Piura y Trujillo— con un enfoque en Sistemas Integrados de Transporte (SIT), a través de cuatro componentes.</p>
+        <div class="coop-support">
+          <span class="coop-support-label">Con el apoyo de</span>
+          <img src="./assets/aliados/giz.png" alt="Cooperación alemana – GIZ">
+          <img src="./assets/aliados/suiza-seco.png" alt="Embajada de Suiza en el Perú – SECO">
+        </div>
+        <div class="sit-chips"><span class="sit-chips-label">Relacionado</span><a class="sit-chip" href="#mod-sit"><i class="fa-solid fa-route" aria-hidden="true"></i>Concepto SIT</a><a class="sit-chip" href="#mod-gobernanza"><i class="fa-solid fa-handshake-angle" aria-hidden="true"></i>Asistencia técnica</a></div>
+      </section>
+
+      <section class="card">
+        <h3 class="sit-h">Cuatro componentes</h3>
+        <div class="h-obj-grid">
+          <div class="h-obj-card">
+            <span class="h-obj-icon"><i class="fa-solid fa-building-columns" aria-hidden="true"></i></span>
+            <h3>Fortalecimiento de PROMOVILIDAD</h3>
+            <p>Enfoques e instrumentos normativos y técnicos para la implementación de la PNTU.</p>
+          </div>
+          <div class="h-obj-card">
+            <span class="h-obj-icon"><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i></span>
+            <h3>Apoyo a ciudades seleccionadas</h3>
+            <p>Medidas orientadas a sistemas integrados de transporte, con perspectiva de género, en Arequipa, Piura y Trujillo.</p>
+          </div>
+          <div class="h-obj-card">
+            <span class="h-obj-icon"><i class="fa-solid fa-laptop-code" aria-hidden="true"></i></span>
+            <h3>Digitalización para la movilidad urbana</h3>
+            <p>Aprovechamiento de tecnologías digitales en la gestión de la movilidad urbana.</p>
+          </div>
+          <div class="h-obj-card">
+            <span class="h-obj-icon"><i class="fa-solid fa-bus" aria-hidden="true"></i></span>
+            <h3>Formalización de empresas de transporte</h3>
+            <p>Desarrollo de las empresas de transporte urbano hacia modelos de negocio sostenibles.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h3 class="sit-h">Resultados en cifras</h3>
+        <div class="coop-stats">
+          <div class="coop-stat"><b>7</b><span>herramientas técnicas desarrolladas para la planificación y gestión de la movilidad</span></div>
+          <div class="coop-stat"><b>11</b><span>documentos técnico-normativos con contribución de CIMO, liderados por MTC, MVCS, MEF y ATU</span></div>
+          <div class="coop-stat"><b>+300</b><span>personas capacitadas entre 2024 y 2026 en el Programa de Fortalecimiento en Movilidad y Transporte Urbano Sostenible</span></div>
+          <div class="coop-stat"><b>+50,000</b><span>personas beneficiadas con carril-bus, paraderos, entornos escolares seguros y parques temáticos</span></div>
+          <div class="coop-stat"><b>+100</b><span>inspectores municipales formados, bajo la adecuación al Reglamento Nacional de Administración de Transporte</span></div>
+          <div class="coop-stat"><b>1,400</b><span>conductores capacitados en el Protocolo contra el Acoso Sexual, además de 175 efectivos de la PNP y funcionarios municipales</span></div>
+          <div class="coop-stat"><b>+90 h</b><span>de capacitación a representantes de 15 empresas de transporte de las 3 ciudades (Rutas de Innovación)</span></div>
+          <div class="coop-stat"><b>30</b><span>ciudades del país alcanzadas por la asistencia técnica, la capacitación y el intercambio de experiencias de PROMOVILIDAD</span></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h3 class="sit-h">Resultados por componente</h3>
+        <details class="coop-det" open>
+          <summary><span class="coop-det-ico"><i class="fa-solid fa-building-columns" aria-hidden="true"></i></span><span class="coop-det-title">Fortalecimiento de PROMOVILIDAD</span><i class="fa-solid fa-chevron-down coop-chev" aria-hidden="true"></i></summary>
+          <ul class="coop-list">
+            <li><strong>Instrumentos técnicos:</strong> 7 herramientas para la planificación y gestión de la movilidad (manuales de Planes de Movilidad Urbana Sostenible, Plan Regulador de Rutas, Guía de Modelación y Metodología para la Medición de GEI, entre otras).</li>
+            <li><strong>Documentos sectoriales:</strong> contribución en la aprobación de 11 documentos técnico-normativos liderados por MTC, MVCS, MEF y ATU (guías de velocidad, conducción, entornos escolares seguros y diseño ciclovial, entre otros).</li>
+            <li><strong>Fortalecimiento de capacidades:</strong> Programa de Fortalecimiento en Movilidad y Transporte Urbano Sostenible, con más de 300 capacitados entre 2024 y 2026.</li>
+            <li><strong>Acceso a información:</strong> apoyo al desarrollo del Aula Virtual y del Portal de Datos.</li>
+          </ul>
+        </details>
+        <details class="coop-det">
+          <summary><span class="coop-det-ico"><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i></span><span class="coop-det-title">Apoyo a ciudades seleccionadas</span><i class="fa-solid fa-chevron-down coop-chev" aria-hidden="true"></i></summary>
+          <ul class="coop-list">
+            <li><strong>Análisis de brechas y hojas de ruta:</strong> análisis de brechas institucionales para Piura y hojas de ruta para mejorar la movilidad en las 3 ciudades.</li>
+            <li><strong>Recuperación del espacio público:</strong> más de 50,000 beneficiados con medidas como carril-bus, paraderos, entornos escolares seguros y parques temáticos.</li>
+            <li><strong>Gestión de los servicios:</strong> formación de más de 100 inspectores municipales, bajo la adecuación al Reglamento Nacional de Administración de Transporte.</li>
+            <li><strong>Enfoque de género:</strong> capacitación a 1,400 conductores, 175 efectivos de la PNP y funcionarios municipales en el Protocolo contra el Acoso Sexual.</li>
+            <li><strong>Presupuesto:</strong> incremento del 80% al +200% de la asignación por resultados (PP0148), orientada al fortalecimiento de la fiscalización, entre otros.</li>
+            <li><strong>Emisiones GEI:</strong> desarrollo de capacidades para técnicos de las 3 ciudades con la metodología del MTC, y una primera línea base con los datos de cada ciudad. <a class="sit-chip" href="#mod-herramientas"><i class="fa-solid fa-smog" aria-hidden="true"></i>Herramienta de emisiones</a></li>
+          </ul>
+        </details>
+        <details class="coop-det">
+          <summary><span class="coop-det-ico"><i class="fa-solid fa-laptop-code" aria-hidden="true"></i></span><span class="coop-det-title">Digitalización para la movilidad urbana</span><i class="fa-solid fa-chevron-down coop-chev" aria-hidden="true"></i></summary>
+          <ul class="coop-list">
+            <li><strong>Diagnóstico:</strong> estado de la digitalización para la gestión del transporte urbano en las ciudades y en el Programa Nacional de Transporte Urbano Sostenible.</li>
+            <li><strong>Herramientas digitales:</strong> soluciones tecnológicas a tres niveles: planificación de viajes para usuarios (Mi Ruta) y gestión operativa para empresas (Mi Flota) en Trujillo, y monitoreo de indicadores para la ciudad (Visor de Datos) en Piura.</li>
+            <li><strong>Desarrollo de capacidades:</strong> sensibilización y capacitación a los equipos de PROMOVILIDAD y de las ciudades en las herramientas digitales desarrolladas.</li>
+          </ul>
+        </details>
+        <details class="coop-det">
+          <summary><span class="coop-det-ico"><i class="fa-solid fa-bus" aria-hidden="true"></i></span><span class="coop-det-title">Formalización de empresas de transporte</span><i class="fa-solid fa-chevron-down coop-chev" aria-hidden="true"></i></summary>
+          <ul class="coop-list">
+            <li><strong>Diagnóstico de formalidad:</strong> evaluación empresarial en las ciudades para impulsar la formalización y profesionalización del sector.</li>
+            <li><strong>Modelos de negocio:</strong> desarrollo de un modelo de negocio sostenible aplicable al transporte público en las ciudades del Perú.</li>
+            <li><strong>Rutas de Innovación:</strong> programa de capacitación de más de 90 horas a representantes de 15 empresas de transporte de las 3 ciudades.</li>
+            <li><strong>Asistencia técnica especializada:</strong> acompañamiento directo a 4 empresas seleccionadas para mejorar sus condiciones operativas y organizacionales, y acompañamiento de 7 adicionales.</li>
+          </ul>
+        </details>
+      </section>
+
+      <section class="card">
+        <h3 class="sit-h">Efecto multiplicador</h3>
+        <div class="coop-mult">
+          <div class="coop-mult-card">
+            <span class="coop-mult-ico"><i class="fa-solid fa-layer-group" aria-hidden="true"></i></span>
+            <h4>Ampliación de oferta temática</h4>
+            <p>PROMOVILIDAD diversifica su asistencia técnica e incorpora nuevos enfoques (entornos escolares, género, PPR, operadores).</p>
+          </div>
+          <div class="coop-mult-card">
+            <span class="coop-mult-ico"><i class="fa-solid fa-earth-americas" aria-hidden="true"></i></span>
+            <h4>Cobertura territorial ampliada</h4>
+            <p>Extiende su alcance de asistencia técnica, capacitación e intercambio de experiencias a 30 ciudades del país.</p>
+          </div>
+          <div class="coop-mult-card">
+            <span class="coop-mult-ico"><i class="fa-solid fa-clipboard-list" aria-hidden="true"></i></span>
+            <h4>Planificación y preinversión</h4>
+            <p>Nuevos Planes de Movilidad Urbana Sostenible en Chiclayo, Juliaca y Huancayo (fondos LAIF), más 3 estudios de preinversión en infraestructura para Piura, Juliaca y Huamanga.</p>
+          </div>
+          <div class="coop-mult-card">
+            <span class="coop-mult-ico"><i class="fa-solid fa-hand-holding-dollar" aria-hidden="true"></i></span>
+            <h4>Preparación para megaproyectos</h4>
+            <p>Impulso e intermediación para inversiones de gran envergadura: apalancamiento del BRT de Trujillo (CAF/KfW) y la posibilidad de un programa de inversión con el Banco Mundial y AFD en 6 ciudades.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h3 class="sit-h">Infografía CIMO</h3>
+        <p class="coop-cap">Resume en una sola lámina la situación del transporte urbano, los ejes estratégicos de CIMO y los avances y resultados alcanzados. Haz clic en la imagen para verla en grande y recorrerla.</p>
+        <img class="coop-info-img" src="./assets/cooperacion/cimo-infografia.jpg" width="2600" height="1839" alt="Infografía CIMO: situación del transporte urbano, ejes estratégicos, avances y resultados, y efecto multiplicador" data-lightbox data-zoomable loading="lazy" decoding="async">
+      </section>
+
+      <!-- VIDEOS: se muestran solos cuando pegas el código (o el enlace) de YouTube en data-yt.
+           Para agregar otro video, copia un bloque <article class="coop-video"> y cambia data-yt, el título y la descripción. -->
+      <section class="card" id="coopVideosSection" hidden>
+        <h3 class="sit-h">Videos</h3>
+        <div class="coop-videos">
+          <article class="coop-video" data-yt="https://youtu.be/iASLDOIsEUc">
+            <div class="coop-poster">
+              <img alt="" loading="lazy" decoding="async">
+              <button type="button" class="coop-play" aria-label="Reproducir video"><i class="fa-solid fa-play" aria-hidden="true"></i></button>
+            </div>
+            <h4 class="coop-video-title">CIMO: apoyo a los gobiernos locales</h4>
+            <p class="coop-video-desc">El apoyo de CIMO a los gobiernos locales para mejorar el transporte urbano y la movilidad en las ciudades del Perú.</p>
+            <a class="coop-yt-link" href="#" target="_blank" rel="noopener">Ver en YouTube <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+          </article>
+          <article class="coop-video" data-yt="https://youtu.be/hKHU7RXi-68">
+            <div class="coop-poster">
+              <img alt="" loading="lazy" decoding="async">
+              <button type="button" class="coop-play" aria-label="Reproducir video"><i class="fa-solid fa-play" aria-hidden="true"></i></button>
+            </div>
+            <h4 class="coop-video-title">CIMO – Ciudades en movimiento | Cooperación técnica a Arequipa</h4>
+            <p class="coop-video-desc">Cooperación técnica de CIMO en la ciudad de Arequipa.</p>
+            <a class="coop-yt-link" href="#" target="_blank" rel="noopener">Ver en YouTube <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+          </article>
+          <article class="coop-video" data-yt="https://youtu.be/w0WTCUV-9YQ">
+            <div class="coop-poster">
+              <img alt="" loading="lazy" decoding="async">
+              <button type="button" class="coop-play" aria-label="Reproducir video"><i class="fa-solid fa-play" aria-hidden="true"></i></button>
+            </div>
+            <h4 class="coop-video-title">CIMO – Ciudades en movimiento | Cooperación técnica a Trujillo</h4>
+            <p class="coop-video-desc">Cooperación técnica de CIMO en la ciudad de Trujillo.</p>
+            <a class="coop-yt-link" href="#" target="_blank" rel="noopener">Ver en YouTube <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+          </article>
+        </div>
+      </section>
+
+      <p class="sit-sources"><strong>Fuente:</strong> infografía «CIMO – Ciudades en movimiento» (MTC–PROMOVILIDAD, con la cooperación alemana implementada por GIZ y la Embajada de Suiza–SECO).</p>
+    </div>
+  </main>
+
+  <!-- NOTICIAS (provisional) -->
+  <main id="mod-noticias" class="view">
+    <div class="wrap">
+      <section class="card">
+        <h2 style="margin:0">Noticias</h2>
+        <p class="muted" style="margin-top:6px">Novedades y actividades de PROMOVILIDAD.</p>
+        <div class="obs-soon">
+          <span class="obs-doc-ico"><i class="fa-solid fa-newspaper" aria-hidden="true"></i></span>
+          <strong>Sección en construcción</strong>
+          Pronto publicaremos aquí las noticias y los avances del programa.
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- MÓDULO 5: REPOSITORIO -->
+  <main id="mod-datos" class="view">
+    <div class="wrap">
+
+      <div class="toolbar">
+        <div style="display:flex;gap:8px;align-items:center">
+          <a class="btn" href="#home">◀ Atrás</a>
+        </div>
+      </div>
+
+      <section class="card">
+        <h2 style="margin:0">Repositorio</h2>
+        <p class="muted" style="margin-top:6px">
+          Repositorio de documentos técnicos para consulta y descarga.
+        </p>
+
+        <!-- pestañas por tipo -->
+        <div class="subtabs" id="repoTabs"></div>
+
+        <!-- tarjetas -->
+        <div id="repoCards" class="grid-cards"></div>
+      </section>
+
+    </div>
+  </main>
+  
+  <!-- MÓDULO 6: ASISTENCIA TÉCNICA (antes Gobernanza y cooperación) -->
+  <main id="mod-gobernanza" class="view">
+    <div class="wrap">
+      <section class="card" style="padding:20px">
+        <div id="g6Catalogo"></div>
+        <div id="g6Detalle" style="display:none"></div>
+      </section>
+    </div>
+  </main>
+
+  </div><!-- /.obs-content -->
+</div><!-- /.obs-shell -->
+
+<!-- Lightbox de los mapas del Inicio -->
+<div class="obs-lightbox" id="obsLightbox" aria-hidden="true">
+  <button type="button" class="obs-lightbox-close" id="obsLightboxClose" aria-label="Cerrar">✕</button>
+  <img id="obsLightboxImg" src="" alt="">
+  <div class="obs-lightbox-hint" id="obsLightboxHint" hidden></div>
+</div>
+
+  <!-- Lightbox mod6 -->
+  <div id="g6Lightbox" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.85);align-items:center;justify-content:center" class="">
+    <img id="g6LightboxImg" src="" alt="" style="max-width:90vw;max-height:90vh;border-radius:12px;object-fit:contain">
+  </div>
+
+</body>
+</html>
