@@ -20,7 +20,7 @@ const EJES = [
     imagen: './assets/img/imagen1.png',
     etiquetas: ['Gestión de tránsito', 'Transporte público', 'Paraderos', 'Implementación'],
     intro: `Esta iniciativa busca mejorar la movilidad urbana priorizando el transporte público de pasajeros sobre el transporte particular,
-            mediante la puesta en operación de un piloto carril bus. Consistirá en la implementación de dispositivos de control de tránsito,
+            mediante la puesta en operación de carriles preferenciales y/o exclusivos. Consistirá en la implementación de dispositivos de control de tránsito,
             señalización horizontal y vertical, así como elementos segregadores (conos, bolardos o bloques New Jersey) de requerirse, para delimitar
             el carril exclusivo para el servicio de transporte público de pasajeros.`,
     imagenes: [
@@ -43,17 +43,17 @@ const EJES = [
       nota: 'ACTUALIZAR',
       // informe: true → se resalta como entregable
       items: [
-        { hito: 'Hito 1',  actividad: 'Presentación de la AT de Piloto Carril Bus', tiempo: '1–2 semanas' },
+        { hito: 'Hito 1',  actividad: 'Presentación de la Asistencia Técnica de Piloto Carril Bus', tiempo: '1–2 semanas' },
         { hito: 'Hito 2',  actividad: 'Presentación del análisis espacial de la ciudad', tiempo: '1–3 semanas' },
         { hito: 'Hito 3',  actividad: 'Desarrollo de la tabla de criterios de selección de vías', tiempo: '1–3 semanas' },
-        { hito: 'Hito 4',  actividad: 'Definición por parte de la MPC de las vías potenciales', tiempo: '1–2 semanas' },
-        { hito: 'Hito 5',  actividad: 'Capacitación y recopilación de datos estáticos por parte del GL', tiempo: '1–2 semanas' },
+        { hito: 'Hito 4',  actividad: 'Definición por parte de la Municipalidad Provincial de las vías potenciales', tiempo: '1–2 semanas' },
+        { hito: 'Hito 5',  actividad: 'Capacitación y recopilación de datos estáticos por parte del gobierno local', tiempo: '1–2 semanas' },
         { hito: 'Hito 6',  actividad: 'Definir la vía y tramo de implementación del piloto', tiempo: '1 semana' },
         { hito: 'Hito 7',  actividad: 'Recolección de indicadores de línea base', tiempo: '1 semana' },
         { hito: 'Hito 8',  actividad: 'Informe Etapa 1', tiempo: '1–2 semanas', informe: true },
         { hito: 'Hito 9',  actividad: 'Elaboración de la propuesta técnica', tiempo: '3–4 semanas' },
         { hito: 'Hito 10', actividad: 'Informe Etapa 2', tiempo: '1–2 semanas', informe: true },
-        { hito: 'Hito 11', actividad: 'Emisión de la autorización para la implementación del piloto', tiempo: '2–4 semanas' },
+        { hito: 'Hito 11', actividad: 'Emisión de la autorización para la implementación del piloto por parte del gobierno local', tiempo: '2–4 semanas' },
         { hito: 'Hito 12', actividad: 'Ejecución de los trabajos de señalización sobre el carril bus', tiempo: '2–3 semanas' },
         { hito: 'Hito 13', actividad: 'Proceso de socialización y comunicación', tiempo: '3–6 semanas' },
         { hito: 'Hito 14', actividad: 'Puesta en operación del piloto y recolección de indicadores', tiempo: '1–2 semanas' },
