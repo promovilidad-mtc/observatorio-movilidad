@@ -143,7 +143,8 @@
         stroke: { width: 2, colors: ['#fff'] },
         dataLabels: { enabled: false },
         plotOptions: { pie: { donut: { size: cutout + '%', labels: donutLabels } } },
-        tooltip: { y: { formatter: function (v) { return fmt(v); } } }
+        // fondo blanco y texto oscuro: con el color de la porción, las porciones claras ("No") no se leían
+        tooltip: { fillSeriesColor: false, y: { formatter: function (v) { return fmt(v); } } }
       });
 
       if (typeof pv.tooltip === 'function') {

@@ -294,7 +294,8 @@
 
   <!-- MÓDULO1: INFORMACIÓN TERRITORIAL -->
   <main id="mod-info" class="view">
-    <div class="wrap">
+    <div class="wrap ti">
+      <!-- app.js sube estos controles a la barra superior -->
       <div class="toolbar">
         <div style="display:flex;gap:8px;align-items:center">
           <a class="btn" href="#home">◀ Atrás</a>
@@ -302,80 +303,64 @@
         </div>
       </div>
 
-      <div class="grid2">
-        <section class="card">
-          <h2 id="title" style="margin:0">Ciudad</h2>
+      <!-- Cabecera: ciudad + autoridades -->
+      <div class="ti-head">
+        <div class="ti-head-txt">
+          <h2 id="title">Ciudad</h2>
           <div id="meta" class="muted">—</div>
-          <div class="kpis" style="margin:12px 0 8px">
-            <div class="kpi kpi--icon">
-              <img src="./assets/mod1/icono1.PNG" class="kpi-icon" alt="distritos">
-              <div><small>N.º de distritos</small><div class="stat-big" id="kDis">—</div></div>
-            </div>
-            <div class="kpi kpi--icon">
-              <img src="./assets/mod1/icono2.PNG" class="kpi-icon" alt="población">
-              <div><small>Población</small><div class="stat-big" id="kPob">—</div></div>
-            </div>
-          </div>
-          <!-- Indicadores demográficos -->
-          <div class="panel" id="demografia" style="margin-top:8px">
-            <div class="kpi kpi--icon">
-              <img src="./assets/mod1/icono3.PNG" class="kpi-icon" alt="PEA femenina">
-              <div><small>PEA urbana Femenina</small><div class="stat-big" id="peaFem">—</div></div>
-            </div>
-            <div class="kpi kpi--icon">
-              <img src="./assets/mod1/icono4.PNG" class="kpi-icon" alt="PEA masculina">
-              <div><small>PEA urbana Masculina</small><div class="stat-big" id="peaMas">—</div></div>
-            </div>
-            <div class="kpi kpi--icon">
-              <img src="./assets/mod1/icono5.PNG" class="kpi-icon" alt="discapacidad">
-              <div><small>Personas con discapacidad</small><div class="stat-big" id="disc">—</div></div>
-            </div>
-            <div class="kpi kpi--icon">
-              <img src="./assets/mod1/icono6.PNG" class="kpi-icon" alt="adulto mayor">
-              <div><small>Personas Adulto Mayor</small><div class="stat-big" id="adultos">—</div></div>
-            </div>
-            <div class="kpi kpi--icon">
-              <img src="./assets/mod1/icono7.PNG" class="kpi-icon" alt="niños">
-              <div><small>Niños y niñas &lt; 5 años</small><div class="stat-big" id="menores">—</div></div>
-            </div>
-          </div>
-
-          <!-- Gráficos -->
-          <div class="panel">
-            <div class="card" style="padding:12px; min-height:270px"><canvas id="gaugeTotal"></canvas></div>
-            <div class="card" style="padding:12px; min-height:270px"><canvas id="gaugeMov"></canvas></div>
-          </div>
-
-          <!-- Gestión -->
-          <div class="panel" id="gestion" style="margin-bottom:0">
-          <div class="kpi">
-            <div class="kpi-head">
-              <small>Convenios suscritos</small>
-              <a class="pill mini" href="#mod-convenios" id="goConvenios">Abrir</a>
-            </div>
-            <div class="stat-big" id="convenios">—</div>
-          </div>
-
-          <div class="kpi">
-            <div class="kpi-head">
-              <small>Planes</small>
-              <a class="pill mini" href="#mod-planes" id="goPlanes">Abrir</a>
-            </div>
-            <div class="stat-big" id="planes">—</div>
-          </div>
-          </div>
-
-        </section>
-        <aside class="card">
-          <h3 style="margin-top:0">Mapa</h3>
-          <div id="map"></div>
-          <div class="autoridades">
-            <h3 style="margin-top:12px;margin-bottom:8px">Autoridades</h3>
-            <div id="autoridades"></div>
-          </div>
-        </aside>
+        </div>
+        <div id="autoridades" class="ti-aut" aria-label="Autoridades"></div>
       </div>
 
+      <!-- KPIs principales -->
+      <div class="ti-kpis">
+        <div class="ti-kpi">
+          <span class="ti-ico ti-ico--blue"><i class="fa-solid fa-users" aria-hidden="true"></i></span>
+          <div><small>Población</small><div class="stat-big" id="kPob">—</div><span class="ti-unit">habitantes</span></div>
+        </div>
+        <div class="ti-kpi">
+          <span class="ti-ico ti-ico--green"><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i></span>
+          <div><small>N.º de distritos</small><div class="stat-big" id="kDis">—</div><span class="ti-unit">distritos</span></div>
+        </div>
+        <a class="ti-kpi ti-kpi--link" href="#mod-convenios" id="goConvenios">
+          <span class="ti-ico ti-ico--purple"><i class="fa-solid fa-handshake" aria-hidden="true"></i></span>
+          <div><small>Convenios suscritos</small><div class="stat-big" id="convenios">—</div><span class="ti-unit">Ver convenios <i class="fa-solid fa-chevron-right" aria-hidden="true"></i></span></div>
+        </a>
+        <a class="ti-kpi ti-kpi--link" href="#mod-planes" id="goPlanes">
+          <span class="ti-ico ti-ico--teal"><i class="fa-solid fa-file-lines" aria-hidden="true"></i></span>
+          <div><small>Planes</small><div class="stat-big" id="planes">—</div><span class="ti-unit">Ver planes <i class="fa-solid fa-chevron-right" aria-hidden="true"></i></span></div>
+        </a>
+      </div>
+
+      <!-- Mapa grande + columna lateral -->
+      <div class="ti-main">
+        <section class="card ti-map">
+          <h3 class="ti-card-title"><i class="fa-solid fa-location-dot" aria-hidden="true"></i>Límite urbano de la ciudad</h3>
+          <div id="map"></div>
+        </section>
+
+        <aside class="ti-side">
+          <section class="card">
+            <h3 class="ti-card-title"><i class="fa-solid fa-people-group" aria-hidden="true"></i>Población y grupos</h3>
+            <div class="ti-list" id="demografia">
+              <div class="ti-row"><img src="./assets/mod1/icono3.PNG" alt=""><span>PEA urbana femenina</span><b id="peaFem">—</b></div>
+              <div class="ti-row"><img src="./assets/mod1/icono4.PNG" alt=""><span>PEA urbana masculina</span><b id="peaMas">—</b></div>
+              <div class="ti-row"><img src="./assets/mod1/icono5.PNG" alt=""><span>Personas con discapacidad</span><b id="disc">—</b></div>
+              <div class="ti-row"><img src="./assets/mod1/icono6.PNG" alt=""><span>Personas adulto mayor</span><b id="adultos">—</b></div>
+              <div class="ti-row"><img src="./assets/mod1/icono7.PNG" alt=""><span>Niños y niñas &lt; 5 años</span><b id="menores">—</b></div>
+            </div>
+          </section>
+
+          <!-- Ejecución presupuestal -->
+          <section class="card">
+            <h3 class="ti-card-title"><i class="fa-solid fa-coins" aria-hidden="true"></i>Ejecución presupuestal 2025</h3>
+            <div class="ti-charts">
+              <div><canvas id="gaugeTotal"></canvas></div>
+              <div><canvas id="gaugeMov"></canvas></div>
+            </div>
+          </section>
+        </aside>
+      </div>
     </div>
   </main>
 
@@ -523,298 +508,248 @@
         </div>
       </div>
 
-      <!-- PANE: Rutas (tu contenido actual envuelto) -->
-      <div id="paneRutas" class="tab-pane active">
-        <div class="grid2">
-          <!-- IZQUIERDA: KPIs -->
-          <section class="card">
-            <h2 id="titleOperacion" style="margin:0">Operación y Servicios de Movilidad</h2>
-            <div class="kpis" style="margin:12px 0 8px">
-            <div class="kpi">
-              <div><small>Densidad poblacional (hab/km²)</small><div class="stat-big" id="kDensidadPob">—</div></div>
-            </div>
+      <!-- PANE: Rutas / KPI -->
+      <div id="paneRutas" class="tab-pane active op-pane">
+        <div class="ti-head">
+          <div class="ti-head-txt">
+            <h2 id="titleOperacion">Operación y Servicios de Movilidad</h2>
+            <div class="muted">Indicadores de operación del transporte urbano</div>
+          </div>
+        </div>
 
-            <div class="kpi">
-              <div><small>% viajes en transporte público urbano</small><div class="stat-big" id="kPctViajesTP">—</div></div>
-            </div>
+        <div class="ti-kpis">
+          <div class="ti-kpi">
+            <span class="ti-ico ti-ico--blue"><i class="fa-solid fa-bus" aria-hidden="true"></i></span>
+            <div><small>Viajes en transporte público</small><div class="stat-big" id="kPctViajesTP">—</div><span class="ti-unit">del total de viajes urbanos</span></div>
+          </div>
+          <div class="ti-kpi">
+            <span class="ti-ico ti-ico--green"><i class="fa-solid fa-building" aria-hidden="true"></i></span>
+            <div><small>Empresas TP autorizadas</small><div class="stat-big" id="kEmpresasTPAut">—</div><span class="ti-unit">empresas</span></div>
+          </div>
+          <div class="ti-kpi">
+            <span class="ti-ico ti-ico--purple"><i class="fa-solid fa-van-shuttle" aria-hidden="true"></i></span>
+            <div><small>Flota habilitada</small><div class="stat-big" id="kFlotaHabilitada">—</div><span class="ti-unit">vehículos</span></div>
+          </div>
+          <div class="ti-kpi">
+            <span class="ti-ico ti-ico--teal"><i class="fa-solid fa-gauge-high" aria-hidden="true"></i></span>
+            <div><small>Velocidad TP hora punta</small><div class="stat-big" id="kVelocidadTP">—</div><span class="ti-unit">km/h promedio</span></div>
+          </div>
+        </div>
 
-            <div class="kpi">
-              <div><small>Empresas TP / 10k hab autorizadas</small><div class="stat-big" id="kEmpresasTP10k">—</div></div>
-            </div>
-
-            <div class="kpi">
-              <div><small>N° empresas TP autorizadas</small><div class="stat-big" id="kEmpresasTPAut">—</div></div>
-            </div>
-
-            <div class="kpi">
-              <div><small>Velocidad promedio TP hora punta (km/h)</small><div class="stat-big" id="kVelocidadTP">—</div></div>
-            </div>
-
-            <div class="kpi">
-              <div><small>Antigüedad promedio flota TP (años)</small><div class="stat-big" id="kAntiguedadFlota">—</div></div>
-            </div>
-
-            <div class="kpi">
-              <div><small>Siniestros viales (/10,000 hab)</small><div class="stat-big" id="kSiniestrosViales">—</div></div>
-            </div>
-
-            <div class="kpi">
-              <div><small>Densidad semafórica (intersec./km²)</small><div class="stat-big" id="kDensidadSem">—</div></div>
-            </div>
-
-            <div class="kpi">
-              <div><small>Tasa de motorización autos (/10,000 hab)</small><div class="stat-big" id="kTasaMotorizacion">—</div></div>
-            </div>
-
-            <div class="kpi">
-              <div><small>Total de la flota habilitada</small><div class="stat-big" id="kFlotaHabilitada">—</div></div>
-            </div>
-
-            <div class="kpi">
-              <div><small>Km de infraestructura ciclista</small><div class="stat-big" id="kKmCiclovias">—</div></div>
-            </div>
-            </div>
+        <div class="ti-main">
+          <section class="card ti-map">
+            <h3 class="ti-card-title"><i class="fa-solid fa-route" aria-hidden="true"></i>Rutas de transporte público</h3>
+            <div id="mapOperacion" class="ti-mapbox"></div>
           </section>
 
-          <!-- DERECHA: MAPA -->
-          <aside class="card">
-            <h3 style="margin-top:0">Mapa (rutas)</h3>
-            <div id="mapOperacion" style="height:360px;border:1px solid var(--ring);border-radius:12px"></div>
+          <aside class="ti-side">
+            <section class="card">
+              <h3 class="ti-card-title"><i class="fa-solid fa-chart-simple" aria-hidden="true"></i>Indicadores de movilidad</h3>
+              <div class="ti-list">
+                <div class="ti-row"><i class="fa-solid fa-users" aria-hidden="true"></i><span>Densidad poblacional <em>hab/km²</em></span><b id="kDensidadPob">—</b></div>
+                <div class="ti-row"><i class="fa-solid fa-building-user" aria-hidden="true"></i><span>Empresas TP <em>por 10 000 hab</em></span><b id="kEmpresasTP10k">—</b></div>
+                <div class="ti-row"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i><span>Antigüedad de la flota TP <em>años</em></span><b id="kAntiguedadFlota">—</b></div>
+                <div class="ti-row"><i class="fa-solid fa-car-burst" aria-hidden="true"></i><span>Siniestros viales <em>por 10 000 hab</em></span><b id="kSiniestrosViales">—</b></div>
+                <div class="ti-row"><i class="fa-solid fa-traffic-light" aria-hidden="true"></i><span>Densidad semafórica <em>intersec./km²</em></span><b id="kDensidadSem">—</b></div>
+                <div class="ti-row"><i class="fa-solid fa-car" aria-hidden="true"></i><span>Tasa de motorización <em>autos por 10 000 hab</em></span><b id="kTasaMotorizacion">—</b></div>
+                <div class="ti-row"><i class="fa-solid fa-bicycle" aria-hidden="true"></i><span>Infraestructura ciclista <em>km</em></span><b id="kKmCiclovias">—</b></div>
+              </div>
+            </section>
           </aside>
         </div>
       </div><!-- /paneRutas -->
 
-      <!-- PANE: Siniestros (nuevo) -->
-      <div id="paneSiniestros" class="tab-pane" style="display:none">
-        <div class="grid2">
-          <!-- IZQUIERDA: KPIs -->
-          <section class="card">
-            <h2 style="margin:0">Siniestros</h2>
-            <div class="kpis" style="margin:12px 0 8px">
-              <div class="kpi kpi--icon">
-                <img src="./assets/mod4-siniestros/icono1.PNG" class="kpi-icon" alt="total siniestros">
-                <div><small>Total siniestros</small><div class="stat-big" id="kSin">—</div></div>
-              </div>
-              <div class="kpi kpi--icon">
-                <img src="./assets/mod4-siniestros/icono2.PNG" class="kpi-icon" alt="fallecidos">
-                <div><small>Fallecidos</small><div class="stat-big" id="kFal">—</div></div>
-              </div>
+      <!-- PANE: Siniestros -->
+      <div id="paneSiniestros" class="tab-pane op-pane" style="display:none">
+        <div class="ti-kpis">
+          <div class="ti-kpi">
+            <span class="ti-ico ti-ico--orange"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i></span>
+            <div><small>Total siniestros</small><div class="stat-big" id="kSin">—</div><span class="ti-unit">registrados</span></div>
+          </div>
+          <div class="ti-kpi">
+            <span class="ti-ico ti-ico--red"><i class="fa-solid fa-heart-crack" aria-hidden="true"></i></span>
+            <div><small>Fallecidos</small><div class="stat-big" id="kFal">—</div><span class="ti-unit">personas</span></div>
+          </div>
+          <div class="ti-kpi">
+            <span class="ti-ico ti-ico--purple"><i class="fa-solid fa-user-injured" aria-hidden="true"></i></span>
+            <div><small>Lesionados</small><div class="stat-big" id="kLes">—</div><span class="ti-unit">personas</span></div>
+          </div>
+          <div class="ti-kpi">
+            <span class="ti-ico ti-ico--blue"><i class="fa-solid fa-car-burst" aria-hidden="true"></i></span>
+            <div><small>Vehículos dañados</small><div class="stat-big" id="kVeh">—</div><span class="ti-unit">vehículos</span></div>
+          </div>
+        </div>
 
-              <div class="kpi kpi--icon">
-                <img src="./assets/mod4-siniestros/icono3.PNG" class="kpi-icon" alt="lesionados">
-                <div><small>Lesionados</small><div class="stat-big" id="kLes">—</div></div>
-              </div>
-              <div class="kpi kpi--icon">
-                <img src="./assets/mod4-siniestros/icono3.PNG" class="kpi-icon" alt="vehiculos danados">
-                <div><small>Vehículos dañados</small><div class="stat-big" id="kVeh">—</div></div>
-              </div>
-            </div>
-            <!-- Gráficas de siniestros -->
-            <div class="panel" style="margin-top:8px">
-              <div class="card" style="padding:12px">
-                <h4 style="margin:0 0 6px">Distribución por zona</h4>
-                <canvas id="sinTipoChart" height="180"></canvas>
-              </div>
-              <div class="card" style="padding:12px">
-                <h4 style="margin:0 0 6px">Clase de siniestro</h4>
-                <canvas id="sinClaseChart" height="180"></canvas>
-              </div>
-              <div class="card" style="padding:12px">
-                <h4 style="margin:0 0 6px">Evolución por fecha</h4>
-                <canvas id="sinEvoChart" height="180"></canvas>
-              </div>
-            </div>
+        <div class="ti-main">
+          <section class="card ti-map">
+            <h3 class="ti-card-title"><i class="fa-solid fa-location-dot" aria-hidden="true"></i>Mapa de siniestros</h3>
+            <div id="mapSiniestros" class="ti-mapbox"></div>
           </section>
 
-          <!-- DERECHA: MAPA -->
-          <aside class="card">
-            <h3 style="margin-top:0">Mapa (siniestros)</h3>
-            <div id="mapSiniestros" style="height:360px;border:1px solid var(--ring);border-radius:12px"></div>
+          <aside class="ti-side">
+            <section class="card">
+              <h3 class="ti-card-title"><i class="fa-solid fa-chart-pie" aria-hidden="true"></i>Distribución por zona</h3>
+              <canvas id="sinTipoChart" height="180"></canvas>
+            </section>
+            <section class="card">
+              <h3 class="ti-card-title"><i class="fa-solid fa-chart-bar" aria-hidden="true"></i>Clase de siniestro</h3>
+              <canvas id="sinClaseChart" height="180"></canvas>
+            </section>
           </aside>
         </div>
+
+        <section class="card">
+          <h3 class="ti-card-title"><i class="fa-solid fa-chart-line" aria-hidden="true"></i>Evolución por fecha</h3>
+          <canvas id="sinEvoChart" height="180"></canvas>
+        </section>
       </div><!-- /paneSiniestros -->
 
       <!-- PANE: Acoso (GIZ) -->
-      <div id="paneAcoso" class="tab-pane" style="display:none">
+      <div id="paneAcoso" class="tab-pane op-pane" style="display:none">
+        <div class="ti-head">
+          <div class="ti-head-txt">
+            <h2>Acoso en el transporte público</h2>
+            <div class="muted">Encuesta de percepción · Cooperación alemana (GIZ)</div>
+          </div>
+        </div>
+
+        <div id="acoMsgNoData" class="op-nodata" style="display:none">
+          <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+          <div>Esta ciudad no cuenta con información de Acoso GIZ.<br><b>Selecciona: Trujillo, Arequipa o Piura.</b></div>
+        </div>
+
+        <div class="ti-kpis">
+          <div class="ti-kpi">
+            <span class="ti-ico ti-ico--blue"><i class="fa-solid fa-clipboard-list" aria-hidden="true"></i></span>
+            <div><small>Total encuestas</small><div class="stat-big" id="kAcoN">—</div><span class="ti-unit">personas encuestadas</span></div>
+          </div>
+          <div class="ti-kpi">
+            <span class="ti-ico ti-ico--purple"><i class="fa-solid fa-volume-xmark" aria-hidden="true"></i></span>
+            <div><small>Silencio ante el acoso</small><div class="stat-big" id="kAcoSilencio">—</div><span class="ti-unit">de víctimas no denunció</span></div>
+          </div>
+          <div class="ti-kpi">
+            <span class="ti-ico ti-ico--teal"><i class="fa-solid fa-bullhorn" aria-hidden="true"></i></span>
+            <div><small>Denunció el hecho</small><div class="stat-big" id="kAcoDenuncio">—</div><span class="ti-unit">de víctimas denunció</span></div>
+          </div>
+          <div class="ti-kpi">
+            <span class="ti-ico ti-ico--orange"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i></span>
+            <div><small>Riesgo percibido</small><div class="stat-big" id="kAcoRiesgo">—</div><span class="ti-unit">promedio, escala 1–5</span></div>
+          </div>
+        </div>
+
+        <div class="op-grid4">
+          <section class="card">
+            <h3 class="ti-card-title op-q">¿Ha sufrido acoso?</h3>
+            <canvas id="acoVictimaChart" height="90"></canvas>
+          </section>
+          <section class="card">
+            <h3 class="ti-card-title op-q">¿Denunció el hecho? <em>solo víctimas</em></h3>
+            <canvas id="acoDenuncioChart" height="90"></canvas>
+          </section>
+          <section class="card">
+            <h3 class="ti-card-title op-q">¿Vio información sobre prevención o atención?</h3>
+            <canvas id="acoInfoChart" height="90"></canvas>
+          </section>
+          <section class="card">
+            <h3 class="ti-card-title op-q">¿Participó en campañas o acciones?</h3>
+            <canvas id="acoCampaniaChart" height="90"></canvas>
+          </section>
+        </div>
+
         <section class="card">
-          <h2 style="margin:0 0 12px">Acoso en el transporte público (GIZ)</h2>
-            <div id="acoMsgNoData" class="card" style="display:none;margin-bottom:12px">
-              <div class="muted">
-                Esta ciudad no cuenta con información de Acoso GIZ.<br>
-                <b>Selecciona: Trujillo, Arequipa o Piura.</b>
-              </div>
-            </div>
-
-          <!-- 4 columnas: KPI + donut cada una -->
-          <div class="aco-grid">
-
-            <div class="aco-col">
-              <!-- Total encuestas -->
-              <div class="kpi kpi--icon">
-                <img src="./assets/mod4-acoso/icono1.PNG" class="kpi-icon" alt="encuestas">
-                <div><small>Total encuestas</small><div class="stat-big" id="kAcoN">—</div></div>
-              </div>
-              <div class="card aco-chart-card">
-                <h4>¿Ha sufrido acoso?</h4>
-                <canvas id="acoVictimaChart" height="90"></canvas>
-              </div>
-            </div>
-
-            <div class="aco-col">
-              <!-- Silencio -->
-              <div class="kpi kpi--icon">
-                <img src="./assets/mod4-acoso/icono2.PNG" class="kpi-icon" alt="silencio">
-                <div><small>Silencio ante el acoso</small><div class="stat-big" id="kAcoSilencio">—</div></div>
-              </div>
-              <div class="card aco-chart-card">
-                <h4>¿Denunció el hecho? (solo entre víctimas)</h4>
-                <canvas id="acoDenuncioChart" height="90"></canvas>
-              </div>
-            </div>
-
-            <div class="aco-col">
-              <!-- Denunció -->
-              <div class="kpi kpi--icon">
-                <img src="./assets/mod4-acoso/icono3.PNG" class="kpi-icon" alt="denuncia">
-                <div><small>% denunció (entre víctimas)</small><div class="stat-big" id="kAcoDenuncio">—</div></div>
-              </div>
-              <div class="card aco-chart-card">
-                <h4>¿Vio información sobre prevención/atención?</h4>
-                <canvas id="acoInfoChart" height="90"></canvas>
-              </div>
-            </div>
-
-            <div class="aco-col">
-            <!-- Riesgo -->
-            <div class="kpi kpi--icon">
-              <img src="./assets/mod4-acoso/icono4.PNG" class="kpi-icon" alt="riesgo">
-              <div><small>Riesgo promedio</small><div class="stat-big" id="kAcoRiesgo">—</div></div>
-            </div>
-              <div class="card aco-chart-card">
-                <h4>¿Participó en campañas o acciones?</h4>
-                <canvas id="acoCampaniaChart" height="90"></canvas>
-              </div>
-            </div>
-
-          </div>
-
-          <!-- Tipos de acoso sufrido (P19) -->
-          <div class="card aco-chart-card" style="margin-top:12px">
-            <h4>Tipos de acoso sufrido (entre víctimas)</h4>
-            <div class="chartBox">
-              <canvas id="acoTiposChart"></canvas>
-            </div>
-          </div>
-
-          <!-- Motivos por los que no denunció (P27) -->
-          <div class="card aco-chart-card" style="margin-top:12px">
-            <h4>Motivos por los que no denunció</h4>
-            <div class="chartBox">
-              <canvas id="acoMotivosChart"></canvas>
-            </div>
-          </div>
-
-          <!-- Percepción del sistema (P28/P29) -->
-          <div class="aco-grid-2" style="margin-top:12px">
-            <div class="card aco-chart-card" style="text-align:center">
-              <h4>Medidas de seguridad brindadas</h4>
-              <div class="stat-big" id="kAcoSeguridad">—</div>
-              <small class="muted">Escala 1–5</small>
-            </div>
-            <div class="card aco-chart-card" style="text-align:center">
-              <h4>Atención a víctimas</h4>
-              <div class="stat-big" id="kAcoAtencion">—</div>
-              <small class="muted">Escala 1–5</small>
-            </div>
-          </div>
-
-          <!-- Resumen abajo -->
-          <div class="card" style="padding:12px;margin-top:12px">
-            <h4 style="margin:0 0 6px">Resumen rápido</h4>
-            <div id="acoResumen" class="muted">—</div>
-          </div>
-
+          <h3 class="ti-card-title"><i class="fa-solid fa-chart-bar" aria-hidden="true"></i>Tipos de acoso sufrido <em>entre víctimas</em></h3>
+          <div class="chartBox"><canvas id="acoTiposChart"></canvas></div>
         </section>
+
+        <section class="card">
+          <h3 class="ti-card-title"><i class="fa-solid fa-comment-slash" aria-hidden="true"></i>Motivos por los que no denunció</h3>
+          <div class="chartBox"><canvas id="acoMotivosChart"></canvas></div>
+        </section>
+
+        <div class="op-percep">
+          <div class="op-percep-kpis">
+            <div class="ti-kpi">
+              <span class="ti-ico ti-ico--blue"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></span>
+              <div><small>Medidas de seguridad brindadas</small><div class="stat-big" id="kAcoSeguridad">—</div><span class="ti-unit">escala 1–5</span></div>
+            </div>
+            <div class="ti-kpi">
+              <span class="ti-ico ti-ico--red"><i class="fa-solid fa-hand-holding-heart" aria-hidden="true"></i></span>
+              <div><small>Atención a víctimas</small><div class="stat-big" id="kAcoAtencion">—</div><span class="ti-unit">escala 1–5</span></div>
+            </div>
+          </div>
+          <section class="card">
+            <h3 class="ti-card-title"><i class="fa-solid fa-list-check" aria-hidden="true"></i>Resumen rápido</h3>
+            <div id="acoResumen" class="op-resumen">—</div>
+          </section>
+        </div>
       </div>
 
       <!-- PANE: GEI -->
-      <div id="paneGEI" class="tab-pane" style="display:none">
-        <section class="card">
-          <h2 style="margin:0">Emisiones GEI del Transporte Urbano</h2>
-
-          <div id="geiMsgNoData" class="card" style="display:none;margin-bottom:12px">
-            <div class="muted">
-              Esta ciudad no cuenta con información GEI.<br>
-              <b>Selecciona: Trujillo, Arequipa o Piura.</b>
-            </div>
+      <div id="paneGEI" class="tab-pane op-pane" style="display:none">
+        <div class="ti-head">
+          <div class="ti-head-txt">
+            <h2>Emisiones GEI del transporte urbano</h2>
+            <div class="muted">Gases de efecto invernadero y contaminantes de la flota de transporte público</div>
           </div>
+        </div>
 
-          <div class="kpis" style="margin:12px 0;grid-template-columns:repeat(4,1fr)">
-            <div class="kpi kpi--icon">
-              <img src="./assets/mod4-gei/icono1.PNG" class="kpi-icon" alt="GEI CO2">
-              <div><small>GEI (tCO₂eq/año)</small><div class="stat-big" id="kGeiCO2">—</div></div>
-            </div>
-            <div class="kpi kpi--icon">
-              <img src="./assets/mod4-gei/icono2.PNG" class="kpi-icon" alt="PM2.5">
-              <div><small>PM₂.5 (t/año)</small><div class="stat-big" id="kGeiPM">—</div></div>
-            </div>
-            <div class="kpi kpi--icon">
-              <img src="./assets/mod4-gei/icono3.PNG" class="kpi-icon" alt="árboles">
-              <div><small>Árboles equivalentes</small><div class="stat-big" id="kGeiTrees">—</div></div>
-            </div>
-            <div class="kpi kpi--icon">
-              <img src="./assets/mod4-gei/icono4.PNG" class="kpi-icon" alt="empresas">
-              <div><small>Empresas de transporte</small><div class="stat-big" id="kGeiEmpresas">—</div></div>
-            </div>
-            <div class="kpi kpi--icon">
-              <img src="./assets/mod4-gei/icono5.PNG" class="kpi-icon" alt="vehículos">
-              <div><small>Total de vehículos</small><div class="stat-big" id="kGeiVehiculos">—</div></div>
-            </div>
-            <div class="kpi kpi--icon">
-              <img src="./assets/mod4-gei/icono6.PNG" class="kpi-icon" alt="distancia">
-              <div><small>Distancia promedio anual (km)</small><div class="stat-big" id="kGeiDistancia">—</div></div>
-            </div>
-            <div class="kpi kpi--icon" style="grid-column:span 2">
-              <img src="./assets/mod4-gei/icono7.PNG" class="kpi-icon" alt="combustibles">
-              <div><small>Combustibles utilizados</small><div class="stat-big" id="kGeiCombustibles" style="font-size:18px">—</div></div>
-            </div>
+        <div id="geiMsgNoData" class="op-nodata" style="display:none">
+          <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+          <div>Esta ciudad no cuenta con información GEI.<br><b>Selecciona: Trujillo, Arequipa o Piura.</b></div>
+        </div>
+
+        <div class="ti-kpis">
+          <div class="ti-kpi">
+            <span class="ti-ico ti-ico--teal"><i class="fa-solid fa-smog" aria-hidden="true"></i></span>
+            <div><small>Emisiones GEI</small><div class="stat-big" id="kGeiCO2">—</div><span class="ti-unit">tCO₂eq / año</span></div>
           </div>
-
-          <div class="panel">
-            <div class="card" style="padding:12px">
-              <h4>Emisiones GEI por ciudad</h4>
-              <canvas id="geiBarChart" height="160"></canvas>
-            </div>
-
-            <div class="card" style="padding:12px">
-              <h4>Composición de flota</h4>
-              <canvas id="geiFleetChart" height="160"></canvas>
-            </div>
+          <div class="ti-kpi">
+            <span class="ti-ico ti-ico--orange"><i class="fa-solid fa-wind" aria-hidden="true"></i></span>
+            <div><small>Material particulado PM₂.₅</small><div class="stat-big" id="kGeiPM">—</div><span class="ti-unit">t / año</span></div>
           </div>
-        </section>
+          <div class="ti-kpi">
+            <span class="ti-ico ti-ico--green"><i class="fa-solid fa-tree" aria-hidden="true"></i></span>
+            <div><small>Árboles equivalentes</small><div class="stat-big" id="kGeiTrees">—</div><span class="ti-unit">para compensar las emisiones</span></div>
+          </div>
+          <div class="ti-kpi">
+            <span class="ti-ico ti-ico--blue"><i class="fa-solid fa-bus" aria-hidden="true"></i></span>
+            <div><small>Total de vehículos</small><div class="stat-big" id="kGeiVehiculos">—</div><span class="ti-unit">flota evaluada</span></div>
+          </div>
+        </div>
+
+        <div class="op-gei-row">
+          <section class="card">
+            <h3 class="ti-card-title"><i class="fa-solid fa-chart-column" aria-hidden="true"></i>Emisiones GEI por ciudad</h3>
+            <canvas id="geiBarChart" height="160"></canvas>
+          </section>
+          <section class="card">
+            <h3 class="ti-card-title"><i class="fa-solid fa-chart-pie" aria-hidden="true"></i>Composición de flota</h3>
+            <canvas id="geiFleetChart" height="160"></canvas>
+          </section>
+          <section class="card">
+            <h3 class="ti-card-title"><i class="fa-solid fa-gears" aria-hidden="true"></i>Flota y operación</h3>
+            <div class="ti-list">
+              <div class="ti-row"><i class="fa-solid fa-building" aria-hidden="true"></i><span>Empresas de transporte</span><b id="kGeiEmpresas">—</b></div>
+              <div class="ti-row"><i class="fa-solid fa-road" aria-hidden="true"></i><span>Distancia promedio anual <em>km por vehículo</em></span><b id="kGeiDistancia">—</b></div>
+              <div class="ti-row ti-row--stack"><i class="fa-solid fa-gas-pump" aria-hidden="true"></i><span>Combustibles utilizados</span><b id="kGeiCombustibles">—</b></div>
+            </div>
+          </section>
+        </div>
       </div><!-- /paneGEI -->
 
     <!-- PANE: Semáforos -->
-    <div id="paneSemaforos" class="tab-pane" style="display:none">
-      <div class="grid2">
-        <section class="card">
-          <h2 style="margin:0">Semáforos</h2>
-
-          <div class="kpis" style="margin:12px 0 8px">
-            <div class="kpi kpi--icon">
-              <img src="./assets/mod4-semaforos/icono1.PNG" class="kpi-icon" alt="semáforos">
-              <div><small>Total semáforos</small><div class="stat-big" id="kSemTotal">—</div></div>
-            </div>
-          </div>
-
-          <div class="muted" id="semMsg">Selecciona una ciudad para cargar los semáforos.</div>
-        </section>
-
-        <aside class="card">
-          <h3 style="margin-top:0">Mapa (semáforos)</h3>
-          <div id="mapSemaforos" style="height:360px;border:1px solid var(--ring);border-radius:12px"></div>
-        </aside>
+    <div id="paneSemaforos" class="tab-pane op-pane" style="display:none">
+      <div class="ti-kpis">
+        <div class="ti-kpi">
+          <span class="ti-ico ti-ico--green"><i class="fa-solid fa-traffic-light" aria-hidden="true"></i></span>
+          <div><small>Total semáforos</small><div class="stat-big" id="kSemTotal">—</div><span class="ti-unit" id="semMsg">Selecciona una ciudad para cargar los semáforos.</span></div>
+        </div>
       </div>
+
+      <section class="card ti-map">
+        <h3 class="ti-card-title"><i class="fa-solid fa-location-dot" aria-hidden="true"></i>Intersecciones semaforizadas</h3>
+        <div id="mapSemaforos" class="ti-mapbox ti-mapbox--wide"></div>
+      </section>
     </div>
 
 

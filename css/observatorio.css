@@ -453,6 +453,12 @@
   box-shadow: 0 8px 22px rgba(16,28,46,.14) !important; background:#fff !important; color: var(--ink);
 }
 .pv-apex .apexcharts-tooltip-title{ background: rgba(22,35,63,.05) !important; border-bottom:1px solid var(--ring) !important; font-weight:700; }
+/* en tortas Apex pone el texto en blanco; lo forzamos oscuro sobre el fondo blanco */
+.pv-apex .apexcharts-tooltip,
+.pv-apex .apexcharts-tooltip-text,
+.pv-apex .apexcharts-tooltip-text-y-label,
+.pv-apex .apexcharts-tooltip-text-y-value{ color: var(--ink) !important; }
+.pv-apex .apexcharts-tooltip-series-group{ background: transparent !important; }
 .pv-tip{ padding:9px 12px; font-size:12px; line-height:1.6; color: var(--ink); white-space:nowrap; }
 .pv-apex .apexcharts-legend-text{ font-weight:500; }
 .pv-title{ font-size:13px; font-weight:600; color: var(--ink); text-align:center; line-height:1.3; margin:0 0 6px; }
@@ -503,7 +509,7 @@
   transition: background .15s ease, color .15s ease;
 }
 .sit-chip i{ font-size:11px; }
-.sit-chip:hover{ background: var(--navy); color:#fff; }
+a.sit-chip:hover, button.sit-chip:hover{ background: var(--navy); color:#fff; }
 @keyframes sitIn{ from{ opacity:0; transform: translateY(12px); } to{ opacity:1; transform:none; } }
 @media (prefers-reduced-motion: reduce){ .sit-step{ animation:none; } }
 
@@ -556,7 +562,7 @@ a.obs-tool:hover{ transform: translateY(-3px); box-shadow: 0 10px 26px rgba(22,3
 #mod-cooperacion [hidden]{ display:none !important; }
 .coop-hero h2{ margin:6px 0 4px; font-size: clamp(22px, 2.4vw, 30px); line-height:1.2; }
 .coop-brand{ color: var(--red); font-weight:800; letter-spacing:-.01em; }
-.coop-sub{ margin:0 0 14px; font-size:17px; color: var(--navy); font-weight:600; }
+.coop-sub{ margin:0 0 14px; max-width:60ch; line-height:1.4; font-size:17px; color: var(--navy); font-weight:600; }
 .coop-support{ display:flex; align-items:center; flex-wrap:wrap; gap:12px 28px; margin:16px 0 14px; }
 .coop-support-label{ font-size:11px; font-weight:700; letter-spacing:.07em; text-transform:uppercase; color: var(--muted); }
 .coop-support img{ height:46px; width:auto; max-width:230px; object-fit:contain; }
@@ -832,3 +838,163 @@ a.g6-doc:hover .g6-doc-go{ color: var(--red); }
   .g6-hero-ico{ width:44px; height:44px; font-size:18px; }
 }
 
+
+/* ===================== INDICADORES · INFORMACIÓN TERRITORIAL =====================
+   Rediseño: KPIs grandes arriba, mapa protagonista a la izquierda y listas a la
+   derecha. Prefijo ti-. Los id que usa mod1.js no cambian. */
+#mod-info .ti{ display:flex; flex-direction:column; gap:14px; min-width:0; }
+#mod-info .ti > *{ min-width:0; }
+
+.ti-head{
+  display:flex; align-items:flex-end; justify-content:space-between; gap:16px; flex-wrap:wrap;
+  padding-bottom:12px; border-bottom:1px solid var(--ring);
+}
+.ti-head h2{ margin:0; font-size:clamp(20px, 1.7vw, 26px); color:var(--navy); line-height:1.15; }
+.ti-head h2::after{ content:""; display:block; width:48px; height:4px; border-radius:2px; background:var(--red); margin:6px 0 4px; }
+.ti-head #meta{ font-size:14px; }
+
+/* KPIs */
+.ti-kpis{ display:grid; gap:14px; grid-template-columns:repeat(4, minmax(0, 1fr)); }
+.ti-kpi{
+  display:flex; align-items:center; gap:16px;
+  background:var(--card); border:1px solid var(--ring); border-radius:var(--radius);
+  padding:12px 16px; box-shadow:var(--shadow2); color:inherit;
+}
+.ti-kpi small{ display:block; font-weight:700; color:var(--ink); font-size:14px; }
+.ti-kpi .stat-big{ font-size:28px; line-height:1.15; margin:2px 0; }
+.ti-unit{ font-size:13px; color:var(--muted); }
+.ti-kpi--link{ transition:transform .14s ease, box-shadow .14s ease, border-color .14s ease; }
+.ti-kpi--link:hover{ transform:translateY(-2px); box-shadow:var(--shadow); border-color:rgba(22,35,63,.24); }
+.ti-kpi--link .ti-unit{ color:var(--grad-b); font-weight:600; }
+.ti-kpi--link .ti-unit i{ font-size:10px; }
+
+.ti-ico{
+  flex:0 0 auto; width:48px; height:48px; border-radius:50%;
+  display:grid; place-items:center; color:#fff; font-size:19px;
+}
+.ti-ico--blue  { background:#2563eb; }
+.ti-ico--green { background:#16a34a; }
+.ti-ico--purple{ background:#6d4bd8; }
+.ti-ico--teal  { background:#0f9488; }
+
+/* Mapa + columna lateral */
+.ti-main{ display:grid; gap:16px; grid-template-columns:minmax(0, 2fr) minmax(300px, 1fr); align-items:stretch; }
+.ti-side{ display:flex; flex-direction:column; gap:14px; }
+#mod-info .ti-side .card{ padding:12px 14px; }
+.ti-card-title{
+  display:flex; align-items:center; gap:10px;
+  margin:0 0 8px; font-size:17px; color:var(--navy);
+}
+.ti-card-title i{ color:var(--navy); }
+.ti-map{ display:flex; flex-direction:column; }
+/* el mapa se estira hasta el alto de la columna derecha */
+#mod-info .ti-map #map{ flex:1 1 auto; height:auto; min-height:420px; box-shadow:none; }
+
+.ti-list{ display:flex; flex-direction:column; }
+.ti-row{
+  display:flex; align-items:center; gap:12px;
+  padding:6px 4px; border-bottom:1px solid rgba(16,28,46,.07);
+}
+.ti-row:last-child{ border-bottom:0; }
+.ti-row img{ width:26px; height:26px; object-fit:contain; flex:0 0 auto; }
+.ti-row span{ flex:1 1 auto; font-size:14px; }
+.ti-row b{ font-size:18px; color:var(--navy); font-variant-numeric:tabular-nums; }
+
+/* Autoridades: tarjetas tipo KPI a la derecha de la cabecera.
+   mod1.js crea .autor-card > .cargo + .nombre; el ícono va por CSS. */
+.ti-aut{ display:flex; flex-wrap:wrap; justify-content:flex-end; gap:10px; }
+.ti-aut .autor-card{
+  display:grid; grid-template-columns:auto 1fr; column-gap:12px; align-items:center;
+  margin:0; padding:8px 16px 8px 10px;
+  background:var(--card); border:1px solid var(--ring); border-radius:var(--radius);
+  box-shadow:var(--shadow2);
+}
+.ti-aut .autor-card::before{
+  grid-row:1 / span 2;
+  width:38px; height:38px; border-radius:50%;
+  display:grid; place-items:center;
+  font:900 15px/1 "Font Awesome 6 Free";
+  content:"\f508";                      /* fa-user-tie: alcalde */
+  color:#fff; background:var(--navy);
+}
+.ti-aut .autor-card + .autor-card::before{
+  content:"\f207";                      /* fa-bus: gerencia de transporte */
+  background:var(--red);
+}
+.ti-aut .autor-card .cargo{
+  font-size:11px; font-weight:600; letter-spacing:.03em; color:var(--muted);
+  margin:0; text-transform:uppercase;
+}
+.ti-aut .autor-card .nombre{ font-size:14px; font-weight:700; color:var(--ink); text-transform:capitalize; }
+
+/* Gráficos de ejecución presupuestal (dentro de la columna derecha) */
+.ti-charts{ display:grid; gap:8px; grid-template-columns:repeat(2, minmax(0, 1fr)); }
+
+@media (max-width:1200px){
+  .ti-kpis{ grid-template-columns:repeat(2, minmax(0, 1fr)); }
+  .ti-main{ grid-template-columns:minmax(0, 1fr); }
+  .ti-side{ display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width:720px){
+  .ti-kpis, .ti-side{ grid-template-columns:minmax(0, 1fr); }
+  .ti-aut{ justify-content:flex-start; }
+  #mod-info .ti-map #map{ min-height:360px; }
+}
+
+/* ===================== INDICADORES · OPERACIÓN Y SERVICIOS =====================
+   Mismo estilo que Información territorial (clases ti-). Las pestañas con mapa
+   (KPI, Siniestros, Semáforos) usan .op-pane. mod4.js muestra/oculta cada pane
+   con style.display, por eso aquí solo se define el layout cuando está visible. */
+.op-pane{ display:flex; flex-direction:column; gap:14px; min-width:0; }
+.op-pane > *{ min-width:0; }
+#mod-operacion .ti-kpi .stat-big{ font-size:28px; }
+
+.ti-ico--orange{ background:#ea8a0c; }
+.ti-ico--red   { background:var(--red); }
+
+/* Contenedor de mapa: se estira al alto de la columna derecha */
+.ti-mapbox{
+  flex:1 1 auto; min-height:420px;
+  border:1px solid var(--ring); border-radius:var(--radius-sm); overflow:hidden;
+}
+.ti-mapbox--wide{ min-height:clamp(420px, 64vh, 720px); }
+
+/* Filas con ícono Font Awesome y unidad debajo del nombre */
+.ti-row > i{ width:26px; flex:0 0 auto; text-align:center; color:var(--navy); font-size:16px; }
+.ti-row em{ display:block; font-style:normal; font-size:12px; color:var(--muted); }
+
+/* ----- Acoso y GEI ----- */
+.ti-card-title em{ font-style:normal; font-weight:500; font-size:13px; color:var(--muted); }
+.ti-card-title.op-q{ font-size:14px; line-height:1.3; min-height:2.6em; align-items:flex-start; }
+
+/* Aviso "esta ciudad no tiene datos". mod4.js lo muestra con display:block,
+   por eso el ícono va posicionado y no con flex. */
+.op-nodata{
+  position:relative;
+  padding:12px 16px 12px 50px; border-radius:var(--radius-sm);
+  background:#eef4ff; border:1px solid #c9dafc; color:var(--ink); font-size:14px;
+}
+.op-nodata > i{ position:absolute; left:18px; top:50%; transform:translateY(-50%); color:#2563eb; font-size:20px; }
+
+.op-grid4{ display:grid; gap:14px; grid-template-columns:repeat(4, minmax(0, 1fr)); }
+
+/* Percepción: 2 KPI apilados + resumen */
+.op-percep{ display:grid; gap:14px; grid-template-columns:minmax(0, 1fr) minmax(0, 2fr); }
+.op-percep-kpis{ display:flex; flex-direction:column; gap:14px; }
+.op-percep-kpis .ti-kpi{ flex:1 1 auto; }
+.op-resumen{ font-size:14px; line-height:1.7; }
+.op-resumen b, .op-resumen strong{ color:var(--navy); }
+
+/* GEI: barras | donut | lista */
+.op-gei-row{ display:grid; gap:14px; grid-template-columns:minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1fr); }
+.ti-row--stack{ flex-wrap:wrap; }
+.ti-row--stack b{ flex:1 1 100%; padding-left:38px; font-size:15px; }
+
+@media (max-width:1200px){
+  .op-grid4{ grid-template-columns:repeat(2, minmax(0, 1fr)); }
+  .op-gei-row{ grid-template-columns:repeat(2, minmax(0, 1fr)); }
+  .op-gei-row > :first-child{ grid-column:1 / -1; }
+}
+@media (max-width:720px){
+  .op-grid4, .op-percep, .op-gei-row{ grid-template-columns:minmax(0, 1fr); }
+}

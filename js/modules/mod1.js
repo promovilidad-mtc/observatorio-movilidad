@@ -376,7 +376,7 @@ function renderCity(cityId){
 
   gaugeTotal = renderGauge(
     gaugeTotalCanvas,
-    'Presupuesto total del Gobierno Local 2025',
+    'Total municipal',
     ej.total_pct,
     ej.monto_pct,
     ej.avance_pct,
@@ -385,7 +385,7 @@ function renderCity(cityId){
 
   gaugeMov = renderGauge(
     gaugeMovCanvas,
-    'Presupuesto para Transporte y Movilidad 2025',
+    'Transporte y movilidad',
     ej.movilidad_pct,
     ej.monto_movilidad,
     ej.avance_movilidad,
