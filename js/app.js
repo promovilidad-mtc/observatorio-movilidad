@@ -3,6 +3,7 @@ import { initModProyectos } from './modules/mod3.js';
 import { initModOperacion } from './modules/mod4.js';
 import { initModDatos } from './modules/mod5.js';
 import { initModGobernanza } from './modules/mod6.js';
+import { initModNoticias } from './modules/mod7.js';
 
 /* ========= ROUTER ========= */
 const btnInicioTop = document.getElementById('btnInicioTop');
@@ -84,6 +85,7 @@ async function route(){
   if (h === '#mod-datos')        await initModDatos();
   if (h === '#mod-proyectos')    await initModProyectos();
   if (h === '#mod-gobernanza') await initModGobernanza();
+  if (h === '#mod-noticias')     await initModNoticias();
 }
 
 window.addEventListener('hashchange', route);

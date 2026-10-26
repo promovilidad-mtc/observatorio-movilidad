@@ -366,6 +366,82 @@
 .obs-soon strong{ display:block; color: var(--navy); font-size:16px; margin-bottom:6px; }
 
 /* ==========================================================================
+   NOTICIAS (estilo diario; lo arma mod7.js)
+   - .news-lead: la nota más reciente, grande (foto | texto)
+   - .news-item: el resto en lista, foto chica al costado y texto completo
+   ========================================================================== */
+.news-grid{ display:flex; flex-direction:column; margin-top:18px; }
+.news-item{
+  display:grid; grid-template-columns: 260px minmax(0,1fr); gap:24px;
+  padding:24px 0; border-top:1px solid var(--ring);
+}
+.news-item:first-child{ border-top:0; padding-top:4px; }
+.news-lead{
+  grid-template-columns: minmax(0,1.1fr) minmax(0,1fr); gap:32px;
+  padding-bottom:30px; border-bottom:3px double var(--ring);
+}
+.news-lead + .news-item{ border-top:0; }
+
+/* foto */
+.news-media{
+  position:relative; overflow:hidden; border-radius:12px;
+  aspect-ratio: 4 / 3; align-self:start; background: rgba(22,35,63,.05);
+}
+.news-media img{ width:100%; height:100%; object-fit:cover; display:block; transition: transform .4s ease; }
+.news-item:hover .news-media img{ transform: scale(1.03); }
+
+/* sin foto: "recorte" con el nombre del medio */
+.news-clip{
+  position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; gap:10px;
+  padding:22px; color:#fff;
+  background: linear-gradient(135deg, var(--navy) 0%, var(--grad-b) 70%, var(--grad-a) 130%);
+}
+.news-clip i{ font-size:28px; opacity:.45; }
+.news-clip span{ font-family:'Source Serif 4', Georgia, serif; font-weight:700; font-size:22px; line-height:1.15; }
+.news-lead .news-clip span{ font-size:30px; }
+
+/* texto */
+.news-body{ display:flex; flex-direction:column; min-width:0; }
+.news-kicker{
+  font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+  color: var(--red); margin-bottom:8px;
+}
+.news-title{
+  margin:0 0 10px; font-family:'Source Serif 4', Georgia, serif; font-weight:700;
+  font-size:22px; line-height:1.25; color: var(--ink);
+}
+.news-lead .news-title{ font-size:32px; line-height:1.15; margin-bottom:14px; }
+.news-text{ margin:0; font-size:15px; line-height:1.65; color: rgba(16,28,46,.80); }
+.news-lead .news-text{ font-size:16.5px; line-height:1.7; }
+
+/* pie: medio · páginas · fecha  |  Leer nota completa */
+.news-foot{
+  margin-top:16px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px 16px;
+}
+.news-src{ display:flex; flex-wrap:wrap; align-items:center; gap:4px 0; font-size:13px; color: var(--muted); }
+.news-src strong{ color: var(--navy); font-weight:700; }
+.news-src > * + *::before{ content:"·"; margin:0 8px; color: var(--muted); }
+.news-link{
+  display:inline-flex; align-items:center; gap:8px; padding:8px 14px; border-radius:10px;
+  font-size:13px; font-weight:600; text-decoration:none;
+  color: var(--navy); border:1px solid var(--ring); background:#fff;
+  transition: background .15s ease, color .15s ease;
+}
+.news-link i{ font-size:11px; transition: transform .15s ease; }
+.news-link:hover{ background: var(--navy); color:#fff; border-color: var(--navy); }
+.news-link:hover i{ transform: translateX(3px); }
+
+@media (max-width:900px){
+  .news-lead{ grid-template-columns:1fr; gap:18px; }
+  .news-lead .news-title{ font-size:26px; }
+}
+@media (max-width:640px){
+  .news-item{ grid-template-columns:1fr; gap:14px; }
+  .news-media{ aspect-ratio: 16 / 9; }
+  .news-title{ font-size:20px; }
+}
+
+/* ==========================================================================
    RESPONSIVE del Inicio
    ========================================================================== */
 @media (max-width:900px){
