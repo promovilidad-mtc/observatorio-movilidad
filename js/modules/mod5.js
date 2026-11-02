@@ -1,3 +1,4 @@
+import { fetchSheet, safeHref } from '../sheet-cache.js';
   /* ========= MODULO 5: REPOSITORIO ========= */
     // CAMBIÓ: antes leía un JSON local (./data/modulo5/repositorio.json).
     // Ahora lee en vivo desde el Apps Script, igual que Mod 1 y Mod 4.
@@ -6,9 +7,8 @@
 
     async function loadRepo(){
       if (REPO_CACHE) return REPO_CACHE;
-      const r = await fetch(REPO_URL, { cache:'no-store' });
-      if (!r.ok) throw new Error('No se pudo cargar el repositorio');
-      REPO_CACHE = await r.json();
+      // Copia guardada al instante; si el Sheet cambió, se repinta solo
+      REPO_CACHE = await fetchSheet(REPO_URL, { onUpdate: d => { REPO_CACHE = d; renderRepo(d?.items || []); } });
       return REPO_CACHE;
     }
 
@@ -59,7 +59,7 @@
               <div class="repo-source">${escapeHtml(x.fuente || '')}</div>
             </div>
             <div class="repo-actions">
-              <a class="pill" href="${x.link}" target="_blank" rel="noopener">Descargar</a>
+              <a class="pill" href="${safeHref(x.link)}" target="_blank" rel="noopener">Descargar</a>
             </div>
           </article>
         `).join('') || `<div class="muted">No hay documentos en esta pestaña.</div>`;

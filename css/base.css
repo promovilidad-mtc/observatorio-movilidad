@@ -175,9 +175,9 @@ main.view.active{ display:block; }
   animation: heroCrossfade 15s infinite;
 }
 /* 👉 Cuando tengas las 2 imágenes nuevas, solo cambia estas 2 rutas */
-.hero .banner-slide--1{ background-image: url("../assets/hero-1.png");  animation-delay: 0s; }
-.hero .banner-slide--2{ background-image: url("../assets/hero-2.png");    animation-delay: 5s; }
-.hero .banner-slide--3{ background-image: url("../assets/hero-3.png");    animation-delay: 10s; }
+.hero .banner-slide--1{ background-image: url("../assets/hero-1.webp");  animation-delay: 0s; }
+.hero .banner-slide--2{ background-image: url("../assets/hero-2.webp");    animation-delay: 5s; }
+.hero .banner-slide--3{ background-image: url("../assets/hero-3.webp");    animation-delay: 10s; }
 
 @keyframes heroCrossfade{
   0%   { opacity: 1; }

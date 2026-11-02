@@ -1,3 +1,4 @@
+import { fetchSheet } from '../sheet-cache.js';
  /* ========= MODULO 4: Operación y Servicios de Movilidad ========= */
 /* Gráficos: usa el adaptador (ApexCharts) y, si no está, Chart.js como antes */
 function mkChart(canvas, cfg){
@@ -97,8 +98,7 @@ function mkChart(canvas, cfg){
 
       KPI_OP_PROMISE = (async () => {
         try {
-          const r = await fetch(KPI_OP_URL, { cache:'no-store' });
-          const data = r.ok ? await r.json() : { ciudades: [] };
+          const data = await fetchSheet(KPI_OP_URL, { onUpdate: d => { KPI_OP = d.ciudades || []; } });
           KPI_OP = data.ciudades || [];
         } catch(e){
           console.warn('No se pudo cargar KPI de Operación (Sheet)', e);
@@ -473,8 +473,8 @@ function mkChart(canvas, cfg){
         for (const d of delays){
           if (d) await new Promise(r => setTimeout(r, d));
           try {
-            const r = await fetch(IND_OP_URL, { cache: 'no-store' });
-            if (r.ok) { IND_OP = (await r.json()).ciudades || []; return; } // ← el Sheet devuelve {version, ciudades:[...]}
+            const data = await fetchSheet(IND_OP_URL, { onUpdate: d => { IND_OP = d.ciudades || []; } });
+            IND_OP = data.ciudades || []; return; // ← el Sheet devuelve {version, ciudades:[...]}
           } catch (e) { /* reintenta */ }
         }
         console.warn('No se pudo cargar indicadores desde el Sheet');
@@ -490,8 +490,7 @@ function mkChart(canvas, cfg){
 
       ACOSO_PROMISE = (async () => {
         try {
-          const r = await fetch(ACOSO_URL, { cache:'no-store' });
-          const json = r.ok ? await r.json() : null;
+          const json = await fetchSheet(ACOSO_URL, { onUpdate: d => { ACOSO_DATA = d.acoso || null; } });
           ACOSO_DATA = json ? json.acoso : null; // ← el Sheet devuelve {version, acoso:{...}}
         } catch(e){
           console.warn('No se pudo cargar datos de Acoso desde el Sheet', e);
@@ -913,8 +912,11 @@ function mkChart(canvas, cfg){
     async function ensureSiniestrosLoaded(){
       if (SIN_DETALLE && SIN_RESUMEN) return;
       try {
-        const r = await fetch(SIN_URL, { cache:'no-store' });
-        const j = r.ok ? await r.json() : {};
+        const leerSin = j => {
+          SIN_RESUMEN = Array.isArray(j.resumen) ? j.resumen : [];
+          SIN_DETALLE = Array.isArray(j.detalle) ? j.detalle : [];
+        };
+        const j = await fetchSheet(SIN_URL, { onUpdate: leerSin });
         SIN_RESUMEN = Array.isArray(j.resumen) ? j.resumen : [];
         SIN_DETALLE = Array.isArray(j.detalle) ? j.detalle : [];
       } catch {

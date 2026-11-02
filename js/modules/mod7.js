@@ -1,56 +1,16 @@
+import { fetchSheet } from '../sheet-cache.js';
   /* ========= MODULO 7: NOTICIAS ========= */
-    // Lee las notas de prensa desde la pestaña "Noticias" del Google Sheet (Apps Script, ?tipo=noticias).
+    // Lee las notas de prensa del Sheet "OBSERVATORIO_NOTICIAS" (Apps Script, ?tipo=noticias).
     // Columnas del Sheet: fecha | titulo | resumen | medio | detalle | link | imagen | ciudad | publicar
-    // MIENTRAS NO EXISTA la pestaña en el Apps Script, NOTICIAS_URL va vacía y se muestran los datos de ejemplo.
-    const NOTICIAS_URL = ''; // luego: 'https://script.google.com/macros/s/AKfycbxGtEY-WPxG5DE4C-7eaRnrIZmG6vi0y7Xd0uxmjTgpNDIGllnisiQ4Er01yEuG4Rzn/exec?tipo=noticias'
+    // El Apps Script ya omite las filas sin título o con publicar = NO.
+    const NOTICIAS_URL = 'https://script.google.com/macros/s/AKfycbxGtEY-WPxG5DE4C-7eaRnrIZmG6vi0y7Xd0uxmjTgpNDIGllnisiQ4Er01yEuG4Rzn/exec?tipo=noticias';
     let NOTICIAS_CACHE = null;
-
-    // Datos de ejemplo (misma forma que devolverá el Apps Script)
-    const NOTICIAS_EJEMPLO = [
-      {
-        fecha: '',
-        titulo: 'El corredor que cambiará Trujillo',
-        resumen: 'El Corredor Vial Norte-Sur de Trujillo mantiene como horizonte el inicio de operaciones en el primer trimestre de 2030. Según Víctor Del Carpio, gerente general de Transporte Metropolitano de Trujillo (TMT), ese es el objetivo establecido en la hoja de ruta que coordinan la Municipalidad Provincial de Trujillo, el Ministerio de Transportes y Comunicaciones, Promovilidad y la Unidad Ejecutora 015.',
-        medio: 'Revista Energiminas',
-        detalle: 'Págs. 90, 91 y 92',
-        link: 'https://go.imedia.pe/5L9An',
-        imagen: '',
-        ciudad: 'Trujillo',
-        publicar: 'SI'
-      },
-      {
-        fecha: '',
-        titulo: 'Nota de ejemplo 2 (reemplazar)',
-        resumen: 'Aquí va el texto de la nota de prensa tal como lo publica el medio. Se muestra completo; el botón lleva a la nota original.',
-        medio: 'Medio de prensa',
-        detalle: '',
-        link: '#',
-        imagen: './assets/img/carrilbus1.png',
-        ciudad: 'Juliaca',
-        publicar: 'SI'
-      },
-      {
-        fecha: '',
-        titulo: 'Nota de ejemplo 3 (reemplazar)',
-        resumen: 'Aquí va el texto de la nota de prensa tal como lo publica el medio. Se muestra completo; el botón lleva a la nota original.',
-        medio: 'Medio de prensa',
-        detalle: '',
-        link: '#',
-        imagen: './assets/img/ztc1.png',
-        ciudad: 'Cusco',
-        publicar: 'SI'
-      }
-    ];
+    const NOTICIAS_VISIBLES = 10; // las demás quedan detrás del botón "Ver más noticias"
 
     async function loadNoticias(){
       if (NOTICIAS_CACHE) return NOTICIAS_CACHE;
-      if (!NOTICIAS_URL){
-        NOTICIAS_CACHE = { items: NOTICIAS_EJEMPLO };
-        return NOTICIAS_CACHE;
-      }
-      const r = await fetch(NOTICIAS_URL, { cache:'no-store' });
-      if (!r.ok) throw new Error('No se pudo cargar las noticias');
-      NOTICIAS_CACHE = await r.json(); // ← el Sheet devuelve {version, items:[...]}
+      // Copia guardada al instante; si prensa agregó notas, se repinta solo
+      NOTICIAS_CACHE = await fetchSheet(NOTICIAS_URL, { onUpdate: d => { NOTICIAS_CACHE = d; renderNoticias(d?.items || []); } }); // ← el Sheet devuelve {version, items:[...]}
       return NOTICIAS_CACHE;
     }
 
@@ -109,7 +69,7 @@
         const detalle = (x.detalle||'').trim();
         const kicker = ['Nota de prensa', x.ciudad].map(s => (s||'').trim()).filter(Boolean).join(' · ');
         return `
-          <article class="news-item${i === 0 ? ' news-lead' : ''}">
+          <article class="news-item${i === 0 ? ' news-lead' : ''}"${i >= NOTICIAS_VISIBLES ? ' hidden' : ''}>
             <div class="news-media">
               ${img
                 ? `<img src="${escapeHtml(img)}" alt="" loading="lazy" decoding="async">`
@@ -129,6 +89,20 @@
             </div>
           </article>`;
       }).join('');
+
+      // Más de 10: botón que muestra el resto de una vez
+      const ocultas = rows.length - NOTICIAS_VISIBLES;
+      if (ocultas > 0){
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'news-more';
+        btn.innerHTML = `Ver más noticias (${ocultas}) <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>`;
+        btn.addEventListener('click', () => {
+          cont.querySelectorAll('.news-item[hidden]').forEach(el => el.hidden = false);
+          btn.remove();
+        });
+        cont.appendChild(btn);
+      }
     }
 
     export async function initModNoticias(){

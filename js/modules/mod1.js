@@ -1,3 +1,4 @@
+import { fetchSheet, escHtml, safeHref } from '../sheet-cache.js';
 /* ========= MODULO 1 ========= */
 /* Gráficos: usa el adaptador (ApexCharts) y, si no está, Chart.js como antes */
 function mkChart(canvas, cfg){
@@ -206,7 +207,7 @@ function getSavedCity(){
 
 async function ensureDataLoaded(){
   if (!ALL) {
-    ALL = await fetch(ALL_URL, { cache: 'no-store' }).then(r=>r.json());
+    ALL = await fetchSheet(ALL_URL, { onUpdate: d => { ALL = d; } }); // copia guardada al instante; se refresca en segundo plano
   }
 
   // 1) intenta recuperar ciudad guardada
@@ -228,7 +229,7 @@ async function ensureDataLoaded(){
 
 async function ensurePlanesLoaded(){
   if (!PLANES){
-    try { PLANES = await fetch(PLANES_URL, { cache: 'no-store' }).then(r=>r.json()); }
+    try { PLANES = await fetchSheet(PLANES_URL, { onUpdate: d => { PLANES = d; } }); }
     catch { PLANES = { planes: [] }; }
   }
 }
@@ -462,8 +463,8 @@ async function renderPlanes(){
   const tbody = table.querySelector('tbody');
 
   rows.forEach(p=>{
-    const docsHtml = p.doc_url ? `<a href="${p.doc_url}" target="_blank" rel="noopener">🔗 DA</a>` : '<span class="muted">—</span>';
-    const planHtml = p.plan_url ? `<a href="${p.plan_url}" target="_blank" rel="noopener">🔗 Plan</a>` : '<span class="muted">—</span>';
+    const docsHtml = p.doc_url ? `<a href="${safeHref(p.doc_url)}" target="_blank" rel="noopener">🔗 DA</a>` : '<span class="muted">—</span>';
+    const planHtml = p.plan_url ? `<a href="${safeHref(p.plan_url)}" target="_blank" rel="noopener">🔗 Plan</a>` : '<span class="muted">—</span>';
     const estCls = `badge ${badgeEstado(p.estado)}`;
 
     const tr = document.createElement('tr');
@@ -528,8 +529,8 @@ async function renderPlanesGlobal(){
   const tbody = table.querySelector('tbody');
 
   rows.forEach(p => {
-    const docsHtml = p.doc_url  ? `<a href="${p.doc_url}"  target="_blank" rel="noopener">🔗 DA</a>`   : '<span class="muted">—</span>';
-    const planHtml = p.plan_url ? `<a href="${p.plan_url}" target="_blank" rel="noopener">🔗 Plan</a>` : '<span class="muted">—</span>';
+    const docsHtml = p.doc_url  ? `<a href="${safeHref(p.doc_url)}"  target="_blank" rel="noopener">🔗 DA</a>`   : '<span class="muted">—</span>';
+    const planHtml = p.plan_url ? `<a href="${safeHref(p.plan_url)}" target="_blank" rel="noopener">🔗 Plan</a>` : '<span class="muted">—</span>';
     const estCls = `badge ${badgeEstado(p.estado)}`;
 
     const tr = document.createElement('tr');
@@ -602,7 +603,7 @@ async function renderConvenios(){
 
     const docs = Array.isArray(row.documentos) ? row.documentos : [];
     const docsHtml = docs.length
-      ? docs.map(d => `<a href="${d.url}" target="_blank" rel="noopener">🔗 ${d.label || 'Documento'}</a>`).join('')
+      ? docs.map(d => `<a href="${safeHref(d.url)}" target="_blank" rel="noopener">🔗 ${escHtml(d.label || 'Documento')}</a>`).join('')
       : '<span class="muted">—</span>';
 
     tr.innerHTML = `
@@ -678,7 +679,7 @@ async function renderConveniosGlobal(){
   rows.forEach(r => {
     const estCls = `badge ${badgeEstado(r.estado)}`;
     const docsHtml = r.documentos.length
-      ? r.documentos.map(d => `<a href="${d.url}" target="_blank" rel="noopener">🔗 ${d.label || 'Documento'}</a>`).join('')
+      ? r.documentos.map(d => `<a href="${safeHref(d.url)}" target="_blank" rel="noopener">🔗 ${escHtml(d.label || 'Documento')}</a>`).join('')
       : '<span class="muted">—</span>';
 
     const tr = document.createElement('tr');

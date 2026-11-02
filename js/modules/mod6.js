@@ -24,8 +24,8 @@ const EJES = [
             señalización horizontal y vertical, así como elementos segregadores (conos, bolardos o bloques New Jersey) de requerirse, para delimitar
             el carril exclusivo para el servicio de transporte público de pasajeros.`,
     imagenes: [
-      { src: './assets/img/carrilbus1.png', caption: 'Situación actual' },
-      { src: './assets/img/carrilbus2.png', caption: 'Situación propuesta' }
+      { src: './assets/img/carrilbus1.webp', caption: 'Situación actual' },
+      { src: './assets/img/carrilbus2.webp', caption: 'Situación propuesta' }
     ],
     beneficios: [
       'Reducción de los tiempos de viaje para los usuarios del transporte público.',
@@ -101,13 +101,13 @@ const EJES = [
     icono: 'fa-person-walking',
     titulo: 'Zonas de Tráfico Calmado (ZTC)',
     descripcion: 'Intervenciones para reducir velocidad (pacificar vías) y mejorar la seguridad vial con enfoque en peatones.',
-    imagen: './assets/img/imagen2.png',
+    imagen: './assets/img/imagen2.webp',
     etiquetas: ['Seguridad vial', 'Espacio público', 'Diseño urbano'],
     intro: `Las Zonas de Tráfico Calmado (ZTC) son intervenciones urbanas orientadas a reducir la velocidad de los vehículos motorizados
             en zonas específicas de la ciudad, mejorando la seguridad vial y priorizando la movilidad peatonal y ciclista. AGREGAR UN TEXTO DEL COMPROMISO 6`,
     imagenes: [
-      { src: './assets/img/ztc1.png', caption: 'Situación actual' },
-      { src: './assets/img/ztc2.png', caption: 'Situación propuesta' }
+      { src: './assets/img/ztc1.webp', caption: 'Situación actual' },
+      { src: './assets/img/ztc2.webp', caption: 'Situación propuesta' }
     ],
     beneficios: [
       'Reducción de accidentes de tránsito y atropellos en zonas críticas.',
@@ -159,7 +159,7 @@ const EJES = [
     icono: 'fa-route',
     titulo: 'Plan Regulador de Rutas (PRR)',
     descripcion: 'Asistencia para planificación y diseño de paraderos, ordenamiento de paradas y mejora de accesibilidad.',
-    imagen: './assets/img/imagen3.png',
+    imagen: './assets/img/imagen3.webp',
     etiquetas: ['Infraestructura', 'Operación', 'Accesibilidad'],
     intro: `El Plan Regulador de Rutas (PRR) es un instrumento de planificación que permite ordenar, racionalizar y optimizar
             la red de rutas de transporte público urbano, estableciendo criterios técnicos para la operación eficiente del sistema.`,
@@ -198,7 +198,7 @@ const EJES = [
     icono: 'fa-road',
     titulo: 'Vía exclusiva para el transporte público',
     descripcion: 'Implementación de corredores o tramos exclusivos para mejorar la velocidad, confiabilidad y prioridad del transporte público urbano.',
-    imagen: './assets/img/imagen4.png',
+    imagen: './assets/img/imagen4.webp',
     etiquetas: ['Gestión de tránsito', 'Transporte público', 'Operación'],
     intro: `La vía exclusiva para el transporte público consiste en la designación de corredores o tramos viales de uso exclusivo
             para los vehículos de transporte público, mejorando su velocidad comercial, confiabilidad y prioridad frente al tráfico mixto.`,
@@ -286,6 +286,9 @@ function seccion(id, icono, titulo, cuerpo, nota) {
 /* ── Contenido de cada sección ── */
 function concepto(eje) {
   if (!eje.imagenes?.length) return '';
+  const [antes, despues] = eje.imagenes;
+  if (antes?.src && despues?.src) return comparador(antes, despues);
+  // Falta alguna imagen: se muestran lado a lado con su "Imagen próximamente"
   return `<div class="g6-imgs">${eje.imagenes.map((img, i) => `
     <figure class="g6-fig">
       ${img.src
@@ -293,6 +296,20 @@ function concepto(eje) {
         : `<div class="g6-fig-empty"><i class="fa-regular fa-image" aria-hidden="true"></i>Imagen próximamente</div>`}
       <figcaption><span class="g6-fig-n${i ? ' is-prop' : ''}">${i ? 'Después' : 'Antes'}</span>${esc(img.caption)}</figcaption>
     </figure>`).join('')}
+  </div>`;
+}
+
+// Slider antes/después: "después" va debajo y "antes" encima, recortada hasta --p (0 a 1).
+// El <input range> transparente cubre todo el cuadro: da arrastre con mouse/dedo y flechas del teclado.
+function comparador(antes, despues) {
+  return `
+  <div class="g6-ba" style="--p:.5">
+    <img class="g6-ba-base" src="${esc(despues.src)}" alt="${esc(despues.caption)}" loading="lazy">
+    <img class="g6-ba-img g6-ba-antes" src="${esc(antes.src)}" alt="${esc(antes.caption)}" loading="lazy">
+    <span class="g6-ba-tag"><span class="g6-fig-n">Antes</span>${esc(antes.caption)}</span>
+    <span class="g6-ba-tag is-der"><span class="g6-fig-n is-prop">Después</span>${esc(despues.caption)}</span>
+    <div class="g6-ba-line" aria-hidden="true"><span class="g6-ba-knob"><i class="fa-solid fa-chevron-left"></i><i class="fa-solid fa-chevron-right"></i></span></div>
+    <input class="g6-ba-range" type="range" min="0" max="100" value="50" step="0.5" data-g6-ba aria-label="Comparar situación actual y propuesta">
   </div>`;
 }
 
@@ -521,6 +538,17 @@ function initEventos() {
   });
 }
 
+/* ── Slider antes/después ── */
+function initComparador() {
+  const det = document.getElementById('g6Detalle');
+  if (!det || det._baBound) return;
+  det._baBound = true;
+  det.addEventListener('input', e => {
+    const r = e.target.closest('[data-g6-ba]');
+    if (r) r.parentElement.style.setProperty('--p', r.value / 100);
+  });
+}
+
 /* ── Lightbox interno ── */
 function initLightbox() {
   const lb = document.getElementById('g6Lightbox');
@@ -546,5 +574,6 @@ export async function initModGobernanza() {
 
   renderCatalogo();
   initEventos();
+  initComparador();
   initLightbox();
 }

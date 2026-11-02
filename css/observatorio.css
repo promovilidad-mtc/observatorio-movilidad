@@ -198,9 +198,9 @@
   opacity:0;
   animation: hCrossfade 15s infinite;
 }
-.h-slide--1{ background-image:url("../assets/hero-1.png"); animation-delay:0s; }
-.h-slide--2{ background-image:url("../assets/hero-2.png"); animation-delay:5s; }
-.h-slide--3{ background-image:url("../assets/hero-3.png"); animation-delay:10s; }
+.h-slide--1{ background-image:url("../assets/hero-1.webp"); animation-delay:0s; }
+.h-slide--2{ background-image:url("../assets/hero-2.webp"); animation-delay:5s; }
+.h-slide--3{ background-image:url("../assets/hero-3.webp"); animation-delay:10s; }
 @keyframes hCrossfade{
   0%{opacity:1} 27%{opacity:1} 33%{opacity:0} 93%{opacity:0} 100%{opacity:1}
 }
@@ -381,6 +381,7 @@
   padding-bottom:30px; border-bottom:3px double var(--ring);
 }
 .news-lead + .news-item{ border-top:0; }
+.news-item[hidden]{ display:none; } /* sin esto, display:grid le gana a hidden */
 
 /* foto */
 .news-media{
@@ -430,6 +431,13 @@
 .news-link i{ font-size:11px; transition: transform .15s ease; }
 .news-link:hover{ background: var(--navy); color:#fff; border-color: var(--navy); }
 .news-link:hover i{ transform: translateX(3px); }
+.news-more{
+  align-self:center; display:inline-flex; align-items:center; gap:8px; margin-top:22px; padding:10px 20px;
+  border-radius:10px; border:1px solid var(--navy); background:#fff; color: var(--navy);
+  font:inherit; font-size:14px; font-weight:600; cursor:pointer; transition: background .15s ease, color .15s ease;
+}
+.news-more i{ font-size:11px; }
+.news-more:hover{ background: var(--navy); color:#fff; }
 
 @media (max-width:900px){
   .news-lead{ grid-template-columns:1fr; gap:18px; }
@@ -805,6 +813,40 @@ a.obs-tool:hover{ transform: translateY(-3px); box-shadow: 0 10px 26px rgba(22,3
 }
 .g6-fig-n.is-prop{ background: var(--navy); color:#fff; }
 
+/* Slider antes / después. --p (0 a 1) lo actualiza mod6.js.
+   --x replica dónde cae el centro del thumb del <input range> (44px de ancho) para que línea y recorte coincidan. */
+.g6-ba{
+  --x: calc(22px + (100% - 44px) * var(--p));
+  position:relative; overflow:hidden; /* la altura la da la imagen "después" (proporción real, ancho completo) */
+  border:1px solid var(--ring); border-radius:12px; background: rgba(22,35,63,.03);
+  user-select:none;
+}
+.g6-ba-base{ display:block; width:100%; height:auto; pointer-events:none; }
+.g6-ba-img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; pointer-events:none; }
+.g6-ba-antes{ clip-path: inset(0 calc(100% - var(--x)) 0 0); }
+.g6-ba-tag{
+  position:absolute; top:10px; left:10px; z-index:2; display:flex; align-items:center; gap:6px;
+  padding:4px 10px 4px 4px; border-radius:999px; background: rgba(255,255,255,.92);
+  font-size:12.5px; font-weight:600; color: var(--ink); box-shadow: 0 2px 8px rgba(22,35,63,.12); pointer-events:none;
+}
+.g6-ba-tag.is-der{ left:auto; right:10px; }
+.g6-ba-line{
+  position:absolute; top:0; bottom:0; left: var(--x); width:3px; margin-left:-1.5px; z-index:2;
+  background:#fff; box-shadow: 0 0 6px rgba(0,0,0,.35); pointer-events:none;
+}
+.g6-ba-knob{
+  position:absolute; top:50%; left:50%; width:42px; height:42px; transform: translate(-50%,-50%);
+  display:flex; align-items:center; justify-content:center; gap:3px; border-radius:50%;
+  background: var(--navy); color:#fff; font-size:12px; border:3px solid #fff; box-shadow: 0 4px 14px rgba(0,0,0,.3);
+}
+.g6-ba-range{
+  position:absolute; inset:0; z-index:3; width:100%; height:100%; margin:0;
+  opacity:0; cursor: ew-resize; -webkit-appearance:none; appearance:none; background:transparent;
+}
+.g6-ba-range::-webkit-slider-thumb{ -webkit-appearance:none; width:44px; height:2000px; cursor: ew-resize; }
+.g6-ba-range::-moz-range-thumb{ width:44px; height:2000px; border:0; cursor: ew-resize; }
+.g6-ba:has(.g6-ba-range:focus-visible) .g6-ba-knob{ outline:3px solid var(--sky, #4aa3df); outline-offset:2px; }
+
 /* Beneficios */
 .g6-check{ list-style:none; margin:0; padding:0; display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap:10px 20px; }
 .g6-check li{ display:flex; gap:10px; align-items:flex-start; font-size:14px; line-height:1.55; color: var(--ink); }
@@ -909,6 +951,8 @@ a.g6-doc:hover .g6-doc-go{ color: var(--red); }
 @media (max-width: 640px){
   .g6-imgs{ grid-template-columns: 1fr; }
   .g6-fig img, .g6-fig-empty{ height:200px; }
+  .g6-ba-tag{ font-size:11px; top:6px; left:6px; }
+  .g6-ba-tag.is-der{ right:6px; }
   .g6-tl-item{ flex-direction:column; gap:2px; }
   .g6-tl-time{ padding-top:0; }
   .g6-hero-ico{ width:44px; height:44px; font-size:18px; }
