@@ -1,0 +1,745 @@
+/* ==========================================================================
+   PILOTO DE DISEÑO "GOOGLE" — Material Design 3 + paleta Google Workspace
+   --------------------------------------------------------------------------
+   - Solo se aplica cuando <html> tiene la clase "tema-google"
+     (la pone js/tema-google.js al abrir el portal con ?tema=google).
+   - No modifica base.css ni observatorio.css: solo sobreescribe encima.
+   - Para descartar el piloto basta con quitar este archivo y tema-google.js.
+   - Híbrido: estructura y colores de Google; el navy de PROMOVILIDAD queda
+     como color de marca (logo, título del inicio, cifras y franjas).
+   Guía: G:\Mi unidad\PROGRAMACIÓN\GUIA_ESTILO_GOOGLE.md
+   ========================================================================== */
+
+/* ===================== TOKENS ===================== */
+html.tema-google{
+  /* neutros (Google Workspace) */
+  --bg: #f8f9fa;
+  --card: #ffffff;
+  --ink: #202124;
+  --muted: #5f6368;
+  --ring: #dadce0;
+  --g-line: #e8eaed;          /* líneas internas de tablas y listas */
+  --g-text-3: #80868b;
+  --g-hover: #f1f3f4;
+
+  /* acción (azul Google) */
+  --g-primary: #1a73e8;
+  --g-primary-hover: #1765cc;
+  --g-soft: #e8f0fe;
+  --g-soft-hover: #d2e3fc;
+  --g-ink: #1967d2;
+
+  /* estados */
+  --g-ok: #137333;   --g-ok-bg: #e6f4ea;
+  --g-warn: #b06000; --g-warn-bg: #fef7e0;
+  --g-bad: #c5221f;  --g-bad-bg: #fce8e6;
+
+  /* marca PROMOVILIDAD (se conserva) */
+  --navy: #16233F;
+  --navy-2: #2a3d66;
+
+  /* medidas */
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow: 0 1px 3px rgba(60,64,67,.3), 0 4px 8px 3px rgba(60,64,67,.15);
+  --shadow2: none;
+  --g-shadow-1: 0 1px 2px rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15);
+  --scale-ui: .9375;          /* texto base 15 px (antes 17 px) */
+
+  /* shell */
+  --obs-sidebar-w: 264px;
+  --obs-sidebar-bg: var(--bg);
+  --obs-topbar-h: 64px;
+}
+
+/* ===================== BASE Y TIPOGRAFÍA ===================== */
+html.tema-google body{
+  font-family: "Roboto", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.5;
+}
+html.tema-google ::selection{ background: var(--g-soft-hover); }
+
+/* Títulos: Roboto, jerarquía por tamaño y no por negrita */
+html.tema-google :is(h1, h2, h3, h4, .display){
+  font-family: "Roboto", system-ui, sans-serif;
+  letter-spacing: 0;
+}
+html.tema-google :is(h1, h2){ font-weight: 400; }
+html.tema-google :is(h3, h4){ font-weight: 500; }
+
+/* Elementos que usaban Overpass / Source Serif */
+html.tema-google :is(.obs-topbar-title, .h-cifra-num, .h-stat-num, .sit-num, .coop-stat b,
+  .g6-step-n, .g6-avatar, .news-title, .news-clip span){
+  font-family: "Roboto", system-ui, sans-serif;
+}
+
+/* Sin mayúsculas sostenidas: etiquetas pequeñas en tipo oración */
+html.tema-google :is(.h-eyebrow, .h-tag-light, .h-stat-label, .h-cue-text, .obs-tool-tag,
+  .sit-chips-label, .sit-draft, .coop-support-label, .g6-label, .g6-tl-hito, .g6-table th,
+  .g6-doc-soon, .news-kicker){
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+html.tema-google :where(a, button, .btn, select, .select, input):focus-visible{
+  outline: 2px solid var(--g-primary);
+  outline-offset: 2px;
+}
+
+/* ===================== BARRA LATERAL ===================== */
+html.tema-google .obs-sidebar{
+  background: var(--bg);
+  color: var(--ink);
+  transition: margin-left .22s ease, transform .22s ease;
+}
+
+/* Logo: el archivo es blanco; aquí se pinta en navy con una máscara */
+html.tema-google .obs-brand{
+  position: relative;
+  padding: 18px 28px 14px;
+  border-bottom: 0;
+}
+html.tema-google .obs-logo{ opacity: 0; max-width: 168px; }
+html.tema-google .obs-brand::after{
+  content: "";
+  position: absolute; inset: 18px 28px 14px;
+  background: var(--navy);
+  -webkit-mask: url("../assets/logo1.webp") center / contain no-repeat;
+          mask: url("../assets/logo1.webp") center / contain no-repeat;
+  pointer-events: none;
+}
+
+html.tema-google .obs-nav{ padding: 4px 12px 12px; gap: 2px; }
+
+html.tema-google .obs-link,
+html.tema-google .obs-sublink{
+  min-height: 44px;
+  padding: 0 18px;
+  gap: 14px;
+  border: 0;
+  border-radius: 999px;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 500;
+  transition: background .15s ease, color .15s ease;
+}
+html.tema-google .obs-link > i:first-child{ color: var(--muted); font-size: 16px; }
+html.tema-google .obs-link:hover,
+html.tema-google .obs-sublink:hover{ background: rgba(60,64,67,.08); color: var(--ink); }
+
+html.tema-google .obs-link.active,
+html.tema-google .obs-sublink.active{ background: var(--g-soft); color: var(--g-ink); }
+html.tema-google .obs-link.active > i:first-child{ color: var(--g-ink); }
+
+/* Botón del grupo "Indicadores": cuando estás dentro, solo el texto en azul */
+html.tema-google .obs-group-btn.active{ background: transparent; color: var(--g-ink); }
+html.tema-google .obs-group-btn.active:hover{ background: rgba(60,64,67,.08); }
+
+html.tema-google .obs-sub{ padding: 2px 0 6px 0; }
+html.tema-google .obs-sublink{ min-height: 40px; padding-left: 52px; font-size: 13.5px; }
+html.tema-google .obs-ext,
+html.tema-google .obs-chev{ color: var(--muted); opacity: 1; }
+
+html.tema-google .obs-link:focus-visible,
+html.tema-google .obs-sublink:focus-visible{ outline: 2px solid var(--g-primary); outline-offset: -2px; }
+
+/* Pie: logo MTC + redes */
+html.tema-google .obs-side-foot{
+  margin: 0 12px;
+  padding: 16px 8px 20px;
+  border-top: 1px solid var(--ring);
+  gap: 14px;
+}
+html.tema-google .obs-logo-mtc{ max-width: 176px; opacity: 1; }
+html.tema-google .obs-soc{ width: 36px; height: 36px; background: var(--g-hover); color: var(--muted); }
+html.tema-google .obs-soc:hover{ transform: none; color: #fff; }
+
+/* Escritorio: el botón ☰ oculta y muestra la barra lateral */
+@media (min-width: 1280px){
+  html.tema-google body.gt-collapsed .obs-sidebar{
+    margin-left: calc(-1 * var(--obs-sidebar-w));
+  }
+}
+
+/* Celular / tablet: la barra lateral se abre encima, blanca y con esquina redondeada */
+@media (max-width: 1279px){
+  html.tema-google .obs-sidebar{
+    background: var(--card);
+    border-radius: 0 16px 16px 0;
+    box-shadow: none;
+  }
+  html.tema-google body.obs-open .obs-sidebar{ box-shadow: var(--shadow); }
+  html.tema-google .obs-scrim{ background: rgba(32,33,36,.4); }
+}
+
+/* ===================== BARRA SUPERIOR ===================== */
+html.tema-google .obs-topbar{
+  min-height: var(--obs-topbar-h);
+  padding: 8px 24px 8px 12px;
+  gap: 12px;
+  background: var(--bg);
+  border-bottom: 0;
+  box-shadow: none;
+  transition: box-shadow .2s ease;
+}
+html.tema-google body.gt-scrolled .obs-topbar{ box-shadow: 0 1px 3px rgba(60,64,67,.18); }
+
+/* El ☰ se ve siempre (en escritorio oculta la barra lateral) */
+html.tema-google .obs-burger{
+  display: inline-flex;
+  width: 44px; height: 44px;
+  border: 0; border-radius: 50%;
+  background: transparent;
+  color: var(--muted);
+}
+html.tema-google .obs-burger:hover{ background: rgba(60,64,67,.08); }
+html.tema-google .obs-burger i{ font-size: 18px; }
+
+html.tema-google .obs-topbar-title{
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--ink);
+}
+
+/* En el Inicio también se muestra la barra superior (lleva el ☰) */
+@media (min-width: 1280px){
+  html.tema-google body[data-view="home"] .obs-topbar{ display: flex; }
+}
+
+/* ===================== CONTENEDOR DE MÓDULOS ===================== */
+html.tema-google .obs-content .wrap{ padding: 8px 24px 48px; }
+
+/* ===================== TARJETAS ===================== */
+html.tema-google .card{
+  background: var(--card);
+  border: 1px solid var(--ring);
+  border-radius: var(--radius);
+  box-shadow: none;
+  padding: 20px 24px;
+}
+/* sin sombra, las tarjetas apiladas necesitan aire entre ellas */
+html.tema-google .wrap > .card + .card{ margin-top: 16px; }
+html.tema-google .card h2{ font-size: 24px; font-weight: 400; color: var(--ink); line-height: 1.3; }
+html.tema-google .card h3{ color: var(--ink); }
+html.tema-google .muted{ color: var(--muted); }
+
+/* ===================== BOTONES ===================== */
+/* Por defecto: "outlined" en píldora */
+html.tema-google .btn{
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  height: 40px;
+  padding: 0 20px;
+  border: 1px solid var(--ring);
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--g-ink);
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: none;
+  white-space: nowrap;
+  transition: background .15s ease, border-color .15s ease, box-shadow .15s ease;
+}
+html.tema-google .btn:hover{
+  transform: none;
+  background: #f6fafe;
+  border-color: #c6dafc;
+  box-shadow: none;
+}
+html.tema-google .btn:active{ transform: translateY(1px); }
+
+/* Acción principal: azul relleno */
+html.tema-google :is(.btn.brand, .cta-row .btn.brand, .h-btn, .g6-mail){
+  background: var(--g-primary);
+  border-color: var(--g-primary);
+  color: #fff;
+  border-radius: 999px;
+  font-weight: 500;
+  box-shadow: none;
+}
+html.tema-google :is(.btn.brand, .cta-row .btn.brand, .h-btn, .g6-mail):hover{
+  background: var(--g-primary-hover);
+  border-color: var(--g-primary-hover);
+  box-shadow: var(--g-shadow-1);
+}
+
+/* ===================== CAMPOS (selects) ===================== */
+html.tema-google :is(.select, select){
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid var(--ring);
+  border-radius: 8px;
+  background-color: var(--card);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 400;
+  box-shadow: none;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+html.tema-google :is(.select, select):hover{ border-color: #bdc1c6; }
+html.tema-google :is(.select, select):focus{
+  outline: none;
+  border-color: var(--g-primary);
+  box-shadow: 0 0 0 1px var(--g-primary);
+}
+
+/* ===================== PESTAÑAS (subtabs) → chips de filtro ===================== */
+html.tema-google .subtab,
+html.tema-google #repoTabs .subtab{
+  height: 36px;
+  padding: 0 16px;
+  border: 1px solid var(--ring);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: none;
+  transition: background .15s ease, border-color .15s ease;
+}
+html.tema-google .subtab:hover,
+html.tema-google #repoTabs .subtab:hover{
+  transform: none;
+  box-shadow: none;
+  background: var(--g-hover);
+  border-color: var(--ring);
+}
+html.tema-google .subtab.active,
+html.tema-google #repoTabs .subtab.active{
+  background: var(--g-soft);
+  border-color: transparent;
+  color: var(--g-ink);
+  box-shadow: none;
+}
+html.tema-google #repoTabs.subtabs{
+  padding: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+/* ===================== INDICADORES (KPI) ===================== */
+html.tema-google .ti-kpi{
+  gap: 16px;
+  padding: 18px 20px;
+  border: 1px solid var(--ring);
+  border-radius: var(--radius);
+  box-shadow: none;
+  transition: box-shadow .18s ease;
+}
+html.tema-google .ti-kpi:hover{ box-shadow: var(--g-shadow-1); }
+html.tema-google .ti-kpi--link:hover{ transform: none; border-color: var(--ring); box-shadow: var(--g-shadow-1); }
+html.tema-google .ti-kpi small{ font-size: 14px; font-weight: 500; color: var(--ink); }
+html.tema-google .stat-big{
+  font-weight: 400;
+  color: var(--ink);
+  letter-spacing: -.5px;
+}
+html.tema-google .ti-kpi .stat-big{ font-size: 30px; line-height: 1.2; }
+html.tema-google .ti-unit{ font-size: 13px; color: var(--muted); }
+html.tema-google .ti-kpi--link .ti-unit{ color: var(--g-ink); font-weight: 500; }
+
+/* Íconos de KPI: círculos tonales (fondo suave, ícono de color) */
+html.tema-google .ti-ico{ width: 48px; height: 48px; font-size: 19px; }
+html.tema-google .ti-ico--blue  { background: #e8f0fe; color: #1967d2; }
+html.tema-google .ti-ico--green { background: #e6f4ea; color: #137333; }
+html.tema-google .ti-ico--purple{ background: #f3e8fd; color: #8430ce; }
+html.tema-google .ti-ico--teal  { background: #e4f7fb; color: #007b83; }
+html.tema-google .ti-ico--orange{ background: #fef7e0; color: #b06000; }
+html.tema-google .ti-ico--red   { background: #fce8e6; color: #c5221f; }
+
+/* KPI antiguos de base.css */
+html.tema-google .kpi{
+  background: var(--card);
+  border: 1px solid var(--ring);
+  border-radius: var(--radius);
+}
+html.tema-google .kpi small{ color: var(--muted); }
+
+/* Cabecera de ciudad / módulo */
+html.tema-google .ti-head h2{ font-size: 28px; font-weight: 400; color: var(--ink); line-height: 1.25; }
+html.tema-google .ti-head h2::after{ display: none; }
+html.tema-google .ti-head #meta{ margin-top: 4px; }
+html.tema-google .ti-card-title{ font-size: 16px; font-weight: 500; color: var(--ink); }
+html.tema-google .ti-card-title i{ color: var(--muted); }
+html.tema-google .ti-row{ border-bottom-color: var(--g-line); }
+html.tema-google .ti-row b{ font-size: 16px; font-weight: 500; color: var(--ink); }
+html.tema-google .ti-row > i{ color: var(--muted); }
+
+/* Autoridades */
+html.tema-google .autor-card{
+  background: var(--card);
+  border: 1px solid var(--ring);
+  border-radius: var(--radius);
+}
+html.tema-google .autor-card .cargo{ font-weight: 500; color: var(--muted); }
+html.tema-google .ti-aut .autor-card::before{ background: var(--g-soft); color: var(--g-ink); }
+html.tema-google .ti-aut .autor-card + .autor-card::before{ background: var(--g-bad-bg); color: var(--g-bad); }
+html.tema-google .ti-aut .autor-card .nombre{ font-weight: 500; }
+
+/* Mapas */
+html.tema-google #map{ border: 1px solid var(--ring); border-radius: 8px; box-shadow: none; }
+
+/* ===================== TABLAS ===================== */
+html.tema-google .table-min{
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--ring);
+  border-radius: var(--radius);
+  font-size: 13.5px;
+}
+html.tema-google .table-min thead th{
+  background: var(--bg);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  border-bottom: 1px solid var(--ring);
+}
+html.tema-google .table-min tbody td{ border-bottom: 1px solid var(--g-line); font-variant-numeric: tabular-nums; }
+html.tema-google .table-min tbody tr:last-child td{ border-bottom: 0; }
+html.tema-google .table-min tbody tr:nth-child(even){ background: transparent; }
+html.tema-google .table-min tbody tr:hover{ background: var(--bg); }
+
+html.tema-google .g6-table-wrap{ border-radius: var(--radius); }
+html.tema-google .g6-table th{ background: var(--bg); font-size: 12px; font-weight: 500; color: var(--muted); }
+html.tema-google .g6-table th, html.tema-google .g6-table td{ border-bottom-color: var(--g-line); }
+html.tema-google .g6-table tfoot td{ background: var(--g-soft); color: var(--g-ink); font-weight: 500; }
+
+/* ===================== CHIPS DE ESTADO ===================== */
+html.tema-google .badge{
+  border: 0;
+  border-radius: 6px;
+  padding: 3px 8px;
+  background: var(--g-hover);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 500;
+}
+html.tema-google .badge.ok    { background: var(--g-ok-bg);   color: var(--g-ok); }
+html.tema-google .badge.warn  { background: var(--g-warn-bg); color: var(--g-warn); }
+html.tema-google .badge.danger{ background: var(--g-bad-bg);  color: var(--g-bad); }
+
+html.tema-google .pill{ border: 0; background: var(--g-hover); color: var(--ink); font-weight: 500; }
+html.tema-google .pill.ok{ background: var(--g-ok-bg); color: var(--g-ok); }
+html.tema-google .pill.mini{ border: 1px solid var(--ring); background: var(--card); color: var(--g-ink); }
+html.tema-google .pill.mini:hover{ background: #f6fafe; }
+
+/* ==========================================================================
+   INICIO
+   ========================================================================== */
+@media (min-width: 1280px){
+  html.tema-google .h-hero{
+    min-height: calc(100vh - var(--obs-topbar-h));
+    min-height: calc(100svh - var(--obs-topbar-h));
+  }
+}
+html.tema-google .h-hero-bg::after{
+  background: linear-gradient(100deg, rgba(255,255,255,.94) 0%, rgba(248,249,250,.86) 45%, rgba(248,249,250,.55) 100%);
+}
+html.tema-google .h-eyebrow{ font-size: 14px; font-weight: 500; color: var(--g-ink); }
+html.tema-google .h-hero h1{
+  font-size: clamp(32px, 3.4vw, 48px);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -.5px;
+  color: var(--navy);               /* toque de marca */
+}
+html.tema-google .h-hero p{ font-size: 17px; color: var(--muted); }
+html.tema-google .h-rule{ width: 48px; height: 4px; background: var(--navy); }
+html.tema-google .h-btn{ height: 44px; padding: 0 24px; }
+
+html.tema-google .h-cue-text{ font-size: 12px; font-weight: 500; }
+html.tema-google .h-cue-icon{ border-color: var(--ring); background: rgba(255,255,255,.9); }
+html.tema-google .h-cue:hover .h-cue-icon{ background: var(--g-soft); border-color: transparent; }
+html.tema-google .h-cue:hover .h-cue-icon i{ color: var(--g-ink); }
+
+/* Secciones */
+html.tema-google .h-section{ padding: 48px 40px; border-top: 0; }
+html.tema-google .h-head h2{ font-size: 28px; font-weight: 400; color: var(--ink); }
+html.tema-google .h-desc{ font-size: 15px; color: var(--muted); }
+
+/* Objetivos */
+html.tema-google .h-obj-card{
+  border: 1px solid var(--ring);
+  border-radius: var(--radius);
+  padding: 20px 22px;
+  transition: box-shadow .18s ease;
+}
+html.tema-google .h-obj-card:hover{ box-shadow: var(--g-shadow-1); }
+html.tema-google .h-obj-icon{ border-radius: 50%; background: var(--g-soft); }
+html.tema-google .h-obj-icon i{ color: var(--g-ink); font-size: 18px; }
+html.tema-google .h-obj-card h3{ font-size: 16px; font-weight: 500; color: var(--ink); }
+html.tema-google .h-obj-card p{ font-size: 14px; color: var(--muted); }
+
+/* Cifra */
+html.tema-google .h-cifra-num{ font-size: 72px; font-weight: 400; letter-spacing: -1.5px; color: var(--navy); }
+html.tema-google .h-cifra-label{ font-size: 15px; }
+
+/* Intervenciones: la franja navy se mantiene como acento de marca */
+html.tema-google .h-bloque{
+  border: 1px solid var(--ring);
+  border-radius: 16px;
+  box-shadow: none;
+}
+html.tema-google .h-bloque-head{ background: var(--navy); border-bottom: 0; padding: 22px 28px; }
+html.tema-google .h-tag-light{ font-size: 13px; font-weight: 500; color: rgba(255,255,255,.72); }
+html.tema-google .h-bloque-title{ font-size: 22px; font-weight: 400; }
+html.tema-google .h-stat-num{ font-size: 30px; font-weight: 400; }
+html.tema-google .h-stat-label{ font-size: 12.5px; font-weight: 400; color: rgba(255,255,255,.72); }
+html.tema-google .h-map{ background: var(--bg); border-right-color: var(--ring); }
+html.tema-google .h-map img{ border-radius: 8px; border: 1px solid var(--ring); box-shadow: none; }
+html.tema-google .h-icard{
+  background: var(--card);
+  border: 1px solid var(--ring);
+  border-radius: var(--radius);
+  transition: box-shadow .18s ease;
+}
+html.tema-google .h-icard:hover{ transform: none; box-shadow: var(--g-shadow-1); }
+html.tema-google .h-icard-ciudad{ font-size: 16px; font-weight: 500; color: var(--ink); }
+html.tema-google .h-icard-dato > i{ color: var(--muted); }
+html.tema-google .h-icard-dato strong{ font-weight: 500; color: var(--ink); }
+html.tema-google .h-tag{ border-radius: 6px; font-weight: 500; padding: 3px 8px; }
+html.tema-google .h-tag.green { background: var(--g-ok-bg);   color: var(--g-ok); }
+html.tema-google .h-tag.blue  { background: var(--g-soft);    color: var(--g-ink); }
+html.tema-google .h-tag.orange{ background: var(--g-warn-bg); color: var(--g-warn); }
+
+/* Aliados */
+html.tema-google .h-aliados{ border: 1px solid var(--ring); border-radius: var(--radius); }
+
+@media (max-width: 900px){
+  html.tema-google .h-section{ padding: 32px 20px; }
+  html.tema-google .h-map{ border-bottom-color: var(--ring); }
+}
+
+/* ==========================================================================
+   CONOCE PROMOVILIDAD
+   ========================================================================== */
+html.tema-google .subcard,
+html.tema-google #concepto-promovilidad .subcard{
+  background: var(--card);
+  border: 1px solid var(--ring);
+  border-radius: var(--radius);
+  box-shadow: none;
+}
+html.tema-google .subcard h3,
+html.tema-google #concepto-promovilidad .subcard h3{ font-size: 16px; font-weight: 500; color: var(--ink); }
+html.tema-google .concept-map{ border-radius: var(--radius); box-shadow: none; }
+
+/* ==========================================================================
+   REPOSITORIO
+   ========================================================================== */
+html.tema-google #mod-datos #repoCards{ border: 1px solid var(--ring); border-radius: var(--radius); }
+html.tema-google #mod-datos .repo-card{ border-top-color: var(--g-line); }
+html.tema-google #mod-datos .repo-card:hover{ background: var(--bg); }
+html.tema-google #mod-datos .repo-card::before{ border-radius: 50%; background: var(--g-soft); color: var(--g-ink); }
+html.tema-google .repo-title,
+html.tema-google #mod-datos .repo-title{ font-weight: 500; color: var(--ink); }
+html.tema-google .repo-source{ color: var(--muted); }
+html.tema-google .repo-actions .pill,
+html.tema-google #mod-datos .repo-actions .pill{
+  height: 36px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--g-soft);
+  color: var(--g-ink);
+  font-weight: 500;
+  box-shadow: none;
+}
+html.tema-google .repo-actions .pill:hover,
+html.tema-google #mod-datos .repo-actions .pill:hover{ background: var(--g-soft-hover); filter: none; transform: none; }
+
+/* ==========================================================================
+   HERRAMIENTAS
+   ========================================================================== */
+html.tema-google .obs-tool{
+  border: 1px solid var(--ring);
+  border-radius: var(--radius);
+  transition: box-shadow .18s ease;
+}
+html.tema-google a.obs-tool:hover{ transform: none; box-shadow: var(--g-shadow-1); border-top-color: var(--ring); }
+html.tema-google .obs-tool h3{ font-size: 18px; font-weight: 400; color: var(--ink); }
+html.tema-google .obs-tool-tag{ font-size: 12.5px; font-weight: 500; color: var(--muted); }
+html.tema-google .obs-tool .obs-go{ font-weight: 500; color: var(--g-ink); }
+html.tema-google .obs-tool.is-soon{ background: var(--bg); }
+html.tema-google .obs-tool.is-add{ border: 1px dashed var(--ring); background: transparent; }
+html.tema-google .obs-tool.is-add strong{ font-weight: 500; color: var(--ink); }
+html.tema-google .obs-doc-ico{ border-radius: 50%; background: var(--g-soft); }
+html.tema-google .obs-doc-ico i{ color: var(--g-ink); }
+html.tema-google .obs-soon{ border-radius: var(--radius); }
+html.tema-google .obs-soon strong{ font-weight: 500; color: var(--ink); }
+
+/* ==========================================================================
+   CONCEPTO SIT
+   ========================================================================== */
+html.tema-google .sit-hero h2{ font-weight: 400; }
+html.tema-google .sit-draft{
+  border: 0;
+  border-radius: 6px;
+  background: var(--g-warn-bg);
+  color: var(--g-warn);
+  font-size: 12px;
+  font-weight: 500;
+}
+html.tema-google .sit-lead{ color: var(--ink); }
+html.tema-google .sit-h{ font-size: 18px; font-weight: 500; color: var(--ink); }
+html.tema-google .sit-path::before{ background: var(--ring); opacity: 1; width: 2px; }
+html.tema-google .sit-step{ border-radius: var(--radius); }
+html.tema-google .sit-step:hover{ box-shadow: var(--g-shadow-1); border-color: var(--ring); }
+html.tema-google .sit-num{
+  background: var(--g-soft);
+  color: var(--g-ink);
+  font-weight: 500;
+  box-shadow: 0 0 0 5px var(--card), 0 0 0 6px var(--ring);
+}
+html.tema-google .sit-step:last-child .sit-num{ background: var(--g-primary); color: #fff; }
+html.tema-google .sit-step h4{ font-size: 16px; font-weight: 500; color: var(--ink); }
+html.tema-google .sit-chips-label{ font-size: 12px; font-weight: 500; }
+html.tema-google .sit-chip{
+  border: 1px solid var(--ring);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--ink);
+  font-weight: 500;
+}
+html.tema-google .sit-chip i{ color: var(--muted); }
+html.tema-google a.sit-chip:hover,
+html.tema-google button.sit-chip:hover{ background: var(--g-hover); color: var(--ink); }
+html.tema-google .sit-layer{ border-radius: var(--radius); }
+html.tema-google .sit-layer > i{ border-radius: 50%; background: var(--g-soft); color: var(--g-ink); }
+html.tema-google .sit-layer strong{ font-weight: 500; color: var(--ink); }
+
+/* ==========================================================================
+   COOPERACIÓN TÉCNICA
+   ========================================================================== */
+html.tema-google .coop-hero h2{ font-weight: 400; }
+html.tema-google .coop-brand{ font-weight: 500; }
+html.tema-google .coop-sub{ font-weight: 400; color: var(--ink); }
+html.tema-google .coop-support-label{ font-size: 12.5px; font-weight: 500; }
+html.tema-google .coop-stat{ border: 1px solid var(--ring); border-radius: var(--radius); }
+html.tema-google .coop-stat b{ font-weight: 400; color: var(--ink); letter-spacing: -.5px; }
+html.tema-google .coop-det{ border-radius: var(--radius); }
+html.tema-google .coop-det summary{ font-weight: 500; color: var(--ink); }
+html.tema-google .coop-det summary:hover{ background: var(--bg); }
+html.tema-google .coop-det-ico{ border-radius: 50%; background: var(--g-soft); color: var(--g-ink); }
+html.tema-google .coop-list li strong{ font-weight: 500; color: var(--ink); }
+html.tema-google .coop-list li::before{ background: var(--g-text-3); }
+html.tema-google .coop-mult-card{ border: 1px solid var(--ring); border-radius: var(--radius); }
+html.tema-google .coop-mult-ico{ border-radius: 50%; background: var(--g-soft); color: var(--g-ink); }
+html.tema-google .coop-mult-card h4{ font-weight: 500; color: var(--ink); }
+html.tema-google .coop-info-img{ box-shadow: none; }
+html.tema-google .coop-poster{ box-shadow: none; }
+html.tema-google .coop-video-title{ font-weight: 500; color: var(--ink); }
+html.tema-google .coop-yt-link{ font-weight: 500; color: var(--g-ink); }
+html.tema-google .coop-yt-link:hover{ color: var(--g-primary-hover); }
+
+/* ==========================================================================
+   ASISTENCIA TÉCNICA (g6)
+   ========================================================================== */
+html.tema-google .g6-hero h2{ color: var(--ink); }
+html.tema-google .g6-tag{ border-radius: 6px; background: var(--g-soft); color: var(--g-ink); font-weight: 500; }
+html.tema-google .g6-card{ border: 1px solid var(--ring); border-radius: var(--radius); transition: box-shadow .18s ease; }
+html.tema-google .g6-card:hover{ transform: none; box-shadow: var(--g-shadow-1); border-top-color: var(--ring); }
+html.tema-google .g6-card-body h3{ font-weight: 500; color: var(--ink); }
+html.tema-google .g6-go{ font-weight: 500; color: var(--g-ink); }
+html.tema-google .g6-card:hover .g6-go{ color: var(--g-primary-hover); }
+html.tema-google .g6-step{ border-radius: var(--radius); }
+html.tema-google .g6-step-n{ background: var(--g-soft); color: var(--g-ink); font-weight: 500; }
+html.tema-google .g6-step:last-child .g6-step-n{ background: var(--g-primary); color: #fff; }
+html.tema-google .g6-step strong{ font-weight: 500; color: var(--ink); }
+html.tema-google .g6-step a{ color: var(--g-ink); font-weight: 500; }
+html.tema-google .g6-crumb-link:hover{ color: var(--g-ink); }
+html.tema-google .g6-hero-ico{ border-radius: 50%; background: var(--g-soft); color: var(--g-ink); }
+html.tema-google .g6-sec-h{ font-weight: 500; color: var(--ink); }
+html.tema-google .g6-sec-ico{ border-radius: 50%; background: var(--g-soft); color: var(--g-ink); }
+html.tema-google .g6-label{ font-size: 12px; font-weight: 500; }
+html.tema-google .g6-fig-n.is-prop{ background: var(--g-primary); }
+html.tema-google .g6-check i{ color: var(--g-ok); }
+html.tema-google .g6-obj-gen{ border-left-color: var(--g-primary); background: var(--g-soft); }
+html.tema-google .g6-obj-list li::marker{ color: var(--g-ink); font-weight: 500; }
+html.tema-google .g6-tl::before{ background: var(--ring); opacity: 1; }
+html.tema-google .g6-tl-dot{ border-color: var(--g-primary); }
+html.tema-google .g6-tl-item{ border-bottom-color: var(--g-line); }
+html.tema-google .g6-tl-hito{ font-size: 12px; font-weight: 500; }
+html.tema-google .g6-tl-item.is-informe{ background: var(--g-soft); }
+html.tema-google .g6-tl-item.is-informe .g6-tl-dot{ background: var(--g-primary); border-color: var(--g-primary); box-shadow: 0 0 0 3px var(--g-soft-hover); }
+html.tema-google .g6-tl-item.is-informe .g6-tl-hito{ color: var(--g-ink); }
+html.tema-google .g6-tl-item.is-informe .g6-tl-act{ font-weight: 500; color: var(--ink); }
+html.tema-google .g6-avatar{ background: var(--g-soft); color: var(--g-ink); font-weight: 500; }
+html.tema-google .g6-side--cta{ border-top: 1px solid var(--ring); }
+html.tema-google .g6-mail{ height: 44px; padding: 0 20px; }
+html.tema-google .g6-doc-ico{ border-radius: 50%; background: var(--g-soft); color: var(--g-ink); }
+html.tema-google .g6-doc-ico .fa-file-pdf{ color: var(--g-bad); }
+html.tema-google a.g6-doc:hover{ border-color: var(--ring); box-shadow: var(--g-shadow-1); transform: none; }
+
+/* ==========================================================================
+   NOTICIAS
+   ========================================================================== */
+html.tema-google .news-item{ border-top-color: var(--g-line); }
+html.tema-google .news-lead{ border-bottom: 1px solid var(--ring); }
+html.tema-google .news-kicker{ font-size: 13px; font-weight: 500; color: var(--g-ink); }
+html.tema-google .news-title{ font-weight: 400; color: var(--ink); font-size: 21px; }
+html.tema-google .news-lead .news-title{ font-size: 30px; line-height: 1.2; }
+html.tema-google .news-text{ color: #3c4043; font-size: 14.5px; }
+html.tema-google .news-lead .news-text{ font-size: 16px; }
+html.tema-google .news-clip{ background: var(--navy); }
+html.tema-google .news-clip span{
+  font-weight: 400; font-size: 19px; line-height: 1.3;
+  display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden;
+}
+html.tema-google .news-lead .news-clip span{ font-size: 26px; }
+html.tema-google .news-src strong{ font-weight: 500; color: var(--ink); }
+html.tema-google .news-link,
+html.tema-google .news-more{
+  height: 36px;
+  padding: 0 16px;
+  border: 1px solid var(--ring);
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--g-ink);
+  font-weight: 500;
+}
+html.tema-google .news-more{ height: 40px; padding: 0 22px; }
+html.tema-google .news-link:hover,
+html.tema-google .news-more:hover{ background: #f6fafe; color: var(--g-ink); border-color: #c6dafc; }
+
+/* ==========================================================================
+   GRÁFICOS (tooltip de ApexCharts)
+   ========================================================================== */
+html.tema-google .pv-apex .apexcharts-tooltip{
+  border: 0 !important;
+  border-radius: 8px !important;
+  box-shadow: var(--shadow) !important;
+}
+html.tema-google .pv-apex .apexcharts-tooltip-title{ background: var(--bg) !important; border-bottom-color: var(--g-line) !important; font-weight: 500; }
+html.tema-google .pv-title{ font-weight: 500; }
+
+/* Animaciones cortas y sin movimiento para quien lo prefiera */
+@media (prefers-reduced-motion: reduce){
+  html.tema-google .obs-sidebar, html.tema-google .obs-topbar{ transition: none; }
+}
+
+/* ==========================================================================
+   BOTÓN PARA ALTERNAR EL DISEÑO (visible en ambos diseños, solo en modo piloto)
+   ========================================================================== */
+.gt-switch{
+  position: fixed; right: 20px; bottom: 20px; z-index: 1400;
+  display: inline-flex; align-items: center; gap: 10px;
+  height: 48px; padding: 0 20px 0 16px;
+  border: 0; border-radius: 16px;
+  background: #ffffff; color: #1967d2;
+  font: 500 14px/1 "Roboto", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  box-shadow: 0 1px 3px rgba(60,64,67,.3), 0 4px 8px 3px rgba(60,64,67,.15);
+  cursor: pointer;
+  transition: background .15s ease, box-shadow .15s ease;
+}
+.gt-switch:hover{ background: #f6fafe; box-shadow: 0 2px 3px rgba(60,64,67,.3), 0 6px 10px 4px rgba(60,64,67,.15); }
+.gt-switch:focus-visible{ outline: 2px solid #1a73e8; outline-offset: 2px; }
+.gt-switch i{ font-size: 16px; }
+@media (max-width: 640px){
+  .gt-switch{ right: 12px; bottom: 12px; height: 44px; padding: 0 16px 0 14px; font-size: 13px; }
+}
+@media print{ .gt-switch{ display: none; } }
