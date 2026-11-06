@@ -21,6 +21,7 @@ html.tema-google{
   --g-line: #e8eaed;          /* líneas internas de tablas y listas */
   --g-text-3: #80868b;
   --g-hover: #f1f3f4;
+  --g-page: #f1f3f4;          /* fondo del área de contenido (lado derecho). Más gris: #eceff1 */
 
   /* acción (azul Google) */
   --g-primary: #1a73e8;
@@ -55,7 +56,7 @@ html.tema-google{
 /* ===================== BASE Y TIPOGRAFÍA ===================== */
 html.tema-google body{
   font-family: "Roboto", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
-  background: var(--bg);
+  background: var(--g-page);
   color: var(--ink);
   line-height: 1.5;
 }
@@ -179,7 +180,7 @@ html.tema-google .obs-topbar{
   min-height: var(--obs-topbar-h);
   padding: 8px 24px 8px 12px;
   gap: 12px;
-  background: var(--bg);
+  background: var(--g-page);
   border-bottom: 0;
   box-shadow: none;
   transition: box-shadow .2s ease;
@@ -436,8 +437,9 @@ html.tema-google .pill.mini:hover{ background: #f6fafe; }
     min-height: calc(100svh - var(--obs-topbar-h));
   }
 }
+html.tema-google #home{ background: var(--g-page); }
 html.tema-google .h-hero-bg::after{
-  background: linear-gradient(100deg, rgba(255,255,255,.94) 0%, rgba(248,249,250,.86) 45%, rgba(248,249,250,.55) 100%);
+  background: linear-gradient(100deg, rgba(255,255,255,.94) 0%, rgba(241,243,244,.86) 45%, rgba(241,243,244,.55) 100%);
 }
 html.tema-google .h-eyebrow{ font-size: 14px; font-weight: 500; color: var(--g-ink); }
 html.tema-google .h-hero h1{
