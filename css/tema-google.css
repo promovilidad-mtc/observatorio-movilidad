@@ -414,7 +414,8 @@ html.tema-google .table-min tbody tr:hover{ background: var(--bg); }
 html.tema-google .g6-table-wrap{ border-radius: var(--radius); }
 html.tema-google .g6-table th{ background: var(--bg); font-size: 12px; font-weight: 500; color: var(--muted); }
 html.tema-google .g6-table th, html.tema-google .g6-table td{ border-bottom-color: var(--g-line); }
-html.tema-google .g6-table tfoot td{ background: var(--g-soft); color: var(--g-ink); font-weight: 500; }
+/* Fila "Total": navy con texto blanco, como la primera versión */
+html.tema-google .g6-table tfoot td{ background: var(--side-bg); color: #fff; font-weight: 500; }
 
 /* ===================== CHIPS DE ESTADO ===================== */
 html.tema-google .badge{
@@ -598,13 +599,14 @@ html.tema-google .sit-h{ font-size: 18px; font-weight: 500; color: var(--ink); }
 html.tema-google .sit-path::before{ background: var(--ring); opacity: 1; width: 2px; }
 html.tema-google .sit-step{ border-radius: var(--radius); }
 html.tema-google .sit-step:hover{ box-shadow: var(--g-shadow-1); border-color: var(--ring); }
+/* Pasos numerados: navy y el último en rojo (como la primera versión) */
 html.tema-google .sit-num{
-  background: var(--g-soft);
-  color: var(--g-ink);
+  background: var(--side-bg);
+  color: #fff;
   font-weight: 500;
   box-shadow: 0 0 0 5px var(--card), 0 0 0 6px var(--ring);
 }
-html.tema-google .sit-step:last-child .sit-num{ background: var(--g-primary); color: #fff; }
+html.tema-google .sit-step:last-child .sit-num{ background: var(--red); color: #fff; }
 html.tema-google .sit-step h4{ font-size: 16px; font-weight: 500; color: var(--ink); }
 html.tema-google .sit-chips-label{ font-size: 12px; font-weight: 500; }
 html.tema-google .sit-chip{
@@ -649,35 +651,37 @@ html.tema-google .coop-yt-link:hover{ color: var(--g-primary-hover); }
    ASISTENCIA TÉCNICA (g6)
    ========================================================================== */
 html.tema-google .g6-hero h2{ color: var(--ink); }
-html.tema-google .g6-tag{ border-radius: 6px; background: var(--g-soft); color: var(--g-ink); font-weight: 500; }
+/* Acentos institucionales (como la primera versión): navy y rojo, en vez de celeste */
+html.tema-google .g6-tag{ border-radius: 6px; background: #eef1f6; color: var(--navy); font-weight: 500; }
 html.tema-google .g6-card{ border: 1px solid var(--ring); border-radius: var(--radius); transition: box-shadow .18s ease; }
 html.tema-google .g6-card:hover{ transform: none; box-shadow: var(--g-shadow-1); border-top-color: var(--ring); }
 html.tema-google .g6-card-body h3{ font-weight: 500; color: var(--ink); }
 html.tema-google .g6-go{ font-weight: 500; color: var(--g-ink); }
 html.tema-google .g6-card:hover .g6-go{ color: var(--g-primary-hover); }
 html.tema-google .g6-step{ border-radius: var(--radius); }
-html.tema-google .g6-step-n{ background: var(--g-soft); color: var(--g-ink); font-weight: 500; }
-html.tema-google .g6-step:last-child .g6-step-n{ background: var(--g-primary); color: #fff; }
+html.tema-google .g6-step-n{ background: var(--side-bg); color: #fff; font-weight: 500; }
+html.tema-google .g6-step:last-child .g6-step-n{ background: var(--red); color: #fff; }
 html.tema-google .g6-step strong{ font-weight: 500; color: var(--ink); }
 html.tema-google .g6-step a{ color: var(--g-ink); font-weight: 500; }
 html.tema-google .g6-crumb-link:hover{ color: var(--g-ink); }
-html.tema-google .g6-hero-ico{ border-radius: 50%; background: var(--g-soft); color: var(--g-ink); }
+html.tema-google .g6-hero-ico{ border-radius: 50%; background: var(--side-bg); color: #fff; }
 html.tema-google .g6-sec-h{ font-weight: 500; color: var(--ink); }
 html.tema-google .g6-sec-ico{ border-radius: 50%; background: var(--g-soft); color: var(--g-ink); }
 html.tema-google .g6-label{ font-size: 12px; font-weight: 500; }
 html.tema-google .g6-fig-n.is-prop{ background: var(--g-primary); }
 html.tema-google .g6-check i{ color: var(--g-ok); }
-html.tema-google .g6-obj-gen{ border-left-color: var(--g-primary); background: var(--g-soft); }
-html.tema-google .g6-obj-list li::marker{ color: var(--g-ink); font-weight: 500; }
+html.tema-google .g6-obj-gen{ border-left-color: var(--red); background: var(--bg); }
+html.tema-google .g6-obj-list li::marker{ color: var(--navy); font-weight: 500; }
 html.tema-google .g6-tl::before{ background: var(--ring); opacity: 1; }
-html.tema-google .g6-tl-dot{ border-color: var(--g-primary); }
+html.tema-google .g6-tl-dot{ border-color: var(--navy); }
 html.tema-google .g6-tl-item{ border-bottom-color: var(--g-line); }
 html.tema-google .g6-tl-hito{ font-size: 12px; font-weight: 500; }
-html.tema-google .g6-tl-item.is-informe{ background: var(--g-soft); }
-html.tema-google .g6-tl-item.is-informe .g6-tl-dot{ background: var(--g-primary); border-color: var(--g-primary); box-shadow: 0 0 0 3px var(--g-soft-hover); }
-html.tema-google .g6-tl-item.is-informe .g6-tl-hito{ color: var(--g-ink); }
+/* Hitos entregables: franja rosada suave con punto rojo (como la primera versión) */
+html.tema-google .g6-tl-item.is-informe{ background: #fdf0f1; }
+html.tema-google .g6-tl-item.is-informe .g6-tl-dot{ background: var(--red); border-color: var(--red); box-shadow: 0 0 0 3px rgba(217,16,35,.15); }
+html.tema-google .g6-tl-item.is-informe .g6-tl-hito{ color: var(--g-bad); }
 html.tema-google .g6-tl-item.is-informe .g6-tl-act{ font-weight: 500; color: var(--ink); }
-html.tema-google .g6-avatar{ background: var(--g-soft); color: var(--g-ink); font-weight: 500; }
+html.tema-google .g6-avatar{ background: var(--side-bg); color: #fff; font-weight: 500; }
 html.tema-google .g6-side--cta{ border-top: 1px solid var(--ring); }
 html.tema-google .g6-mail{ height: 44px; padding: 0 20px; }
 html.tema-google .g6-doc-ico{ border-radius: 50%; background: var(--g-soft); color: var(--g-ink); }
