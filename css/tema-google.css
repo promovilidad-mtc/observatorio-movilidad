@@ -97,9 +97,12 @@ html.tema-google .obs-sidebar{
   --side-hover: rgba(255,255,255,.08);
   --side-active: rgba(255,255,255,.14);
   --side-line: rgba(255,255,255,.14);
-  background: var(--navy);
+  background: var(--side-bg);
   color: #fff;
 }
+/* Tono de la barra lateral: navy un poco más claro que el de marca (#16233F).
+   Más claro aún: #2c4170 · más oscuro: #1c2c4e */
+html.tema-google{ --side-bg: #24375e; }
 /* Escritorio: solo se anima el ☰ (ocultar/mostrar). En celular se usa la
    animación original de observatorio.css; así, al cambiar el tamaño de la
    ventana, la barra no queda a medio deslizar. */
@@ -157,7 +160,7 @@ html.tema-google .obs-side-foot{
   border-top: 1px solid var(--side-line);
   gap: 14px;
 }
-html.tema-google .obs-logo-mtc{ max-width: 176px; opacity: 1; }
+html.tema-google .obs-logo-mtc{ display: none; }   /* sin logo MTC en el diseño Google */
 html.tema-google .obs-soc{ width: 36px; height: 36px; background: rgba(255,255,255,.10); color: #fff; }
 html.tema-google .obs-soc:hover{ transform: none; color: #fff; }
 
@@ -171,7 +174,7 @@ html.tema-google .obs-soc:hover{ transform: none; color: #fff; }
 /* Celular / tablet: la barra lateral se abre encima, navy y con esquina redondeada */
 @media (max-width: 1279px){
   html.tema-google .obs-sidebar{
-    background: var(--navy);
+    background: var(--side-bg);
     border-radius: 0 16px 16px 0;
     box-shadow: none;
   }
