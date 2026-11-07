@@ -730,6 +730,48 @@ html.tema-google .pv-apex .apexcharts-tooltip{
 html.tema-google .pv-apex .apexcharts-tooltip-title{ background: var(--bg) !important; border-bottom-color: var(--g-line) !important; font-weight: 500; }
 html.tema-google .pv-title{ font-weight: 500; }
 
+/* ==========================================================================
+   COLOR EN LOS ÍCONOS (la misma paleta de Indicadores)
+   Cada tarjeta toma un color según su posición: azul, verde, morado,
+   turquesa, naranja, rojo. Así las pestañas no se ven todas celestes.
+   ========================================================================== */
+html.tema-google{
+  --c1-bg: #e8f0fe; --c1: #1967d2;   /* azul */
+  --c2-bg: #e6f4ea; --c2: #137333;   /* verde */
+  --c3-bg: #f3e8fd; --c3: #8430ce;   /* morado */
+  --c4-bg: #e4f7fb; --c4: #007b83;   /* turquesa */
+  --c5-bg: #fef7e0; --c5: #b06000;   /* naranja */
+  --c6-bg: #fce8e6; --c6: #c5221f;   /* rojo */
+}
+html.tema-google :is(.h-obj-grid, .obs-tools, .coop-mult, .sit-layers, .g6-det-main) > :nth-child(6n+1),
+html.tema-google .coop-det:nth-of-type(6n+1){ --ic-bg: var(--c1-bg); --ic: var(--c1); }
+html.tema-google :is(.h-obj-grid, .obs-tools, .coop-mult, .sit-layers, .g6-det-main) > :nth-child(6n+2),
+html.tema-google .coop-det:nth-of-type(6n+2){ --ic-bg: var(--c2-bg); --ic: var(--c2); }
+html.tema-google :is(.h-obj-grid, .obs-tools, .coop-mult, .sit-layers, .g6-det-main) > :nth-child(6n+3),
+html.tema-google .coop-det:nth-of-type(6n+3){ --ic-bg: var(--c3-bg); --ic: var(--c3); }
+html.tema-google :is(.h-obj-grid, .obs-tools, .coop-mult, .sit-layers, .g6-det-main) > :nth-child(6n+4),
+html.tema-google .coop-det:nth-of-type(6n+4){ --ic-bg: var(--c4-bg); --ic: var(--c4); }
+html.tema-google :is(.h-obj-grid, .obs-tools, .coop-mult, .sit-layers, .g6-det-main) > :nth-child(6n+5),
+html.tema-google .coop-det:nth-of-type(6n+5){ --ic-bg: var(--c5-bg); --ic: var(--c5); }
+html.tema-google :is(.h-obj-grid, .obs-tools, .coop-mult, .sit-layers, .g6-det-main) > :nth-child(6n+6),
+html.tema-google .coop-det:nth-of-type(6n+6){ --ic-bg: var(--c6-bg); --ic: var(--c6); }
+
+html.tema-google :is(.h-obj-icon, .obs-doc-ico, .coop-mult-ico, .sit-layer > i, .g6-sec-ico, .coop-det-ico){
+  background: var(--ic-bg, var(--g-soft));
+  color: var(--ic, var(--g-ink));
+}
+html.tema-google :is(.h-obj-icon, .obs-doc-ico) i{ color: var(--ic, var(--g-ink)); }
+
+/* "Más herramientas en camino": gris neutro */
+html.tema-google .obs-tool.is-add .obs-doc-ico{ background: var(--g-hover); }
+html.tema-google .obs-tool.is-add .obs-doc-ico i{ color: var(--muted); }
+
+/* Documentos: fondo gris y el ícono con el color de su tipo (como en Drive) */
+html.tema-google .g6-doc-ico{ background: var(--g-hover); color: var(--muted); }
+html.tema-google .g6-doc-ico .fa-file-pdf{ color: #c5221f; }
+html.tema-google .g6-doc-ico .fa-file-word{ color: #1967d2; }
+html.tema-google .g6-doc-ico .fa-file-excel{ color: #137333; }
+
 /* Animaciones cortas y sin movimiento para quien lo prefiera */
 @media (prefers-reduced-motion: reduce){
   html.tema-google .obs-sidebar, html.tema-google .obs-topbar{ transition: none; }
