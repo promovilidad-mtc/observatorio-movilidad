@@ -1,8 +1,8 @@
 /* ==========================================================================
    PILOTO DE DISEÑO "GOOGLE" — Material Design 3 + paleta Google Workspace
    --------------------------------------------------------------------------
-   - Solo se aplica cuando <html> tiene la clase "tema-google"
-     (la pone js/tema-google.js al abrir el portal con ?tema=google).
+   - Es el diseño principal. Se aplica cuando <html> tiene la clase
+     "tema-google", que js/tema-google.js pone siempre (salvo ?tema=original).
    - No modifica base.css ni observatorio.css: solo sobreescribe encima.
    - Para descartar el piloto basta con quitar este archivo y tema-google.js.
    - Híbrido: estructura y colores de Google; el navy de PROMOVILIDAD queda
@@ -93,7 +93,12 @@ html.tema-google :where(a, button, .btn, select, .select, input):focus-visible{
 html.tema-google .obs-sidebar{
   background: var(--bg);
   color: var(--ink);
-  transition: margin-left .22s ease, transform .22s ease;
+}
+/* Escritorio: solo se anima el ☰ (ocultar/mostrar). En celular se usa la
+   animación original de observatorio.css; así, al cambiar el tamaño de la
+   ventana, la barra no queda a medio deslizar. */
+@media (min-width: 1280px){
+  html.tema-google .obs-sidebar{ transition: margin-left .22s ease; }
 }
 
 /* Logo: el archivo es blanco; aquí se pinta en navy con una máscara */
